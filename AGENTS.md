@@ -4,12 +4,12 @@
 Personal brand landing page for **danyzmaj** (deployed at `https://www.danyzmaj.com/`). A single self-contained HTML file renders an animated SVG logomark on a dark "letterpress" background. No application logic, no backend.
 
 ## Architecture & Data Flow
-- Zero-dependency static site: one HTML document with inline `<style>`, inline SVG, and one tiny inline `<script>` (a single click listener). No external requests (favicon is an inline `data:image/svg+xml` URI).
+- Zero-dependency static site: one HTML document with inline `<style>`, inline SVG, and one tiny inline `<script>` (a single click listener). No third-party requests. Favicons and sharing images are served as local static assets so browsers and search crawlers can fetch them.
 - **Tap-morph architecture** (branch `feat/dragon-scroll-logo`): tapping/clicking the mark toggles it between the Z monogram and a top-down dragon. The whole page is a `<button class="trigger">` wrapping the SVG; JS only toggles `.awake` on `<html>` and mirrors it to `aria-pressed` — no per-frame JS.
 - The choreography itself is pure CSS: `--p` is a registered custom property (`@property --p{syntax:'<number>'}`) that CSS-transitions 0→1 (`.awake`) or 1→0 on the toggle. Sub-timeline ramps (`--p1` straighten, `--ph` head flip, `--p2` wings, `--p3` fire) are `clamp(0,calc(…),1)` windows of `--p`, defined on the `svg` and recomputed live every animation frame as `--p` interpolates — this reactive recompute is what makes a single transitioned number drive a multi-beat sequence.
 - Forward and reverse use different tokens: `html{transition:--p 1400ms var(--reveal)}` for the awakening (evenly-paced `cubic-bezier(0.4,0,0.2,1)` so all four beats stay legible — do NOT reuse the punchy `--ease` token here, it front-loads the whole show into the first 300ms), `html:not(.awake){…var(--recoil)}` for a quicker back-loaded snap home. Re-verify pacing by sampling `getComputedStyle(document.documentElement).getPropertyValue('--p')` at several `setTimeout` points after a click if you touch these curves — don't judge by end-state screenshots alone.
 - SVG is split into anatomical groups — `#spine`, `#head` (`.side` profile / `.crown` top-down layers), `#tail`, `#wings` (`.fold`), `#spark`/`#fire` — each animated with `calc()`-interpolated CSS transforms (`transform-box:view-box`, absolute `px` origins). Transforms + opacity only; the world is ink/bone die-cut, so NEVER cross-fade with alpha — reveals use scale collapse/expand (e.g. the head's profile→bird's-eye card-flip).
-- At `--p:0` the mark must render pixel-identical to the original monogram; path data is duplicated in the favicon data URI and must stay in sync with the `.side`/skeleton paths.
+- At `--p:0` the mark must render pixel-identical to the original monogram; path data is duplicated in `favicon.svg` and its PNG/ICO exports and must stay in sync with the `.side`/skeleton paths.
 - Layout: unchanged from the original single static viewport (`body` grid, `overflow:hidden`, no scroll container) — the interaction lives entirely in the button/CSS, not in page height.
 - SVG layering (paint order): wings → tail → spine → head → spark; `.body` (bone) with `.hole` (ink cutouts), `.acc` (ember accent).
 
@@ -18,7 +18,7 @@ Personal brand landing page for **danyzmaj** (deployed at `https://www.danyzmaj.
 - `<project>/` — per-app static pages for App Store listings, following the pattern
   `/<project>/` (support page, contact email) and `/<project>/privacy/` (privacy policy).
   Currently: `holdup/`. Each page is a self-contained HTML file reusing the brand tokens
-  (`--ink`/`--bone`/`--ember`), the mono plate type, and the inline SVG favicon — copy an
+  (`--ink`/`--bone`/`--ember`), the mono plate type, and the local favicon links — copy an
   existing project's pair when adding a new app.
 - `.gitignore` — ignores Python bytecode, `.DS_Store`, `.worktrees/`.
 
@@ -50,7 +50,7 @@ python3 -m http.server 8000     # or serve over HTTP
 ## Testing & QA
 - No test framework. QA is visual: open the page, verify the mark at rest matches the original monogram exactly and sits rock-still (idle life is only the eye blink every ~6.4s, the ember lure drifting at the bottom, the `danyzmaj` wordmark beneath), scroll and watch the full rampage (Z reassembles into the dragon → liftoff → charge → the page burns to paper), then scroll again to burn back. After each settle, diff the two pages mentally: same elements, same positions, only the ink/bone colors swapped — and the eye/mouth holes must blend seamlessly into the background in both.
 - Also verify: keyboard (ArrowDown/PageDown drive the timeline, ArrowUp/PageUp retreat), stopping mid-scroll (the untended fire dies back down and disarms cleanly), no-JS (static Z), reduced-motion (scroll and keys do nothing — the page stays the static ink monogram, name legible), and mobile/desktop centering.
-- When touching SVG paths, update both the inline `<svg>` and the favicon data URI.
+- When touching SVG paths, update both the inline `<svg>` and `favicon.svg`, then regenerate the PNG/ICO icon sizes.
 
 ## Projects Gallery & Product Pages
 - The homepage's `Projects / 02` link opens `#projects`, a CSS `:target` screen sliding over the dragon. Its two project links work without JS; hash changes stop any active rampage, manage focus, and update `aria-expanded`. Escape closes the gallery. The gallery scrolls internally on small screens; the homepage remains a fixed stage.
@@ -62,3 +62,10 @@ python3 -m http.server 8000     # or serve over HTTP
 ## Public Copy
 - Use direct, specific descriptions of the apps. Avoid em dashes, repetitive slogan pairs, forced dog puns, and vague claims like “your stats, your way”.
 - Review browser titles and social metadata alongside visible text. Preserve factual product behavior and the meaning of privacy and terms pages when editing wording.
+
+## Browser and Search Icons
+- Use fetchable icon files, not data URIs. Root `favicon.svg`, `favicon.ico`, `favicon-96x96.png`, `icon-192x192.png`, and `apple-touch-icon.png` share the existing dragon artwork on a square ink background. Hold Up pages use these brand icons.
+- PixelPup pages keep their paw icon with the equivalent files under `pixelpup/assets/`.
+- Each page declares ICO, PNG, SVG, and Apple touch fallbacks. The hostname homepage provides Google's site-wide search favicon; product subdirectories do not get separate Google search icons.
+- Homepage and Hold Up share images are `assets/social-preview.png` and `holdup/assets/social-preview.png` (1200 × 630). PixelPup keeps its existing 1440 × 720 image. Keep Open Graph metadata dimensions aligned with the files.
+- Google can take days or weeks to recrawl icon changes. Do not keep changing icon URLs to force refreshes.

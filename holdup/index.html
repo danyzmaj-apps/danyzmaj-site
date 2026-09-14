@@ -3,56 +3,147 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hold Up — support</title>
-<meta name="description" content="Hold Up — a sign you hold up. Support and contact.">
+<title>Hold Up — A sign you hold up</title>
+<meta name="description" content="Turn a few words into a fullscreen sign. Hold Up sizes your message to fit, saves your favorites, and keeps your screen awake.">
 <meta name="theme-color" content="#171210">
-<meta property="og:title" content="Hold Up — support">
+<link rel="canonical" href="https://www.danyzmaj.com/holdup/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hold Up — A sign you hold up">
+<meta property="og:description" content="A few words. Impossible to miss. Fullscreen signs, sized to fit.">
 <meta property="og:url" content="https://www.danyzmaj.com/holdup/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='2.5 0 108.5 97.69'%3E%3Cstyle%3E.m%7Bfill:%23121212%7D@media(prefers-color-scheme:dark)%7B.m%7Bfill:%23F2EDE4%7D%7D%3C/style%3E%3Cpath class='m' fill-rule='nonzero' d='M%2016%2010%20L%2090%2010%20L%2090%2036%20L%2016%2036%20Z%20M%2098.38%2022.49%20L%2024.38%2094.69%20L%207.62%2077.51%20L%2081.62%205.31%20Z%20M%2016%2064%20L%2090%2064%20L%2090%2090%20L%2016%2090%20Z%20M%2052%2010%20L%2070%203%20L%2067%2012%20Z%20M%2086%2061%20L%20108%2077%20L%2086%2093%20L%2093%2077%20Z%20M%2027%2034%20L%2022.5%2047%20L%2018%2034%20Z%20M%2037%2034%20L%2033.5%2043%20L%2030%2034%20Z%20M%2056%2022%20L%2062%2022%20L%2062%2016%20L%2056%2016%20Z%20M%2016%2032.7%20L%2047%2029.6%20L%2047%2027.6%20L%2016%2024.5%20Z'/%3E%3Cpath fill='%23FF6A1F' d='M%205.5%2024.1%20L%205.5%2033.1%20L%2015.5%2028.6%20Z'/%3E%3C/svg%3E">
 <style>
-:root{
-  --ink:#171210;      /* the press bed */
-  --bone:#F2EDE4;     /* the mark      */
-  --ember:#FF6A1F;    /* the spark     */
-}
+:root{--ink:#171210;/* the room */--bone:#F2EDE4;/* the words */--ember:#FF6A1F;/* a raised hand */--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--line:color-mix(in srgb,var(--bone) 25%,var(--ink))}
 *{box-sizing:border-box}
-body{margin:0;background:var(--ink);color:var(--bone);
-  font:500 15px/1.7 ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-  padding:max(6vmin,1.5rem)}
-main{max-width:34rem;margin:0 auto}
-h1{font-size:1.6rem;letter-spacing:.12em;margin:2.5rem 0 .25rem}
-.tag{color:color-mix(in srgb,var(--bone) 62%,var(--ink));margin:0 0 2.5rem}
-h2{font-size:inherit;letter-spacing:.18em;text-transform:uppercase;margin:2.5rem 0 .5rem;color:var(--ember)}
-p{margin:.5rem 0}
-a{color:var(--bone);text-decoration-color:var(--ember);text-underline-offset:.25em}
+html{scroll-behavior:smooth;scroll-padding-top:30px}
+body{margin:0;background:var(--ink);color:var(--bone);font:400 15px/1.65 var(--mono)}
+a{color:inherit;text-underline-offset:5px;text-decoration-color:var(--ember)}
 a:hover{color:var(--ember)}
-footer{margin:4rem 0 1rem;color:color-mix(in srgb,var(--bone) 45%,var(--ink))}
-footer a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--ember);outline-offset:5px}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1240px,calc(100% - 96px));margin-inline:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:30px;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;letter-spacing:-.06em;font-size:25px;text-decoration:none}
+.brand span{color:var(--ember)}
+nav{display:flex;gap:28px;font-size:12px}
+nav a{text-decoration:none}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding-block:95px 100px}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 26px}
+.eyebrow::before{content:"↗";color:var(--ember);margin-right:12px}
+h1,h2,p{margin-top:0}
+h1,h2{font-family:'Arial Black','Helvetica Neue',Arial,sans-serif;font-weight:900;letter-spacing:-.065em;line-height:.98}
+h1{font-size:clamp(60px,6.5vw,92px);margin-bottom:30px}
+h1 span{color:var(--ember)}
+.intro{max-width:380px;font-size:14px;line-height:1.85;margin-bottom:30px}
+.cta{display:inline-flex;align-items:center;gap:30px;padding:13px 20px;border:1px solid var(--bone);text-decoration:none;font-size:12px}
+.cta:hover{background:var(--bone);color:var(--ink)}
+.preview{min-width:0}
+.sign{--sign-bg:var(--ember);--sign-fg:var(--ink);background:var(--sign-bg);color:var(--sign-fg);aspect-ratio:1.35;border-radius:22px;padding:24px;position:relative;display:grid;place-items:center;transform:rotate(-4deg);margin:15px 0 36px}
+.sign::before{content:"";position:absolute;left:9px;top:42%;height:16%;width:4px;border-radius:4px;background:var(--sign-fg)}
+.sign[data-color="paper"]{--sign-bg:var(--bone)}
+.sign[data-color="ink"]{--sign-bg:var(--ink);--sign-fg:var(--bone);outline:2px solid var(--bone);outline-offset:-2px}
+.sign-inner{position:absolute;inset:24px;display:grid;place-items:center;grid-template-columns:minmax(0,1fr)}
+.sign-text{width:100%;text-align:center;font:900 clamp(38px,5.5vw,80px)/.95 'Arial Black',Arial,sans-serif;letter-spacing:-.055em;overflow-wrap:anywhere;white-space:pre-wrap}
+.controls{display:none}
+.js .controls{display:block}
+.controls label{display:block;font-size:10px;letter-spacing:.1em;margin-bottom:9px;text-transform:uppercase}
+.input-row{display:flex;align-items:center;gap:16px}
+input{border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--bone);border-radius:0;min-height:44px;padding:8px 0;width:100%;min-width:0;font-size:13px}
+.colors{display:flex;gap:6px;flex-shrink:0}
+.colors button{height:44px;width:36px;background:transparent;border:1px solid transparent;padding:8px}
+.colors button[aria-pressed="true"]{border-color:var(--bone)}
+.colors button span{display:block;aspect-ratio:1;background:var(--swatch);border:1px solid var(--line)}
+.preview-note{font-size:10px;color:color-mix(in srgb,var(--bone) 60%,var(--ink));margin:14px 0 0}
+.strip{background:var(--ember);color:var(--ink);padding:20px 0}
+.strip .wrap{display:flex;justify-content:space-between;gap:20px;font-size:11px;font-weight:700;letter-spacing:.05em}
+.story{padding-block:90px;display:grid;grid-template-columns:1fr 1fr;gap:60px}
+h2{font-size:clamp(38px,4.5vw,62px);max-width:500px;margin-bottom:24px}
+.story-intro p{font-size:14px;max-width:370px}
+.features{border-top:1px solid var(--line)}
+.feature{display:grid;grid-template-columns:32px 1fr;gap:16px;padding:23px 0;border-bottom:1px solid var(--line)}
+.feature>span{font-size:11px;color:var(--ember);padding-top:3px}
+h3{font-size:14px;margin:0 0 8px}
+.feature p{font-size:12px;margin:0;line-height:1.9;color:color-mix(in srgb,var(--bone) 72%,var(--ink))}
+.support{background:var(--bone);color:var(--ink);padding-block:65px}
+.support .wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.support h2{font-size:42px}
+.support p{font-size:13px;max-width:500px}
+.support a{overflow-wrap:anywhere}
+.support a:hover{color:var(--ink)}
+footer{padding-block:28px;display:flex;justify-content:space-between;gap:24px;font-size:11px}
+footer div{display:flex;gap:24px}
+@media(max-width:800px){.wrap{width:calc(100% - 40px)}header{padding-block:22px}nav{gap:18px}.hero{grid-template-columns:1fr;padding-block:50px 55px;gap:44px}h1{font-size:clamp(58px,12vw,88px);max-width:640px}.intro{max-width:460px}.preview{width:min(100%,520px);margin:auto}.sign{margin-top:0}.sign-text{font-size:60px}.strip .wrap{flex-wrap:wrap;justify-content:center;font-size:10px;gap:10px 24px}.story{grid-template-columns:1fr;gap:24px;padding-block:55px}.support{padding-block:45px}.support .wrap{grid-template-columns:1fr;gap:8px}.support h2{font-size:38px}footer{align-items:flex-start}footer div{gap:12px;flex-wrap:wrap;justify-content:flex-end}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<header class="wrap">
+<a class="brand" href="/holdup/" aria-label="Hold Up home">Hold Up<span>↗</span></a>
+<nav aria-label="Main navigation"><a href="/#projects">All projects</a><a href="#support">Support</a></nav>
+</header>
 <main>
-<h1>Hold Up</h1>
-<p class="tag">A sign you hold up. Fullscreen text, sized to fit, readable across a room.</p>
-
-<h2>Support</h2>
-<p>Questions, problems, or ideas — write to
-<a href="mailto:danijel@danyzmaj.com">danijel@danyzmaj.com</a>.
-Include your device and OS version if something misbehaves.</p>
-
-<h2>How it works</h2>
-<p>Type straight onto the sign; the text sizes itself to the largest size that
-fits. Pick one of six backgrounds — the text colour is derived automatically,
-so the sign is always readable. Save signs as presets and bring them back in
-two taps. One switch turns the sign into a fullscreen clock; another pulses
-it when being noticed matters. The screen stays awake while a sign is
-showing.</p>
-
-<h2>Privacy</h2>
-<p>Hold Up collects nothing. No network, no analytics, no accounts —
-<a href="/holdup/privacy/">read the privacy policy</a>.</p>
-
-<footer><a href="/">danyzmaj.com</a></footer>
+<section class="hero wrap" aria-labelledby="hero-title">
+<div>
+<p class="eyebrow">A sign you hold up</p>
+<h1 id="hero-title">A few words.<br><span>Impossible<br>to miss.</span></h1>
+<p class="intro">Across a room. In a crowd. Through a window. Turn your screen into the thing you want to say.</p>
+<a class="cta" href="#how-it-works">Meet Hold Up <span aria-hidden="true">↓</span></a>
+</div>
+<div class="preview">
+<div class="sign" id="sign"><div class="sign-inner"><div class="sign-text" id="sign-text">I’M HERE!</div></div></div>
+<div class="controls">
+<label for="message">Your words. Try them out.</label>
+<div class="input-row">
+<input id="message" type="text" value="I’M HERE!" maxlength="48" autocomplete="off" spellcheck="false" aria-describedby="preview-note">
+<div class="colors" role="group" aria-label="Preview background">
+<button type="button" data-color="ember" aria-label="Ember background" aria-pressed="true" style="--swatch:var(--ember)"><span></span></button>
+<button type="button" data-color="paper" aria-label="Paper background" aria-pressed="false" style="--swatch:var(--bone)"><span></span></button>
+<button type="button" data-color="ink" aria-label="Ink background" aria-pressed="false" style="--swatch:var(--ink)"><span></span></button>
+</div>
+</div>
+</div>
+<p class="preview-note" id="preview-note">A little preview of a very big message.</p>
+</div>
+</section>
+<div class="strip"><div class="wrap"><span>BIG WORDS. ZERO FUSS.</span><span>NO ACCOUNTS.</span><span>NO TRACKING.</span><span>JUST YOUR MESSAGE. ↗</span></div></div>
+<section class="story wrap" id="how-it-works" aria-labelledby="story-title">
+<div class="story-intro"><p class="eyebrow">Made to be seen</p><h2 id="story-title">Type it.<br>Turn it.<br>Hold it up.</h2><p>A pickup sign. A quiet hello. An enthusiastic “ONE MORE!” Sometimes a screen says it better.</p></div>
+<div class="features">
+<div class="feature"><span>01</span><div><h3>Every word earns its space.</h3><p>Type straight onto the sign. Your text automatically grows to the largest size that fits. Six backgrounds, with readable text colors picked for you.</p></div></div>
+<div class="feature"><span>02</span><div><h3>Good signs deserve an encore.</h3><p>Save your go-to messages as presets. Bring them back in two taps, ready for the next arrival, gig, or familiar face.</p></div></div>
+<div class="feature"><span>03</span><div><h3>Stay up. Stand out.</h3><p>The screen stays awake while your sign is showing. Switch to a fullscreen clock, or pulse your message when being noticed matters.</p></div></div>
+</div>
+</section>
+<section class="support" id="support" aria-labelledby="support-title"><div class="wrap">
+<div><p class="eyebrow">A direct line to the maker</p><h2 id="support-title">Need a hand?</h2></div>
+<div><p>Questions, problems, or ideas? Write to <a href="mailto:danijel@danyzmaj.com?subject=Hold%20Up">danijel@danyzmaj.com</a>. If something misbehaves, include your device and OS version.</p><p>Your signs stay on your device. Hold Up makes no network connections and collects no personal data. <a href="/holdup/privacy/">Read the privacy policy</a>.</p></div>
+</div></section>
 </main>
+<footer class="wrap"><a href="/">Made by danyzmaj</a><div><a href="/#projects">All projects ↗</a><a href="/holdup/privacy/">Privacy</a></div></footer>
+<script>
+(()=>{
+  document.documentElement.classList.add('js');
+  const input=document.querySelector('#message'),sign=document.querySelector('#sign'),text=document.querySelector('#sign-text');
+  const fit=()=>{
+    text.textContent=input.value||'YOUR WORDS';
+    let low=12,high=160;
+    const height=sign.clientHeight-48;
+    while(high-low>1){
+      const size=(low+high)/2;
+      text.style.fontSize=size+'px';
+      if(text.scrollHeight>height||text.scrollWidth>text.clientWidth)high=size;else low=size;
+    }
+    text.style.fontSize=Math.floor(low)+'px';
+  };
+  input.addEventListener('input',fit);
+  new ResizeObserver(fit).observe(sign);
+  document.querySelectorAll('.colors button').forEach(button=>button.addEventListener('click',()=>{
+    sign.dataset.color=button.dataset.color;
+    document.querySelectorAll('.colors button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+  }));
+  fit();
+})();
+</script>
 </body>
 </html>

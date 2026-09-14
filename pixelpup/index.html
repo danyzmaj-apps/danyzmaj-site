@@ -1,22 +1,16 @@
 <!doctype html>
-<!--
-THESIS: A tiny dog makes everyday watch-checking feel like company. Real pixel art, not a generic app launch.
-OWN-WORLD: Meadow green, forest ink, butter-yellow sunshine; bold rounded lettering, pixel-cut edges and flat landscape silhouettes. A daylight dog walk translated to the web.
-STORY: Meet the companion, try your breed and surroundings, understand compatibility and setup, contact its maker. Currently in beta; public Connect IQ release coming soon. No install link until the listing is available.
-FIRST VIEWPORT: Oversized left-aligned promise beside a large working watch preview. Pup and palette controls live with the object; the primary link leads into them.
-FORM: Product playground extending the existing Meadow artwork. A growing pack of real breeds, three paired palettes, illustrative watch readings. No framework, external runtime requests, or changes to the parent site.
--->
+
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PixelPup — A little best friend for your Garmin</title>
-<meta name="description" content="A pixel-art pup that lives on your wrist. Explore a growing pack of dog breeds and three light-and-dark palettes in PixelPup, a customizable Garmin watch face.">
+<title>PixelPup | Dog watch faces for Garmin</title>
+<meta name="description" content="Choose a dog breed, background, and daily stats for your Garmin. PixelPup is a pixel-art watch face for round AMOLED Garmin watches.">
 <meta name="theme-color" content="#dce9bd">
 <link rel="canonical" href="https://www.danyzmaj.com/pixelpup/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="PixelPup — A little best friend for your Garmin">
-<meta property="og:description" content="Pick your pup. Find your favorite little world. A pixel-art watch face for round AMOLED Garmin watches.">
+<meta property="og:title" content="PixelPup | Dog watch faces for Garmin">
+<meta property="og:description" content="A pixel-art dog watch face with three backgrounds and configurable stats for round AMOLED Garmin watches.">
 <meta property="og:url" content="https://www.danyzmaj.com/pixelpup/">
 <meta property="og:image" content="https://www.danyzmaj.com/pixelpup/assets/social-preview.png">
 <meta property="og:image:width" content="1440">
@@ -160,7 +154,7 @@ footer .footnote{font-size:10px;margin-top:7px}
 <div style="background:var(--meadow)">
 <header class="header wrap">
 <a class="logo" href="/pixelpup/" aria-label="PixelPup home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h5v7H7zm13 0h5v7h-5zM2 10h5v6H2zm23 0h5v6h-5zM12 11h8v4h4v12H8V15h4z"/></svg>PixelPup</a>
-<nav class="nav" aria-label="Main navigation"><a class="desktop-link" href="#the-pack">Meet the pack</a><a class="desktop-link" href="#the-details">The details</a><a class="contact" href="mailto:danijel@danyzmaj.com?subject=Hello%20PixelPup">Say hello <span aria-hidden="true">↗</span></a></nav>
+<nav class="nav" aria-label="Main navigation"><a class="desktop-link" href="#the-pack">Dog breeds</a><a class="desktop-link" href="#the-details">Watch details</a><a class="contact" href="mailto:danijel@danyzmaj.com?subject=Hello%20PixelPup">Contact <span aria-hidden="true">↗</span></a></nav>
 </header>
 </div>
 <main id="main">
@@ -168,15 +162,15 @@ footer .footnote{font-size:10px;margin-top:7px}
 <section class="hero-grid wrap" aria-labelledby="hero-title">
 <div class="hero-copy">
 <p class="kicker">A pixel-art watch face for Garmin</p>
-<h1 id="hero-title">Good dog.<span class="second">Great company.</span></h1>
-<p class="intro">Your everyday stats. Your favorite little face. A pixel-art pup that goes wherever you go.</p>
-<a class="primary" href="#the-pack">Meet your PixelPup <span class="arrow" aria-hidden="true">↓</span></a>
+<h1 id="hero-title">Your dog.<span class="second">On your Garmin.</span></h1>
+<p class="intro">Choose a breed and a background, then add the stats you want to see when you check the time.</p>
+<a class="primary" href="#the-pack">Choose your dog <span class="arrow" aria-hidden="true">↓</span></a>
 <p class="availability">Currently in beta. Coming soon to Garmin Connect IQ.</p>
 </div>
 <div class="preview-area" id="preview" role="group" aria-label="Interactive PixelPup preview">
 <svg class="cloud cloud-one" viewBox="0 0 96 32" aria-hidden="true"><path d="M0 24h8V16h16V8h16V0h24v8h16v8h8v8h8v8H0z"/></svg>
 <svg class="cloud cloud-two" viewBox="0 0 96 32" aria-hidden="true"><path d="M0 24h8V16h16V8h16V0h24v8h16v8h8v8h8v8H0z"/></svg>
-<p class="preview-tag" aria-hidden="true">100% pixels.<br>Very good dog.</p>
+<p class="preview-tag" aria-hidden="true">Pick a breed<br>below ↓</p>
 <div class="watch-stage"><div class="strap" aria-hidden="true"></div><div class="watch"><div class="face" role="img" aria-label="Labrador Retriever in the Meadow palette. Illustrative time and stats." id="watch-face"><img class="face-art" id="face-art" src="assets/meadow.svg" width="360" height="360" alt="" fetchpriority="high"><img class="face-dog" id="face-dog" src="assets/dog_labrador.png" width="116" height="158" alt="" fetchpriority="high"></div></div></div>
 <div class="preview-controls js-only">
 <div class="palette-row" role="group" aria-label="Watch palette">
@@ -195,9 +189,9 @@ footer .footnote{font-size:10px;margin-top:7px}
 <svg class="ground" viewBox="0 0 1440 55" preserveAspectRatio="none" aria-hidden="true"><path d="M0 25h120V15h130v10h160V5h140v10h200v15h160V10h170v15h160V15h200v40H0z"/></svg>
 <svg class="grass-mark" viewBox="0 0 24 18" aria-hidden="true"><path d="M0 0h6v6h6V0h6v6h6v6h-6v6H6v-6H0z"/></svg><svg class="grass-mark other" viewBox="0 0 24 18" aria-hidden="true"><path d="M0 0h6v6h6V0h6v6h6v6h-6v6H6v-6H0z"/></svg>
 </div>
-<div class="ribbon"><div class="wrap"><span><b class="pixel-star" aria-hidden="true">✦</b> A growing pack of very good dogs</span><span><b class="pixel-star" aria-hidden="true">✦</b> Three little worlds, day & night</span><span><b class="pixel-star" aria-hidden="true">✦</b> Your stats, your way</span></div></div>
+<div class="ribbon"><div class="wrap"><span><b class="pixel-star" aria-hidden="true">✦</b> 13 dogs to choose from</span><span><b class="pixel-star" aria-hidden="true">✦</b> 3 backgrounds, light & dark</span><span><b class="pixel-star" aria-hidden="true">✦</b> 4 configurable stat rows</span></div></div>
 <section class="pups wrap" id="the-pack" aria-labelledby="pack-title">
-<div class="section-heading"><h2 id="pack-title">Small pixels.<br>Big personalities.</h2><p>The floppy ears. The familiar face. Find a little reminder of your best friend, right there on your wrist.</p></div>
+<div class="section-heading"><h2 id="pack-title">Find your dog.</h2><p>Ten breeds, plus brown, tan, and grey dogs. Try them in the watch preview above.</p></div>
 <div class="pack">
 <article class="pup"><div class="pup-art"><img src="assets/dog_labrador.png" width="116" height="158" alt="Black Labrador pixel art" loading="lazy"></div><h3>Labrador Retriever</h3></article>
 <article class="pup"><div class="pup-art"><img src="assets/dog_golden_retriever.png" width="129" height="158" alt="Golden Retriever pixel art" loading="lazy"></div><h3>Golden Retriever</h3></article>
@@ -211,39 +205,39 @@ footer .footnote{font-size:10px;margin-top:7px}
 <article class="pup"><div class="pup-art"><img src="assets/dog_bulldog.png" width="124" height="158" alt="Bulldog pixel art" loading="lazy"></div><h3>Bulldog</h3></article>
 </div>
 <div class="companions">
-<h3>A little more like your dog.</h3>
-<p>Don’t see your breed yet? Meet the Brown, Tan, and Grey pups—a little companion for dogs that don’t fit a label.</p>
+<h3>Brown, tan, or grey</h3>
+<p>These three dogs aren’t tied to a breed. Pick the one that looks closest to yours.</p>
 <div class="pack">
 <article class="pup"><div class="pup-art"><img src="assets/dog_generic_brown.png" width="116" height="158" alt="Generic brown pup pixel art" loading="lazy"></div><h3>Brown pup</h3></article>
 <article class="pup"><div class="pup-art"><img src="assets/dog_generic_tan.png" width="116" height="158" alt="Generic tan pup pixel art" loading="lazy"></div><h3>Tan pup</h3></article>
 <article class="pup"><div class="pup-art"><img src="assets/dog_generic_grey.png" width="116" height="158" alt="Generic grey pup pixel art" loading="lazy"></div><h3>Grey pup</h3></article>
 </div>
 </div>
-<p class="pack-note">The pack keeps growing. Want your breed next? <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20breed%20request">Put in a good woof.</a></p>
+<p class="pack-note">Missing your breed? <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20breed%20request">Send me a request.</a></p>
 </section>
 <section class="worlds" aria-labelledby="worlds-title"><div class="wrap">
-<div class="section-heading"><h2 id="worlds-title">A change of scenery.<br>Same best friend.</h2><p>A quiet morning, a meadow walk, a day by the water. Three palettes, each with a softer side after dark.</p></div>
+<div class="section-heading"><h2 id="worlds-title">Choose a background.</h2><p>Paper, Meadow, and Shoreline each have a light and dark version. Your dog stays the same when you switch.</p></div>
 <div class="world-grid">
-<article class="world"><div class="world-picture" style="--world-bg:#dcd5c3"><div class="face"><img class="face-art" src="assets/paper.svg" width="360" height="360" alt="Paper palette, light neutral watch face" loading="lazy"><img class="face-dog" src="assets/dog_labrador.png" width="116" height="158" alt="" loading="lazy"></div><div class="face night-mini"><img class="face-art" src="assets/ink.svg" width="360" height="360" alt="Ink, the dark Paper palette" loading="lazy"><img class="face-dog" src="assets/dog_labrador.png" width="116" height="158" alt="" loading="lazy"></div></div><div class="world-title"><h3>Paper</h3><span>with Ink after dark</span></div><p>A clean little classic. Just you, your pup, and the essentials.</p></article>
-<article class="world"><div class="world-picture" style="--world-bg:#a8ba86"><div class="face"><img class="face-art" src="assets/meadow.svg" width="360" height="360" alt="Meadow palette, green watch face" loading="lazy"><img class="face-dog" src="assets/dog_golden_retriever.png" width="129" height="158" alt="" loading="lazy"></div><div class="face night-mini"><img class="face-art" src="assets/meadow-dusk.svg" width="360" height="360" alt="Meadow Dusk, the dark green palette" loading="lazy"><img class="face-dog" src="assets/dog_golden_retriever.png" width="129" height="158" alt="" loading="lazy"></div></div><div class="world-title"><h3>Meadow</h3><span>with Meadow Dusk</span></div><p>Green skies, tiny clouds. The long way home looks good on you.</p></article>
-<article class="world"><div class="world-picture" style="--world-bg:#b9d6e2"><div class="face"><img class="face-art" src="assets/shoreline.svg" width="360" height="360" alt="Shoreline palette, blue and sand watch face" loading="lazy"><img class="face-dog" src="assets/dog_french_bulldog.png" width="101" height="158" alt="" loading="lazy"></div><div class="face night-mini"><img class="face-art" src="assets/night-shore.svg" width="360" height="360" alt="Night Shore, the dark blue palette" loading="lazy"><img class="face-dog" src="assets/dog_french_bulldog.png" width="101" height="158" alt="" loading="lazy"></div></div><div class="world-title"><h3>Shoreline</h3><span>with Night Shore</span></div><p>A bit of blue. A patch of sand. A small escape at a glance.</p></article>
+<article class="world"><div class="world-picture" style="--world-bg:#dcd5c3"><div class="face"><img class="face-art" src="assets/paper.svg" width="360" height="360" alt="Paper palette, light neutral watch face" loading="lazy"><img class="face-dog" src="assets/dog_labrador.png" width="116" height="158" alt="" loading="lazy"></div><div class="face night-mini"><img class="face-art" src="assets/ink.svg" width="360" height="360" alt="Ink, the dark Paper palette" loading="lazy"><img class="face-dog" src="assets/dog_labrador.png" width="116" height="158" alt="" loading="lazy"></div></div><div class="world-title"><h3>Paper</h3><span>with Ink after dark</span></div><p>A plain cream background, or black in Ink mode.</p></article>
+<article class="world"><div class="world-picture" style="--world-bg:#a8ba86"><div class="face"><img class="face-art" src="assets/meadow.svg" width="360" height="360" alt="Meadow palette, green watch face" loading="lazy"><img class="face-dog" src="assets/dog_golden_retriever.png" width="129" height="158" alt="" loading="lazy"></div><div class="face night-mini"><img class="face-art" src="assets/meadow-dusk.svg" width="360" height="360" alt="Meadow Dusk, the dark green palette" loading="lazy"><img class="face-dog" src="assets/dog_golden_retriever.png" width="129" height="158" alt="" loading="lazy"></div></div><div class="world-title"><h3>Meadow</h3><span>with Meadow Dusk</span></div><p>Green hills and clouds, with deeper greens in Meadow Dusk.</p></article>
+<article class="world"><div class="world-picture" style="--world-bg:#b9d6e2"><div class="face"><img class="face-art" src="assets/shoreline.svg" width="360" height="360" alt="Shoreline palette, blue and sand watch face" loading="lazy"><img class="face-dog" src="assets/dog_french_bulldog.png" width="101" height="158" alt="" loading="lazy"></div><div class="face night-mini"><img class="face-art" src="assets/night-shore.svg" width="360" height="360" alt="Night Shore, the dark blue palette" loading="lazy"><img class="face-dog" src="assets/dog_french_bulldog.png" width="101" height="158" alt="" loading="lazy"></div></div><div class="world-title"><h3>Shoreline</h3><span>with Night Shore</span></div><p>Blue sky and sand, with navy tones in Night Shore.</p></article>
 </div>
 <p class="night-note"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 1H7v3H4v3H2v7h2v3h3v2h7v-2h3v-3h2V9h-3v3h-3V9h-3V4h2z"/></svg>On a touchscreen watch, touch and hold your pup to switch light and dark. Or change it in Connect IQ settings.</p>
 </div></section>
 <section class="details wrap" id="the-details" aria-labelledby="details-title">
-<div class="details-intro"><h2 id="details-title">Cute company.<br>Useful by nature.</h2><p>Time, date, battery, and heart rate at a glance when your watch is awake. Make the other four rows yours with the stats you actually care about—or leave a row empty.</p><ul class="stat-list" aria-label="Available configurable stats"><li>Temperature</li><li>Body Battery</li><li>Calories</li><li>Steps</li><li>Floors climbed</li><li>Distance</li><li>Stress</li><li>Active minutes</li></ul></div>
+<div class="details-intro"><h2 id="details-title">Pick your stats.</h2><p>Time, date, battery, and heart rate appear when your watch is awake. Choose what the other four rows show, or leave them empty.</p><ul class="stat-list" aria-label="Available configurable stats"><li>Temperature</li><li>Body Battery</li><li>Calories</li><li>Steps</li><li>Floors climbed</li><li>Distance</li><li>Stress</li><li>Active minutes</li></ul></div>
 <div class="faq">
 <details open><summary>Will it work on my Garmin?</summary><p>PixelPup is built for supported round AMOLED Garmin watches, including models in the Forerunner, Venu, epix, fēnix, and vívoactive families. MIP-display watches aren’t supported. <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20watch%20compatibility">Send me your model</a> if you’re not sure.</p></details>
-<details><summary>How do I make it mine?</summary><p>After installation, open PixelPup in the Connect IQ app and go to Settings. Choose your breed, palette, light or dark mode, and the stats for your four configurable rows. On touchscreen watches, touch and hold the dog to switch between light and dark within your chosen palette.</p></details>
-<details><summary>What happens when my watch rests?</summary><p>In low-power mode, PixelPup shows just the time in white on a black screen. Wake the watch face to bring back your pup, scenery, and stats. Low-power display behavior also depends on your Garmin’s settings.</p></details>
+<details><summary>Where do I change the settings?</summary><p>After installation, open PixelPup in the Connect IQ app and go to Settings. Choose your breed, palette, light or dark mode, and the stats for your four configurable rows. On touchscreen watches, touch and hold the dog to switch between light and dark within your chosen palette.</p></details>
+<details><summary>What does low-power mode show?</summary><p>In low-power mode, PixelPup shows just the time in white on a black screen. Wake the watch face to bring back your pup, scenery, and stats. Low-power display behavior also depends on your Garmin’s settings.</p></details>
 <details><summary>How do the readings work?</summary><p>PixelPup uses data available from your Garmin. Temperature follows your watch’s °C/°F setting; distance follows km/miles, without a unit label on the face. Missing readings show a dash. Weather may need a phone sync to refresh.</p><p>Choose total daily calories or estimated active calories in settings. The active estimate uses profile information to subtract estimated resting burn; if that information is missing, the face shows total calories. These are everyday reference readings, not medical advice.</p></details>
 <details><summary>Does it collect my data?</summary><p>Your health and activity readings are processed on your watch, not sent to danyzmaj. PixelPup has no analytics or separate account. Estimated active calories also use profile information locally.</p><p>The website adds no analytics or cookies, but its host processes connection data, and support emails contain information you choose to send. <a href="/pixelpup/privacy/">Read the privacy policy</a>.</p></details>
 <details><summary>How do I get PixelPup?</summary><p>PixelPup is currently in beta. Coming soon to Garmin Connect IQ.</p><p>When it launches, you’ll find a direct store link here. Open the listing in the Connect IQ app, check compatibility with your paired Garmin, and install the watch face. Sync your watch, then select PixelPup as your watch face.</p><p>Questions before launch? <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20support">Get in touch</a>.</p></details>
 </div>
 </section>
-<section class="closing" id="say-hello" aria-labelledby="closing-title"><div class="wrap"><div><h2 id="closing-title">Made for the dog people.</h2><p>Made by danyzmaj for a little more company on every walk. Need help, have a breed request, or want to share your very good dog? I’d love to hear from you.</p></div><a class="primary" href="mailto:danijel@danyzmaj.com?subject=Hello%20PixelPup">Let’s talk PixelPup <span class="arrow" aria-hidden="true">↗</span></a></div></section>
+<section class="closing" id="say-hello" aria-labelledby="closing-title"><div class="wrap"><div><h2 id="closing-title">Want your breed added?</h2><p>I’m Danijel, the developer behind PixelPup. Email me a breed request or a photo of your dog. You can use the same address for help with the watch face.</p></div><a class="primary" href="mailto:danijel@danyzmaj.com?subject=Hello%20PixelPup">Email Danijel <span class="arrow" aria-hidden="true">↗</span></a></div></section>
 </main>
-<footer><div class="wrap"><div><p>PixelPup · A little companion by <a href="/">danyzmaj</a></p><p><a href="/pixelpup/privacy/">Privacy</a> · <a href="/pixelpup/terms/">Terms</a> · <a href="mailto:danijel@danyzmaj.com">Support</a></p><p class="footnote">An independent watch face. Not affiliated with or endorsed by Garmin. Watch previews show illustrative readings.</p></div><svg class="footer-paw" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h5v7H7zm13 0h5v7h-5zM2 10h5v6H2zm23 0h5v6h-5zM12 11h8v4h4v12H8V15h4z"/></svg></div></footer>
+<footer><div class="wrap"><div><p>PixelPup · Made by <a href="/">danyzmaj</a></p><p><a href="/pixelpup/privacy/">Privacy</a> · <a href="/pixelpup/terms/">Terms</a> · <a href="mailto:danijel@danyzmaj.com">Support</a></p><p class="footnote">An independent watch face. Not affiliated with or endorsed by Garmin. Watch previews show illustrative readings.</p></div><svg class="footer-paw" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h5v7H7zm13 0h5v7h-5zM2 10h5v6H2zm23 0h5v6h-5zM12 11h8v4h4v12H8V15h4z"/></svg></div></footer>
 <script>
 (() => {
   const palettes = {paper:['paper','ink'],meadow:['meadow','meadow-dusk'],shoreline:['shoreline','night-shore']};

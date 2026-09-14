@@ -55,6 +55,10 @@ python3 -m http.server 8000     # or serve over HTTP
 ## Projects Gallery & Product Pages
 - The homepage's `Projects / 02` link opens `#projects`, a CSS `:target` screen sliding over the dragon. Its two project links work without JS; hash changes stop any active rampage, manage focus, and update `aria-expanded`. Escape closes the gallery. The gallery scrolls internally on small screens; the homepage remains a fixed stage.
 - `push()` ignores input while the gallery is open. Rampage scrubbing selects `CSSAnimation` objects only, so gallery transitions keep their own clock. Reduced motion opens the gallery instantly.
-- Project previews are self-contained: the PixelPup dog is an embedded copy of `pixelpup/assets/dog_labrador.png`; its landscape and the Hold Up sign are CSS. Preview product colors stay fixed across the parent ink/paper themes.
+- Project previews are self-contained: the PixelPup dog is an embedded copy of `pixelpup/assets/dog_labrador.png`; its landscape is CSS. Hold Up uses Apple’s official iPhone 17 landscape bezel, embedded on the homepage and stored at `holdup/assets/iphone-17-black-landscape.png` on the product page. Keep both copies synchronized. Preview product colors stay fixed across the parent ink/paper themes.
 - `holdup/index.html` is a product landing page with support at `#support` and the existing privacy link. Its small sign demo fits editable text into a fixed sign and offers three preview backgrounds; this is a browser preview, not the full app. Keep the static sign and product copy usable without JS.
 - `pixelpup/index.html` contains the existing product playground. Its beta status and release links are maintained there.
+
+## Public Copy
+- Use direct, specific descriptions of the apps. Avoid em dashes, repetitive slogan pairs, forced dog puns, and vague claims like “your stats, your way”.
+- Review browser titles and social metadata alongside visible text. Preserve factual product behavior and the meaning of privacy and terms pages when editing wording.

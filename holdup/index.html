@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hold Up — A sign you hold up</title>
-<meta name="description" content="Turn a few words into a fullscreen sign. Hold Up sizes your message to fit, saves your favorites, and keeps your screen awake.">
+<title>Hold Up | Fullscreen signs for iPhone</title>
+<meta name="description" content="Turn your iPhone into a sign. Type a message, save it for later, and show it fullscreen with Hold Up.">
 <meta name="theme-color" content="#171210">
 <link rel="canonical" href="https://www.danyzmaj.com/holdup/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hold Up — A sign you hold up">
-<meta property="og:description" content="A few words. Impossible to miss. Fullscreen signs, sized to fit.">
+<meta property="og:title" content="Hold Up | Fullscreen signs for iPhone">
+<meta property="og:description" content="Type a message and show it fullscreen on your iPhone.">
 <meta property="og:url" content="https://www.danyzmaj.com/holdup/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='2.5 0 108.5 97.69'%3E%3Cstyle%3E.m%7Bfill:%23121212%7D@media(prefers-color-scheme:dark)%7B.m%7Bfill:%23F2EDE4%7D%7D%3C/style%3E%3Cpath class='m' fill-rule='nonzero' d='M%2016%2010%20L%2090%2010%20L%2090%2036%20L%2016%2036%20Z%20M%2098.38%2022.49%20L%2024.38%2094.69%20L%207.62%2077.51%20L%2081.62%205.31%20Z%20M%2016%2064%20L%2090%2064%20L%2090%2090%20L%2016%2090%20Z%20M%2052%2010%20L%2070%203%20L%2067%2012%20Z%20M%2086%2061%20L%20108%2077%20L%2086%2093%20L%2093%2077%20Z%20M%2027%2034%20L%2022.5%2047%20L%2018%2034%20Z%20M%2037%2034%20L%2033.5%2043%20L%2030%2034%20Z%20M%2056%2022%20L%2062%2022%20L%2062%2016%20L%2056%2016%20Z%20M%2016%2032.7%20L%2047%2029.6%20L%2047%2027.6%20L%2016%2024.5%20Z'/%3E%3Cpath fill='%23FF6A1F' d='M%205.5%2024.1%20L%205.5%2033.1%20L%2015.5%2028.6%20Z'/%3E%3C/svg%3E">
 <style>
-:root{--ink:#171210;/* the room */--bone:#F2EDE4;/* the words */--ember:#FF6A1F;/* a raised hand */--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--line:color-mix(in srgb,var(--bone) 25%,var(--ink))}
+:root{--ink:#171210;/* the room */--bone:#F2EDE4;/* the words */--ember:#FF6A1F;/* sign background */--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--line:color-mix(in srgb,var(--bone) 25%,var(--ink))}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:30px}
 body{margin:0;background:var(--ink);color:var(--bone);font:400 15px/1.65 var(--mono)}
@@ -39,11 +39,12 @@ h1 span{color:var(--ember)}
 .cta{display:inline-flex;align-items:center;gap:30px;padding:13px 20px;border:1px solid var(--bone);text-decoration:none;font-size:12px}
 .cta:hover{background:var(--bone);color:var(--ink)}
 .preview{min-width:0}
-.sign{--sign-bg:var(--ember);--sign-fg:var(--ink);background:var(--sign-bg);color:var(--sign-fg);aspect-ratio:1.35;border-radius:22px;padding:24px;position:relative;display:grid;place-items:center;transform:rotate(-4deg);margin:15px 0 36px}
-.sign::before{content:"";position:absolute;left:9px;top:42%;height:16%;width:4px;border-radius:4px;background:var(--sign-fg)}
+.iphone-preview{position:relative;width:100%;margin:15px 0 28px;aspect-ratio:2760/1350}
+.device-frame{position:relative;z-index:1;display:block;width:100%;height:auto;pointer-events:none}
+.sign{--sign-bg:var(--ember);--sign-fg:var(--ink);position:absolute;inset:5.333333% 2.5%;background:var(--sign-bg);color:var(--sign-fg);border-radius:7.2% / 15.7%}
 .sign[data-color="paper"]{--sign-bg:var(--bone)}
-.sign[data-color="ink"]{--sign-bg:var(--ink);--sign-fg:var(--bone);outline:2px solid var(--bone);outline-offset:-2px}
-.sign-inner{position:absolute;inset:24px;display:grid;place-items:center;grid-template-columns:minmax(0,1fr)}
+.sign[data-color="ink"]{--sign-bg:var(--ink);--sign-fg:var(--bone)}
+.sign-inner{position:absolute;inset:10% 8% 10% 10%;display:grid;place-items:center;grid-template-columns:minmax(0,1fr)}
 .sign-text{width:100%;text-align:center;font:900 clamp(38px,5.5vw,80px)/.95 'Arial Black',Arial,sans-serif;letter-spacing:-.055em;overflow-wrap:anywhere;white-space:pre-wrap}
 .controls{display:none}
 .js .controls{display:block}
@@ -73,7 +74,7 @@ h3{font-size:14px;margin:0 0 8px}
 .support a:hover{color:var(--ink)}
 footer{padding-block:28px;display:flex;justify-content:space-between;gap:24px;font-size:11px}
 footer div{display:flex;gap:24px}
-@media(max-width:800px){.wrap{width:calc(100% - 40px)}header{padding-block:22px}nav{gap:18px}.hero{grid-template-columns:1fr;padding-block:50px 55px;gap:44px}h1{font-size:clamp(58px,12vw,88px);max-width:640px}.intro{max-width:460px}.preview{width:min(100%,520px);margin:auto}.sign{margin-top:0}.sign-text{font-size:60px}.strip .wrap{flex-wrap:wrap;justify-content:center;font-size:10px;gap:10px 24px}.story{grid-template-columns:1fr;gap:24px;padding-block:55px}.support{padding-block:45px}.support .wrap{grid-template-columns:1fr;gap:8px}.support h2{font-size:38px}footer{align-items:flex-start}footer div{gap:12px;flex-wrap:wrap;justify-content:flex-end}}
+@media(max-width:800px){.wrap{width:calc(100% - 40px)}header{padding-block:22px}nav{gap:18px}.hero{grid-template-columns:1fr;padding-block:50px 55px;gap:44px}h1{font-size:clamp(58px,12vw,88px);max-width:640px}.intro{max-width:460px}.preview{width:min(100%,520px);margin:auto}.iphone-preview{margin-top:0}.sign-text{font-size:clamp(24px,6vw,48px)}.strip .wrap{flex-wrap:wrap;justify-content:center;font-size:10px;gap:10px 24px}.story{grid-template-columns:1fr;gap:24px;padding-block:55px}.support{padding-block:45px}.support .wrap{grid-template-columns:1fr;gap:8px}.support h2{font-size:38px}footer{align-items:flex-start}footer div{gap:12px;flex-wrap:wrap;justify-content:flex-end}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -85,15 +86,18 @@ footer div{display:flex;gap:24px}
 <main>
 <section class="hero wrap" aria-labelledby="hero-title">
 <div>
-<p class="eyebrow">A sign you hold up</p>
-<h1 id="hero-title">A few words.<br><span>Impossible<br>to miss.</span></h1>
-<p class="intro">Across a room. In a crowd. Through a window. Turn your screen into the thing you want to say.</p>
-<a class="cta" href="#how-it-works">Meet Hold Up <span aria-hidden="true">↓</span></a>
+<p class="eyebrow">Fullscreen signs for iPhone</p>
+<h1 id="hero-title">Turn your<br><span>phone into<br>a sign.</span></h1>
+<p class="intro">Type a message and hold up your iPhone. The text fills the screen so someone across the room can read it.</p>
+<a class="cta" href="#how-it-works">How it works <span aria-hidden="true">↓</span></a>
 </div>
 <div class="preview">
+<div class="iphone-preview">
 <div class="sign" id="sign"><div class="sign-inner"><div class="sign-text" id="sign-text">I’M HERE!</div></div></div>
+<img class="device-frame" src="assets/iphone-17-black-landscape.png" width="2760" height="1350" alt="iPhone 17 in landscape orientation" fetchpriority="high">
+</div>
 <div class="controls">
-<label for="message">Your words. Try them out.</label>
+<label for="message">Try your message</label>
 <div class="input-row">
 <input id="message" type="text" value="I’M HERE!" maxlength="48" autocomplete="off" spellcheck="false" aria-describedby="preview-note">
 <div class="colors" role="group" aria-label="Preview background">
@@ -103,32 +107,32 @@ footer div{display:flex;gap:24px}
 </div>
 </div>
 </div>
-<p class="preview-note" id="preview-note">A little preview of a very big message.</p>
+<p class="preview-note" id="preview-note">iPhone 17 preview. Your message is not saved.</p>
 </div>
 </section>
-<div class="strip"><div class="wrap"><span>BIG WORDS. ZERO FUSS.</span><span>NO ACCOUNTS.</span><span>NO TRACKING.</span><span>JUST YOUR MESSAGE. ↗</span></div></div>
+<div class="strip"><div class="wrap"><span>AUTO-SIZED TEXT</span><span>SAVED SIGNS</span><span>SCREEN STAYS AWAKE</span></div></div>
 <section class="story wrap" id="how-it-works" aria-labelledby="story-title">
-<div class="story-intro"><p class="eyebrow">Made to be seen</p><h2 id="story-title">Type it.<br>Turn it.<br>Hold it up.</h2><p>A pickup sign. A quiet hello. An enthusiastic “ONE MORE!” Sometimes a screen says it better.</p></div>
+<div class="story-intro"><p class="eyebrow">How it works</p><h2 id="story-title">Signs, presets<br>and a clock.</h2><p>Put a name on screen for an airport pickup, find friends in a crowd, or send a message through a window.</p></div>
 <div class="features">
-<div class="feature"><span>01</span><div><h3>Every word earns its space.</h3><p>Type straight onto the sign. Your text automatically grows to the largest size that fits. Six backgrounds, with readable text colors picked for you.</p></div></div>
-<div class="feature"><span>02</span><div><h3>Good signs deserve an encore.</h3><p>Save your go-to messages as presets. Bring them back in two taps, ready for the next arrival, gig, or familiar face.</p></div></div>
-<div class="feature"><span>03</span><div><h3>Stay up. Stand out.</h3><p>The screen stays awake while your sign is showing. Switch to a fullscreen clock, or pulse your message when being noticed matters.</p></div></div>
+<div class="feature"><span>01</span><div><h3>Text that fits the screen</h3><p>Type directly on the sign. Hold Up sizes the text to fit and picks a readable text color for each of its six backgrounds.</p></div></div>
+<div class="feature"><span>02</span><div><h3>Save signs for later</h3><p>Save messages as presets and reopen them in two taps. Useful for names, directions, or anything you show often.</p></div></div>
+<div class="feature"><span>03</span><div><h3>Keep the sign visible</h3><p>Your screen stays awake while a sign is open. You can also show a fullscreen clock or make a message pulse.</p></div></div>
 </div>
 </section>
 <section class="support" id="support" aria-labelledby="support-title"><div class="wrap">
-<div><p class="eyebrow">A direct line to the maker</p><h2 id="support-title">Need a hand?</h2></div>
-<div><p>Questions, problems, or ideas? Write to <a href="mailto:danijel@danyzmaj.com?subject=Hold%20Up">danijel@danyzmaj.com</a>. If something misbehaves, include your device and OS version.</p><p>Your signs stay on your device. Hold Up makes no network connections and collects no personal data. <a href="/holdup/privacy/">Read the privacy policy</a>.</p></div>
+<div><p class="eyebrow">Support</p><h2 id="support-title">Get in touch</h2></div>
+<div><p>For help or suggestions, email <a href="mailto:danijel@danyzmaj.com?subject=Hold%20Up">danijel@danyzmaj.com</a>. For a bug report, include your iPhone model, iOS version, and what happened.</p><p>Your signs stay on your device. Hold Up makes no network connections and collects no personal data. <a href="/holdup/privacy/">Read the privacy policy</a>.</p></div>
 </div></section>
 </main>
 <footer class="wrap"><a href="/">Made by danyzmaj</a><div><a href="/holdup/privacy/">Privacy</a></div></footer>
 <script>
 (()=>{
   document.documentElement.classList.add('js');
-  const input=document.querySelector('#message'),sign=document.querySelector('#sign'),text=document.querySelector('#sign-text');
+  const input=document.querySelector('#message'),sign=document.querySelector('#sign'),inner=document.querySelector('.sign-inner'),text=document.querySelector('#sign-text');
   const fit=()=>{
     text.textContent=input.value||'YOUR WORDS';
     let low=12,high=160;
-    const height=sign.clientHeight-48;
+    const height=inner.clientHeight;
     while(high-low>1){
       const size=(low+high)/2;
       text.style.fontSize=size+'px';

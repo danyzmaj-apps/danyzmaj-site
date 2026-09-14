@@ -101,7 +101,11 @@ h1 .second{display:block}
 .section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:50px}
 h2{font-size:clamp(38px,4.5vw,62px)}
 .section-heading p{max-width:330px;font-size:15px;color:var(--muted)}
-.pack{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;margin-top:54px}
+.pack{display:grid;grid-template-columns:repeat(5,1fr);gap:32px 20px;margin-top:54px}
+.companions{margin-top:48px;text-align:center}
+.companions>h3{font-size:23px;letter-spacing:-.02em}
+.companions>p{max-width:520px;margin:12px auto 0;font-size:15px;color:var(--muted)}
+.companions .pack{grid-template-columns:repeat(3,1fr);max-width:640px;margin:24px auto 0}
 .pup{text-align:center}
 .pup-art{height:158px;display:flex;align-items:flex-end;justify-content:center;border-bottom:2px solid var(--line);padding-bottom:15px}
 .pup-art img{height:134px;width:auto;image-rendering:pixelated;transition:transform .3s var(--ease)}
@@ -181,7 +185,7 @@ footer .footnote{font-size:10px;margin-top:7px}
 <button class="swatch" type="button" data-palette="shoreline" aria-label="Shoreline palette" aria-pressed="false" style="--swatch:#b9d6e2"><span></span></button>
 <button class="mode" id="mode" type="button" aria-pressed="false" aria-label="Dark watch palette"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 1H7v3H4v3H2v7h2v3h3v2h7v-2h3v-3h2V9h-3v3h-3V9h-3V4h2z"/></svg><span id="mode-label">Night mode</span></button>
 </div>
-<div class="breed-select"><label for="breed">Your pup</label><select id="breed"><option value="labrador">Labrador Retriever</option><option value="golden_retriever">Golden Retriever</option><option value="german_shepherd">German Shepherd</option><option value="french_bulldog">French Bulldog</option><option value="beagle">Beagle</option><option value="poodle">Poodle</option></select></div>
+<div class="breed-select"><label for="breed">Your pup</label><select id="breed"><option value="labrador">Labrador Retriever</option><option value="golden_retriever">Golden Retriever</option><option value="german_shepherd">German Shepherd</option><option value="french_bulldog">French Bulldog</option><option value="beagle">Beagle</option><option value="poodle">Poodle</option><option value="rottweiler">Rottweiler</option><option value="german_shorthaired_pointer">German Shorthaired Pointer</option><option value="dachshund">Dachshund</option><option value="bulldog">Bulldog</option><option value="generic_brown">Brown pup</option><option value="generic_tan">Tan pup</option><option value="generic_grey">Grey pup</option></select></div>
 </div>
 <p class="preview-caption" id="preview-caption" aria-live="polite">Labrador Retriever · Meadow · Sample readings</p>
 <p class="preview-error" id="preview-error" role="alert" hidden></p>
@@ -201,8 +205,21 @@ footer .footnote{font-size:10px;margin-top:7px}
 <article class="pup"><div class="pup-art"><img src="assets/dog_french_bulldog.png" width="101" height="158" alt="French Bulldog pixel art" loading="lazy"></div><h3>French Bulldog</h3></article>
 <article class="pup"><div class="pup-art"><img src="assets/dog_beagle.png" width="126" height="158" alt="Tricolor Beagle pixel art" loading="lazy"></div><h3>Beagle</h3></article>
 <article class="pup"><div class="pup-art"><img src="assets/dog_poodle.png" width="113" height="158" alt="Apricot Poodle pixel art" loading="lazy"></div><h3>Poodle</h3></article>
+<article class="pup"><div class="pup-art"><img src="assets/dog_rottweiler.png" width="111" height="158" alt="Rottweiler pixel art" loading="lazy"></div><h3>Rottweiler</h3></article>
+<article class="pup"><div class="pup-art"><img src="assets/dog_german_shorthaired_pointer.png" width="116" height="158" alt="German Shorthaired Pointer pixel art" loading="lazy"></div><h3>German Shorthaired Pointer</h3></article>
+<article class="pup"><div class="pup-art"><img src="assets/dog_dachshund.png" width="118" height="158" alt="Dachshund pixel art" loading="lazy"></div><h3>Dachshund</h3></article>
+<article class="pup"><div class="pup-art"><img src="assets/dog_bulldog.png" width="124" height="158" alt="Bulldog pixel art" loading="lazy"></div><h3>Bulldog</h3></article>
 </div>
-<p class="pack-note">Your best friend not here yet? <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20breed%20request">Put in a good woof.</a></p>
+<div class="companions">
+<h3>A little more like your dog.</h3>
+<p>Don’t see your breed yet? Meet the Brown, Tan, and Grey pups—a little companion for dogs that don’t fit a label.</p>
+<div class="pack">
+<article class="pup"><div class="pup-art"><img src="assets/dog_generic_brown.png" width="116" height="158" alt="Generic brown pup pixel art" loading="lazy"></div><h3>Brown pup</h3></article>
+<article class="pup"><div class="pup-art"><img src="assets/dog_generic_tan.png" width="116" height="158" alt="Generic tan pup pixel art" loading="lazy"></div><h3>Tan pup</h3></article>
+<article class="pup"><div class="pup-art"><img src="assets/dog_generic_grey.png" width="116" height="158" alt="Generic grey pup pixel art" loading="lazy"></div><h3>Grey pup</h3></article>
+</div>
+</div>
+<p class="pack-note">The pack keeps growing. Want your breed next? <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20breed%20request">Put in a good woof.</a></p>
 </section>
 <section class="worlds" aria-labelledby="worlds-title"><div class="wrap">
 <div class="section-heading"><h2 id="worlds-title">A change of scenery.<br>Same best friend.</h2><p>A quiet morning, a meadow walk, a day by the water. Three palettes, each with a softer side after dark.</p></div>

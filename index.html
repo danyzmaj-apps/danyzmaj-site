@@ -179,7 +179,7 @@ html.rampage body{animation:quake 1300ms linear 2150ms} /* the impact shakes the
   html{transition:none}
 }
 /* the cabinet: a second screen, cut from the same sheet */
-:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--sky:#cfe6fb;--azure:#1d63c9;--sun:#f7c948;--severity-ok:#0e9c52;--severity-warn:#f29900;--severity-bad:#e5484d;--mint:#d3ede7;--teal:#0f766e;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
 a:focus-visible{outline:2px solid var(--ember);outline-offset:6px}
 .projects-link{position:fixed;top:max(5vmin,1.5rem);right:max(6vmin,1.5rem);z-index:5;display:flex;align-items:center;gap:20px;min-height:44px;color:var(--bone);font:500 12px/1.4 var(--mono);text-decoration:none}
 .projects-link span{color:var(--ember)}
@@ -202,22 +202,38 @@ html:has(#projects:target) .projects-link{visibility:hidden}
 .mini-sign img{position:relative;width:100%;height:auto;display:block}
 .project-pup{background:var(--meadow);color:var(--forest)}
 .mini-watch{width:clamp(132px,25vh,280px);aspect-ratio:1;border:8px solid var(--forest);border-radius:50%;position:relative;overflow:hidden;background:var(--meadow)}
-.mini-sign,.mini-watch{transform:rotate(7deg);transition:transform 400ms var(--reveal)}
+.mini-sign,.mini-watch,.mini-route,.mini-receipt{transform:rotate(7deg);transition:transform 400ms var(--reveal)}
 .mini-watch::before{content:"";position:absolute;inset:60% 0 0;background:var(--grass);clip-path:polygon(0 20%,35% 0,70% 28%,100% 8%,100% 100%,0 100%)}
 .mini-watch time{position:absolute;top:15%;left:12%;font:800 clamp(24px,5vh,54px)/1 Arial,sans-serif;letter-spacing:-.06em}
 .mini-watch img{position:absolute;height:56%;width:auto;right:12%;bottom:8%;image-rendering:pixelated}
-.project:hover .mini-sign,.project:hover .mini-watch,.project:focus-visible .mini-sign,.project:focus-visible .mini-watch{transform:rotate(0)}
+.project:hover .mini-sign,.project:hover .mini-watch,.project:hover .mini-route,.project:hover .mini-receipt,.project:focus-visible .mini-sign,.project:focus-visible .mini-watch,.project:focus-visible .mini-route,.project:focus-visible .mini-receipt{transform:rotate(0)}
 .project-info{border-top:1px solid color-mix(in srgb,var(--bone) 25%,var(--ink));margin-top:22px;padding-top:18px;display:flex;justify-content:space-between;align-items:baseline;gap:16px}
 .project-info h3{font:500 clamp(23px,3vw,36px)/1.2 var(--mono);letter-spacing:-.06em;margin:0}
 .project-info span{font:400 24px/1 var(--mono);color:var(--ember)}
 .project p{font:400 12px/1.7 var(--mono);margin:10px 0 4px;max-width:34em}
 .project small{font:400 10px/1.5 var(--mono);color:color-mix(in srgb,var(--bone) 60%,var(--ink))}
+.project-route{background:var(--sky);color:var(--project-ink)}
+.mini-route{width:78%;aspect-ratio:4/3;background:#fff;border-radius:18px;box-shadow:0 14px 30px rgba(23,18,16,.16);padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between}
+.mini-route .route-chip{font:800 clamp(15px,2vw,20px)/1 var(--mono);letter-spacing:-.02em;color:var(--project-ink);display:flex;align-items:center;gap:9px}
+.mini-route .route-chip::before{content:"";width:13px;height:13px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 5px color-mix(in srgb,var(--sun) 30%,transparent)}
+.mini-route .route-track{display:flex;gap:4px;height:13px}
+.mini-route .route-track i{flex:1;border-radius:999px;display:block;background:var(--severity-ok)}
+.mini-route .route-track i:nth-child(3){background:var(--severity-warn)}
+.mini-route .route-track i:nth-child(4){background:var(--severity-bad)}
+.project-receipt{background:var(--mint);color:var(--project-ink)}
+.mini-receipt{width:52%;aspect-ratio:3/4;background:#fff;box-shadow:0 14px 30px rgba(23,18,16,.16);padding:18px 16px 26px;clip-path:polygon(0 0,100% 0,100% 92%,95% 100%,90% 92%,85% 100%,80% 92%,75% 100%,70% 92%,65% 100%,60% 92%,55% 100%,50% 92%,45% 100%,40% 92%,35% 100%,30% 92%,25% 100%,20% 92%,15% 100%,10% 92%,5% 100%,0 92%)}
+.mini-receipt .stamp{display:block;width:30%;aspect-ratio:1;border-radius:8px;background:var(--teal);margin-bottom:14px}
+.mini-receipt .lines{display:flex;flex-direction:column;gap:8px}
+.mini-receipt .lines i{display:block;height:6px;border-radius:3px;background:#e7ece9}
+.mini-receipt .lines i:nth-child(2){width:70%}
+.mini-receipt .lines i:nth-child(3){width:85%}
+.mini-receipt .lines i:nth-child(4){width:45%;background:var(--teal)}
 @media(max-width:600px){.project-grid{grid-template-columns:1fr;gap:30px}.project-art{height:150px}.mini-sign{font-size:32px}.mini-watch{width:132px}.mini-watch time{font-size:32px}.projects-head{padding-bottom:20px}.project-info{margin-top:16px;padding-top:14px}#plate{font-size:12px}}
-@media(prefers-reduced-motion:reduce){#projects,.mini-sign,.mini-watch{transition:none}.mini-sign,.mini-watch{transform:none}}
+@media(prefers-reduced-motion:reduce){#projects,.mini-sign,.mini-watch,.mini-route,.mini-receipt{transition:none}.mini-sign,.mini-watch,.mini-route,.mini-receipt{transform:none}}
 </style>
 <link rel="canonical" href="https://www.danyzmaj.com/">
 <meta property="og:type" content="website">
-<meta property="og:description" content="Apps by danyzmaj. Hold Up for iOS and Android. PixelPup for Garmin.">
+<meta property="og:description" content="Apps by danyzmaj. Hold Up for iOS and Android. PixelPup for Garmin. vedro and Evido, coming soon.">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/assets/social-preview.png">
 <meta property="og:image:type" content="image/png">
@@ -293,6 +309,18 @@ html:has(#projects:target) .projects-link{visibility:hidden}
       <div class="project-info"><h3>PixelPup</h3><span aria-hidden="true">↗</span></div>
       <p>A dog on your Garmin, with your daily stats.</p>
       <small>GARMIN WATCH FACE · BETA</small>
+    </a>
+    <a class="project" href="/vedro/">
+      <div class="project-art project-route" aria-hidden="true"><div class="mini-route"><span class="route-chip">Clear ahead</span><div class="route-track"><i></i><i></i><i></i><i></i></div></div></div>
+      <div class="project-info"><h3>vedro</h3><span aria-hidden="true">↗</span></div>
+      <p>Weather-aware navigation for open-air travel.</p>
+      <small>NAVIGATION · IN TESTING</small>
+    </a>
+    <a class="project" href="/evido/">
+      <div class="project-art project-receipt" aria-hidden="true"><div class="mini-receipt"><span class="stamp"></span><span class="lines"><i></i><i></i><i></i><i></i></span></div></div>
+      <div class="project-info"><h3>Evido</h3><span aria-hidden="true">↗</span></div>
+      <p>Paperless R1 receipts for Croatian businesses.</p>
+      <small>BUSINESS · PRE-LAUNCH</small>
     </a>
   </div>
 </section>

@@ -17,9 +17,11 @@ Personal brand landing page for **danyzmaj** (deployed at `https://www.danyzmaj.
 - `index.html` — the landing page (the animated logomark; everything below describes it).
 - `<project>/` — per-app static pages for App Store listings, following the pattern
   `/<project>/` (support page, contact email) and `/<project>/privacy/` (privacy policy).
-  Currently: `holdup/`. Each page is a self-contained HTML file reusing the brand tokens
-  (`--ink`/`--bone`/`--ember`), the mono plate type, and the local favicon links — copy an
-  existing project's pair when adding a new app.
+  Currently: `holdup/`, `pixelpup/`, `vedro/`, `evido/`. Each page is a self-contained HTML
+  file with its own local favicon set. Hold Up reuses the homepage's `--ink`/`--bone`/`--ember`
+  tokens and mono plate type; PixelPup, vedro, and Evido instead define their own brand palette
+  and typography drawn from each app's real icon colors — copy an existing project's pair as a
+  starting point, but match the app's own identity rather than forcing the dragon brand.
 - `.gitignore` — ignores Python bytecode, `.DS_Store`, `.worktrees/`.
 
 ## Development Commands
@@ -53,11 +55,12 @@ python3 -m http.server 8000     # or serve over HTTP
 - When touching SVG paths, update both the inline `<svg>` and `favicon.svg`, then regenerate the PNG/ICO icon sizes.
 
 ## Projects Gallery & Product Pages
-- The homepage's `Projects / 02` link opens `#projects`, a CSS `:target` screen sliding over the dragon. Its two project links work without JS; hash changes stop any active rampage, manage focus, and update `aria-expanded`. Escape closes the gallery. The gallery scrolls internally on small screens; the homepage remains a fixed stage.
+- The homepage's `Projects / 02` link opens `#projects`, a CSS `:target` screen sliding over the dragon. Its four project links work without JS; hash changes stop any active rampage, manage focus, and update `aria-expanded`. Escape closes the gallery. The gallery scrolls internally on small screens; the homepage remains a fixed stage.
 - `push()` ignores input while the gallery is open. Rampage scrubbing selects `CSSAnimation` objects only, so gallery transitions keep their own clock. Reduced motion opens the gallery instantly.
 - Project previews are self-contained: the PixelPup dog is an embedded copy of `pixelpup/assets/dog_labrador.png`; its landscape is CSS. Hold Up uses Apple’s official iPhone 17 landscape bezel, embedded on the homepage and stored at `holdup/assets/iphone-17-black-landscape.png` on the product page. Keep both copies synchronized. Preview product colors stay fixed across the parent ink/paper themes.
 - `holdup/index.html` is a product landing page with support at `#support` and the existing privacy link. Its small sign demo fits editable text into a fixed sign and offers three preview backgrounds; this is a browser preview, not the full app. Keep the static sign and product copy usable without JS.
 - `pixelpup/index.html` contains the existing product playground. Its beta status and release links are maintained there.
+- `vedro/index.html` and `evido/index.html` are pre-launch support pages (no interactive demo) for two apps still in testing — product description, status, and a contact CTA only. `evido/assets/screen-*.png` are real screenshots from the working app; vedro's route-severity strip on both the homepage card and the product page is illustrative, not a screenshot, and reuses the app's actual fixed severity palette (`--severity-ok`/`--severity-warn`/`--severity-bad` on the homepage).
 
 ## Public Copy
 - Use direct, specific descriptions of the apps. Avoid em dashes, repetitive slogan pairs, forced dog puns, and vague claims like “your stats, your way”.
@@ -65,7 +68,7 @@ python3 -m http.server 8000     # or serve over HTTP
 
 ## Browser and Search Icons
 - Use fetchable icon files, not data URIs. Root `favicon.svg`, `favicon.ico`, `favicon-96x96.png`, `icon-192x192.png`, and `apple-touch-icon.png` share the existing dragon artwork on a square ink background. Hold Up pages use these brand icons.
-- PixelPup pages keep their paw icon with the equivalent files under `pixelpup/assets/`.
+- PixelPup, vedro, and Evido pages keep their own icon (paw / route mark / E monogram) with the equivalent files under `pixelpup/assets/`, `vedro/assets/`, and `evido/assets/`.
 - Each page declares ICO, PNG, SVG, and Apple touch fallbacks. The hostname homepage provides Google's site-wide search favicon; product subdirectories do not get separate Google search icons.
-- Homepage and Hold Up share images are `assets/social-preview.png` and `holdup/assets/social-preview.png` (1200 × 630). PixelPup keeps its existing 1440 × 720 image. Keep Open Graph metadata dimensions aligned with the files.
+- Homepage and Hold Up share images are `assets/social-preview.png` and `holdup/assets/social-preview.png` (1200 × 630); vedro and Evido use the same dimensions at `vedro/assets/social-preview.png` and `evido/assets/social-preview.png`. PixelPup keeps its existing 1440 × 720 image. Keep Open Graph metadata dimensions aligned with the files.
 - Google can take days or weeks to recrawl icon changes. Do not keep changing icon URLs to force refreshes.

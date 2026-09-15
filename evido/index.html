@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evido | Paperless receipts for Croatian businesses</title>
+<meta name="description" content="Evido turns paper R1 receipts into digital records. Workers photograph a receipt, owners get a monthly overview, and accountants get a ready-to-import e-invoice.">
+<meta name="theme-color" content="#0F766E">
+<link rel="canonical" href="https://www.danyzmaj.com/evido/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Evido | Paperless receipts for Croatian businesses">
+<meta property="og:description" content="Photograph a receipt and Evido reads the data. Owners get a monthly overview; accountants get a ready-to-import e-invoice for every receipt.">
+<meta property="og:url" content="https://www.danyzmaj.com/evido/">
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image" content="https://www.danyzmaj.com/evido/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Evido app icon: a white letter E on a teal background">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/evido/assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/evido/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/evido/assets/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/evido/assets/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/evido/assets/apple-touch-icon.png" sizes="180x180">
+<style>
+:root{--teal:#0F766E;--teal-deep:#0B4B45;--ink:#0B1220;--bone:#F1F9F7;--muted:#4F6461;--line:#D9EAE6;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bone);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{margin:0;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+p{margin:0;line-height:1.6}
+.wrap{width:min(1080px,calc(100% - 64px));margin-inline:auto}
+.hero{background:linear-gradient(160deg,#14958C 0%,#0B4B45 100%);color:#fff}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:28px 0 0;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:-.02em;color:#fff}
+.brand img{width:30px;height:30px;border-radius:8px;display:block}
+nav.top-nav{display:flex;gap:28px;font-size:14px;font-weight:600}
+nav.top-nav a{text-decoration:none;color:rgba(255,255,255,.85)}
+nav.top-nav a:hover{color:#fff}
+.hero-body{padding:72px 0 88px;display:grid;gap:20px;max-width:640px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);border-radius:999px;padding:7px 14px;width:fit-content}
+.kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+h1{font-size:clamp(48px,8vw,80px);font-weight:800}
+.hero-body p.lead{font-size:19px;color:rgba(255,255,255,.92);max-width:48ch}
+.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:8px}
+.primary{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--teal-deep);border-radius:999px;padding:15px 24px;text-decoration:none;font-weight:800;font-size:15px;transition:transform .2s var(--ease)}
+.primary:hover{transform:translateY(-2px)}
+.hero-cta .note{font-size:13px;color:rgba(255,255,255,.78)}
+.screens{background:#fff;border-top:1px solid var(--line);padding:56px 0}
+.screens h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:10px}
+.screens>.wrap>p{color:var(--muted);max-width:58ch;margin-bottom:32px}
+.screen-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.screen{text-align:center}
+.screen .frame{background:#0B1220;border-radius:34px;padding:10px;box-shadow:0 30px 60px -24px rgba(11,18,32,.4)}
+.screen img{display:block;width:100%;border-radius:26px}
+.screen figcaption{margin-top:14px;font-size:14px;color:var(--muted)}
+.screen figcaption b{color:var(--ink)}
+.features{padding:64px 0}
+.features h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:36px}
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.feature{border:1px solid var(--line);border-radius:18px;padding:26px;background:#fff}
+.feature h3{font-size:19px;margin-bottom:10px}
+.feature p{color:var(--muted);font-size:15px}
+.status{background:var(--ink);color:#fff}
+.status-inner{padding:64px 0;display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between}
+.status h2{font-size:clamp(24px,3vw,30px);margin-bottom:12px}
+.status p{color:rgba(255,255,255,.72);max-width:48ch}
+.status .primary{background:#5EEAD4;color:var(--teal-deep)}
+.support{padding:64px 0}
+.support h2{font-size:clamp(24px,3vw,30px);margin-bottom:14px}
+.support p{color:var(--muted);max-width:54ch;margin:8px 0}
+.support .email{display:inline-block;margin-top:14px;font-weight:800;font-size:18px;text-decoration:none;color:var(--teal-deep)}
+.support .email:hover{text-decoration:underline}
+footer{border-top:1px solid var(--line);padding:28px 0 40px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
+footer a{text-decoration:none}
+footer a:hover{text-decoration:underline}
+footer nav{display:flex;gap:18px}
+@media(max-width:720px){.feature-grid,.screen-grid{grid-template-columns:1fr}nav.top-nav{display:none}.status-inner{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="hero">
+<div class="wrap">
+<header class="top">
+<a class="brand" href="/evido/"><img src="assets/icon-192x192.png" alt="" width="30" height="30">Evido</a>
+<nav class="top-nav" aria-label="Main navigation"><a href="#screens">Product</a><a href="#status">Status</a><a href="#support">Support</a></nav>
+</header>
+<div class="hero-body">
+<span class="kicker">Business · Pre-launch</span>
+<h1>Receipts, without the paper.</h1>
+<p class="lead">A worker photographs an R1 receipt and Evido reads the merchant, date, VAT ID, amount, and fiscal codes automatically. Owners get one overview across the whole team. Accountants get a ready-to-import e-invoice for every receipt.</p>
+<div class="hero-cta">
+<a class="primary" href="mailto:danijel@danyzmaj.com?subject=Evido%20early%20access">Ask about early access <span aria-hidden="true">↗</span></a>
+<span class="note">iOS &amp; Android · for businesses in Croatia</span>
+</div>
+</div>
+</div>
+</div>
+<section class="screens" id="screens">
+<div class="wrap">
+<h2>Two views, one set of receipts.</h2>
+<p>Screens from the working app. The interface is in Croatian, Evido's primary market.</p>
+<div class="screen-grid">
+<figure class="screen">
+<div class="frame"><img src="assets/screen-worker.png" alt="Evido worker view listing five scanned receipts for September 2026, with one flagged for a rescan" width="450" height="1000" loading="lazy"></div>
+<figcaption><b>Worker</b> — this month's scanned receipts, with a rescan flagged in red.</figcaption>
+</figure>
+<figure class="screen">
+<div class="frame"><img src="assets/screen-owner.png" alt="Evido owner dashboard showing receipt count, monthly total, and per-worker status filters" width="450" height="1000" loading="lazy"></div>
+<figcaption><b>Owner</b> — every worker's receipts in one monthly overview, with send status per receipt.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section class="features" id="features">
+<div class="wrap">
+<h2>Built around the R1 receipt.</h2>
+<div class="feature-grid">
+<article class="feature">
+<h3>Snap a photo, done</h3>
+<p>Point the camera at a receipt. Evido reads the date, merchant, VAT ID (OIB), amount, VAT, and the fiscal codes (JIR/ZKI) — no retyping.</p>
+</article>
+<article class="feature">
+<h3>Works without signal</h3>
+<p>Scans queue on the device and send the moment the connection returns, so nothing is lost on a job site with no reception.</p>
+</article>
+<article class="feature">
+<h3>One overview for every worker</h3>
+<p>Owners see every receipt across the whole team, by month, filterable by worker, company, or status — and can flag one for a rescan.</p>
+</article>
+<article class="feature">
+<h3>Ready for the accountant</h3>
+<p>Every receipt exports as a UBL 2.1 e-invoice (EN 16931) alongside its PDF — one at a time, or the whole month as a single ZIP.</p>
+</article>
+</div>
+</div>
+</section>
+<section class="status" id="status">
+<div class="wrap status-inner">
+<div>
+<h2>Where it stands</h2>
+<p>Evido is pre-launch, built for businesses in Croatia. Company data is stored in the EU (Frankfurt); there are no ads and no third-party tracking.</p>
+</div>
+<a class="primary" href="mailto:danijel@danyzmaj.com?subject=Evido%20early%20access">Get in touch <span aria-hidden="true">↗</span></a>
+</div>
+</section>
+<main>
+<section class="support wrap" id="support">
+<h2>Questions, or want early access for your company?</h2>
+<p>I'm Danijel, the developer. Tell me a bit about your business and I'll follow up.</p>
+<p>Read how receipt and account data is handled in the <a href="/evido/privacy/">privacy policy</a>.</p>
+<a class="email" href="mailto:danijel@danyzmaj.com?subject=Evido">danijel@danyzmaj.com ↗</a>
+</section>
+</main>
+<footer>
+<div class="wrap">
+<a href="/">danyzmaj.com</a>
+<nav aria-label="Footer"><a href="/evido/privacy/">Privacy</a><a href="mailto:danijel@danyzmaj.com">Support</a></nav>
+</div>
+</footer>
+</body>
+</html>

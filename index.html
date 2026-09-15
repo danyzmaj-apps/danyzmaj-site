@@ -201,11 +201,12 @@ html:has(#projects:target) .projects-link{visibility:hidden}
 .mini-sign span{position:absolute;inset:15% 9% 15% 12%;display:grid;place-items:center}
 .mini-sign img{position:relative;width:100%;height:auto;display:block}
 .project-pup{background:var(--meadow);color:var(--forest)}
-.mini-watch{width:clamp(132px,25vh,280px);aspect-ratio:1;border:8px solid var(--forest);border-radius:50%;position:relative;overflow:hidden;background:var(--meadow);transform:rotate(7deg);transition:transform 400ms var(--reveal)}
+.mini-watch{width:clamp(132px,25vh,280px);aspect-ratio:1;border:8px solid var(--forest);border-radius:50%;position:relative;overflow:hidden;background:var(--meadow)}
+.mini-sign,.mini-watch{transform:rotate(7deg);transition:transform 400ms var(--reveal)}
 .mini-watch::before{content:"";position:absolute;inset:60% 0 0;background:var(--grass);clip-path:polygon(0 20%,35% 0,70% 28%,100% 8%,100% 100%,0 100%)}
 .mini-watch time{position:absolute;top:15%;left:12%;font:800 clamp(24px,5vh,54px)/1 Arial,sans-serif;letter-spacing:-.06em}
 .mini-watch img{position:absolute;height:56%;width:auto;right:12%;bottom:8%;image-rendering:pixelated}
-.project:hover .mini-watch,.project:focus-visible .mini-watch{transform:rotate(0)}
+.project:hover .mini-sign,.project:hover .mini-watch,.project:focus-visible .mini-sign,.project:focus-visible .mini-watch{transform:rotate(0)}
 .project-info{border-top:1px solid color-mix(in srgb,var(--bone) 25%,var(--ink));margin-top:22px;padding-top:18px;display:flex;justify-content:space-between;align-items:baseline;gap:16px}
 .project-info h3{font:500 clamp(23px,3vw,36px)/1.2 var(--mono);letter-spacing:-.06em;margin:0}
 .project-info span{font:400 24px/1 var(--mono);color:var(--ember)}

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="helmCardTitle helmCardDesc">
+<title id="helmCardTitle">Helm inbox</title>
+<desc id="helmCardDesc">Illustration of Helm's inbox screen: a day-grouped digest of project events including a daily summary, a sync error, a stale-project notice, a task assignment and a release, each tagged with the source project and a relative time.</desc>
+<defs>
+<pattern id="helmDots" width="28" height="28" patternUnits="userSpaceOnUse">
+<circle cx="2" cy="2" r="1.1" fill="#FFFFFF" opacity="0.06"/>
+</pattern>
+</defs>
+<rect width="1000" height="700" fill="#2B1A42"/>
+<rect width="1000" height="700" fill="url(#helmDots)"/>
+<path d="M0,700 L0,560 Q260,470 520,560 T1000,540 L1000,700 Z" fill="#3A2456" opacity="0.6"/>
+
+<text x="60" y="42" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="19" font-weight="800" letter-spacing="-0.01em" fill="#F4EEFB">Helm</text>
+<text x="60" y="58" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" fill="#C9B8DE">One inbox for every side project</text>
+
+<!-- window shadow -->
+<rect x="78" y="86" width="882" height="574" rx="12" fill="#150C22" opacity="0.35"/>
+<!-- window -->
+<rect x="60" y="70" width="882" height="574" rx="12" fill="#FAFAF9"/>
+
+<!-- header bar -->
+<path d="M60,82 Q60,70 72,70 H930 Q942,70 942,82 V126 H60 Z" fill="#FFFFFF"/>
+<line x1="60" y1="126" x2="942" y2="126" stroke="#E4E4E7" stroke-width="1.5"/>
+
+<g font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<text x="88" y="104" font-size="17" font-weight="800" fill="#18181B">Helm</text>
+<text x="168" y="104" font-size="13" fill="#71717A">Projects</text>
+<text x="246" y="104" font-size="13" fill="#71717A">Chat</text>
+<text x="300" y="104" font-size="13" font-weight="700" fill="#2563EB">Inbox</text>
+<circle cx="345" cy="98" r="9" fill="#2563EB"/>
+<text x="345" y="102" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+<text x="368" y="104" font-size="13" fill="#71717A">Settings</text>
+</g>
+<circle cx="900" cy="98" r="13" fill="#D4D4D8"/>
+<text x="878" y="103" text-anchor="end" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" fill="#3F3F46">d.zmaj</text>
+
+<!-- body -->
+<rect x="60" y="126" width="882" height="518" fill="#FAFAF9"/>
+<text x="88" y="170" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="23" font-weight="700" fill="#18181B">Inbox</text>
+<text x="914" y="170" text-anchor="end" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" fill="#A1A1AA">Mark all read</text>
+
+<text x="88" y="206" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="0.08em" fill="#A1A1AA">MONDAY, 14 SEPTEMBER</text>
+
+<!-- row 1: daily summary -->
+<g transform="translate(88,222)">
+<circle cx="16" cy="20" r="16" fill="#DBEAFE"/>
+<rect x="8" y="12" width="16" height="16" rx="1.5" fill="none" stroke="#1E40AF" stroke-width="1.8"/>
+<line x1="11" y1="17" x2="21" y2="17" stroke="#1E40AF" stroke-width="1.6"/>
+<line x1="11" y1="21" x2="21" y2="21" stroke="#1E40AF" stroke-width="1.6"/>
+<line x1="11" y1="25" x2="17" y2="25" stroke="#1E40AF" stroke-width="1.6"/>
+<text x="44" y="16" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#18181B">Daily summary</text>
+<text x="44" y="34" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" fill="#71717A">orbitctl &#183; shipped 3 commits, 2 tasks closed</text>
+<text x="826" y="24" text-anchor="end" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" fill="#A1A1AA">2 hours ago</text>
+</g>
+<line x1="88" y1="266" x2="914" y2="266" stroke="#E4E4E7" stroke-width="1.5"/>
+
+<!-- row 2: sync error -->
+<g transform="translate(88,282)">
+<circle cx="16" cy="20" r="16" fill="#FEF3C7"/>
+<path d="M16,10 L27,29 H5 Z" fill="none" stroke="#92400E" stroke-width="1.8" stroke-linejoin="round"/>
+<line x1="16" y1="18" x2="16" y2="23" stroke="#92400E" stroke-width="1.8" stroke-linecap="round"/>
+<circle cx="16" cy="26.5" r="1.1" fill="#92400E"/>
+<text x="44" y="16" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#18181B">Sync error</text>
+<text x="44" y="34" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" fill="#71717A">ledgerkit &#183; GitHub token needs re-authorization</text>
+<text x="826" y="24" text-anchor="end" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" fill="#A1A1AA">5 hours ago</text>
+</g>
+<line x1="88" y1="326" x2="914" y2="326" stroke="#E4E4E7" stroke-width="1.5"/>
+
+<!-- row 3: stale project -->
+<g transform="translate(88,342)">
+<circle cx="16" cy="20" r="16" fill="#F4F4F5"/>
+<path d="M22,11 A10,10 0 1 0 22,29 A8,8 0 0 1 22,11 Z" fill="#71717A"/>
+<text x="44" y="16" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#18181B">Stale project</text>
+<text x="44" y="34" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" fill="#71717A">tempo-cli &#183; no activity for 14 days</text>
+<text x="826" y="24" text-anchor="end" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" fill="#A1A1AA">yesterday</text>
+</g>
+
+<text x="88" y="422" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="0.08em" fill="#A1A1AA">SUNDAY, 13 SEPTEMBER</text>
+
+<!-- row 4: task assigned -->
+<g transform="translate(88,438)">
+<circle cx="16" cy="20" r="16" fill="#D1FAE5"/>
+<path d="M9,20 L14,25 L23,14" fill="none" stroke="#047857" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="44" y="16" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#18181B">Task assigned</text>
+<text x="44" y="34" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" fill="#71717A">beacon &#183; &#8220;Wire push notifications&#8221; assigned to you</text>
+<text x="826" y="24" text-anchor="end" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" fill="#A1A1AA">2 days ago</text>
+</g>
+<line x1="88" y1="482" x2="914" y2="482" stroke="#E4E4E7" stroke-width="1.5"/>
+
+<!-- row 5: release -->
+<g transform="translate(88,498)">
+<circle cx="16" cy="20" r="16" fill="#FFEDD5"/>
+<path d="M16,9 C21,13 22,20 19,26 L13,26 C10,20 11,13 16,9 Z" fill="#C2410C"/>
+<path d="M13,26 L11,32 L16,29 L21,32 L19,26 Z" fill="#C2410C"/>
+<circle cx="16" cy="17" r="2" fill="#FFEDD5"/>
+<text x="44" y="16" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#18181B">Release</text>
+<text x="44" y="34" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" fill="#71717A">driftwood &#183; v0.9.2 published</text>
+<text x="826" y="24" text-anchor="end" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" fill="#A1A1AA">3 days ago</text>
+</g>
+
+<text x="500" y="672" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" fill="#BFA9DA">Illustrative sample inbox and project names. Not real data.</text>
+</svg>

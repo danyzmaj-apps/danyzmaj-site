@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helm | A personal inbox for side projects</title>
+<meta name="description" content="Helm is a self-hosted inbox that watches your side projects on GitHub and tells you what actually needs attention: sync errors, stale builds, idle pull requests, assigned tasks, releases.">
+<meta name="theme-color" content="#2B1A42">
+<link rel="canonical" href="https://www.danyzmaj.com/helm/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Helm | A personal inbox for side projects">
+<meta property="og:description" content="A self-hosted inbox that watches your side projects on GitHub and surfaces sync errors, stale builds, idle pull requests, assigned tasks, and releases in one day-grouped list.">
+<meta property="og:url" content="https://www.danyzmaj.com/helm/">
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image" content="https://www.danyzmaj.com/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="danyzmaj">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<style>
+/* Design contract: a plum-and-brass control room, not a marketing hero.
+   THESIS: Helm's whole job is deciding what deserves your attention, so
+   the page reads like an instrument panel: dark plum ground, brass rule
+   lines, uppercase mono ledger labels. OWN-WORLD: deep plum/indigo
+   (#2B1A42) with a brass accent, distinct from Shipyard's graphite and
+   from Vedro/Evido's bright product palettes; any embedded UI is rendered
+   in the app's real light-zinc surface, never recolored to match the page.
+   STORY: every screen is a shift from panel (plum, what watches) to
+   surface (zinc, what you'd actually see signed in), so the two feel like
+   instrument and cargo rather than one wash of color. No gradients, no
+   external requests beyond this file and /helm/assets. */
+:root{--plum:#211533;--panel:#2E1E48;--panel2:#3A2456;--line:#4A3568;--bone:#F1E9FB;--mist:#B9A6D6;--brass:#D8B563;--paper:#FAFAF9;--paper-ink:#18181B;--paper-line:#E4E4E7;--paper-muted:#71717A;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;--mono:'SFMono-Regular',Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--plum);color:var(--bone);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
+p{margin:0;line-height:1.65}
+.wrap{width:min(1180px,calc(100% - 48px));margin-inline:auto}
+header.top{border-bottom:1px solid var(--line)}
+header.top>.wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:22px;letter-spacing:.02em;color:var(--bone)}
+.brand .mark{width:34px;height:34px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:15px;color:var(--brass)}
+nav.top-nav{display:flex;gap:24px;font-size:13px;font-weight:700;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
+nav.top-nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:var(--mist)}
+nav.top-nav a:hover,nav.top-nav a:focus-visible{color:var(--bone)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+
+main{display:block}
+.brief{padding:56px 0 48px}
+.brief>.wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:52px;align-items:center}
+.status-line{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-family:var(--mono);font-size:12.5px;color:var(--mist);text-transform:uppercase;letter-spacing:.04em}
+.status-line .dot{width:7px;height:7px;border-radius:99px;background:var(--brass);display:inline-block}
+.brief h1{margin-top:18px;font-size:clamp(38px,4.4vw,60px);letter-spacing:-.03em}
+.brief .lead{margin-top:20px;font-size:19px;color:var(--bone);max-width:52ch}
+.brief .sub{margin-top:14px;font-size:15.5px;color:var(--mist);max-width:60ch}
+.services{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
+.service{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:12.5px;color:var(--bone);background:var(--panel)}
+.actions{margin-top:30px;display:flex;flex-wrap:wrap;gap:16px}
+.cta{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;background:var(--brass);color:#241536;text-decoration:none;font-weight:800;font-size:15px;border-radius:4px}
+.cta.ghost{background:transparent;color:var(--bone);border:1px solid var(--line)}
+
+section{border-top:1px solid var(--line)}
+section>.wrap{padding:52px 0}
+.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px}
+h2{font-size:clamp(24px,3vw,30px)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--brass);font-weight:700}
+.lede{margin-top:14px;max-width:66ch;color:var(--mist);font-size:15.5px}
+
+.ledger{margin-top:32px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.ledger-row{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;padding:18px 20px;border-top:1px solid var(--line)}
+.ledger-row:first-child{border-top:none}
+.ledger-row .icon{width:34px;height:34px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.ledger-row .icon::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--brass)}
+.ledger-row:nth-child(2) .icon::before{background:#EE8A84}
+.ledger-row:nth-child(3) .icon::before{background:var(--mist)}
+.ledger-row:nth-child(7) .icon::before{background:#78C4A0}
+.ledger-row h3{font-size:15.5px}
+.ledger-row p{margin-top:4px;font-size:14px;color:var(--mist)}
+.ledger-row .when{font-family:var(--mono);font-size:11.5px;color:var(--mist);white-space:nowrap;padding-top:8px}
+.rule-note{margin-top:18px;font-size:13.5px;color:var(--mist);font-family:var(--mono)}
+.rule-note b{color:var(--brass)}
+
+.visual{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.visual img{display:block;width:100%;height:auto}
+.visual figcaption{padding:12px 20px;font-family:var(--mono);font-size:11.5px;color:var(--mist);border-top:1px solid var(--line)}
+
+.stage-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;list-style:none;padding:0}
+.stage-strip li{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 14px;border-radius:999px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.02em}
+.stage-idea{background:#3F3F46;color:#E4E4E7}
+.stage-building{background:#1E3A8A;color:#DBEAFE}
+.stage-beta{background:#92400E;color:#FEF3C7}
+.stage-live{background:#065F46;color:#D1FAE5}
+.stage-paused{background:#9A3412;color:#FFEDD5}
+.stage-archived{background:#27272A;color:#A1A1AA}
+
+.board{background:var(--paper);color:var(--paper-ink);border-radius:10px;border:1px solid var(--paper-line);margin-top:32px;overflow:hidden}
+.board-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--paper-line)}
+.board-bar b{font-size:14.5px}
+.board-bar span{font-family:var(--mono);font-size:11.5px;color:var(--paper-muted)}
+.board-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:18px 20px}
+.board-col h4{margin:0 0 10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-muted)}
+.board-card{border:1px solid var(--paper-line);background:#FAFAFA;border-radius:6px;padding:10px 12px;font-size:13.5px;margin-bottom:8px}
+.board-card:last-child{margin-bottom:0}
+.board-card .tag{display:inline-block;margin-top:6px;font-family:var(--mono);font-size:10.5px;padding:2px 6px;border-radius:4px}
+.tag-overdue{background:#FEE2E2;color:#B91C1C}
+.tag-soon{background:#FEF3C7;color:#92400E}
+.tag-open{background:#D1FAE5;color:#047857}
+
+.specs{display:grid;grid-template-columns:190px 1fr;gap:18px 28px;margin-top:30px}
+.specs dt{margin:0;font-weight:800;font-size:14.5px;font-family:var(--mono)}
+.specs dd{margin:0;color:var(--mist);font-size:14.5px;line-height:1.6}
+
+.agent-sample{margin-top:28px;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:20px 22px}
+.agent-sample .q{font-family:var(--mono);font-size:12.5px;color:var(--brass);text-transform:uppercase;letter-spacing:.05em}
+.agent-sample .a{margin-top:12px;font-size:14.5px;color:var(--bone)}
+.agent-sample ul{margin:10px 0 0;padding-left:18px;color:var(--mist);font-size:14px}
+.agent-sample li{margin-top:4px}
+
+.support{background:var(--panel)}
+.support .email{display:inline-flex;align-items:center;min-height:44px;margin-top:16px;font-weight:800;font-size:18px;text-decoration:none;color:var(--bone);border-bottom:2px solid var(--brass)}
+.support .email:hover{border-bottom-color:var(--bone)}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--mist)}
+footer a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+footer a:hover{text-decoration:underline}
+
+@media(max-width:900px){.brief>.wrap{grid-template-columns:1fr;gap:32px}}
+@media(max-width:760px){.wrap{width:calc(100% - 32px)}.brief{padding:36px 0}nav.top-nav a[href="#board"],nav.top-nav a[href="#under-the-hood"]{display:none}.specs{grid-template-columns:1fr;gap:6px}.specs dt:not(:first-child){margin-top:16px}.board-cols{grid-template-columns:1fr}.ledger-row{grid-template-columns:auto 1fr;padding:16px}.ledger-row .when{grid-column:2;padding-top:2px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="wrap">
+<a class="brand" href="/helm/"><span class="mark" aria-hidden="true">H</span>Helm</a>
+<nav class="top-nav" aria-label="Main navigation"><a href="#inbox">The inbox</a><a href="#board">The board</a><a href="#under-the-hood">Under the hood</a><a href="#support">Support</a></nav>
+</div>
+</header>
+<main>
+<section class="brief">
+<div class="wrap">
+<div>
+<p class="status-line"><span class="dot" aria-hidden="true"></span>Personal tool &middot; self-hosted &middot; no public sign-up</p>
+<h1>One inbox for every side project you're running.</h1>
+<p class="lead">Helm watches the GitHub repos behind your side projects and turns their activity into a single, day-grouped inbox: what shipped, what broke, what's gone quiet, and what still needs you.</p>
+<p class="sub">It's a private instance one person runs for themselves, with a short allowlist of GitHub accounts permitted to sign in. There's no hosted product and nothing to install from a store.</p>
+<div class="services" aria-label="Services Helm depends on">
+<span class="service">GitHub: OAuth sign-in &amp; repo sync</span>
+<span class="service">Supabase: database, auth, storage</span>
+<span class="service">OpenAI: chat agent</span>
+</div>
+<div class="actions">
+<a class="cta" href="#inbox">See what lands in the inbox</a>
+<a class="cta ghost" href="#support">Support</a>
+</div>
+</div>
+<figure class="visual">
+<img src="assets/card-preview.svg" width="1000" height="700" alt="Helm inbox screen showing a day-grouped list: a daily summary, a sync error, a stale-project notice, a task assignment, and a release, each labelled with its project and a relative time.">
+<figcaption>Sample inbox with invented project names and timestamps. Not a real account.</figcaption>
+</figure>
+</div>
+</section>
+
+<section id="inbox">
+<div class="wrap">
+<p class="eyebrow">The inbox</p>
+<div class="section-head">
+<h2>Every project reports into one list, grouped by day.</h2>
+</div>
+<p class="lede">A daily job syncs each active repo, then Helm decides what's worth surfacing. Nothing shows up just because something happened; it shows up because it changed a project's state.</p>
+<div class="ledger">
+<div class="ledger-row">
+<span class="icon" aria-hidden="true"></span>
+<div><h3>Daily / weekly summary</h3><p>A written recap of what moved on a project since the last one: commits, closed tasks, open pull requests.</p></div>
+<span class="when">daily 05:00 &middot; weekly Mon 06:00</span>
+</div>
+<div class="ledger-row">
+<span class="icon" aria-hidden="true"></span>
+<div><h3>Sync error</h3><p>The GitHub sync for a project failed, usually an expired or revoked token that needs reconnecting in Settings.</p></div>
+<span class="when">on failure</span>
+</div>
+<div class="ledger-row">
+<span class="icon" aria-hidden="true"></span>
+<div><h3>Stale project</h3><p>A project marked Building or Beta has had no activity for 14 days straight.</p></div>
+<span class="when">daily check</span>
+</div>
+<div class="ledger-row">
+<span class="icon" aria-hidden="true"></span>
+<div><h3>Task assigned</h3><p>Someone assigned a task on the project board to you.</p></div>
+<span class="when">on assignment</span>
+</div>
+<div class="ledger-row">
+<span class="icon" aria-hidden="true"></span>
+<div><h3>Task due</h3><p>A task on the board is coming up on, or has passed, its due date.</p></div>
+<span class="when">daily check</span>
+</div>
+<div class="ledger-row">
+<span class="icon" aria-hidden="true"></span>
+<div><h3>Idle pull request</h3><p>An open pull request hasn't been updated in 3 days.</p></div>
+<span class="when">daily check</span>
+</div>
+<div class="ledger-row">
+<span class="icon" aria-hidden="true"></span>
+<div><h3>Release</h3><p>A new GitHub release or tag was published for a synced repo.</p></div>
+<span class="when">on publish</span>
+</div>
+</div>
+<p class="rule-note">The 14-day stale rule and the 3-day idle-PR window only apply to <b>Building</b> and <b>Beta</b> projects. A project you've paused or archived is expected to sit quietly.</p>
+</div>
+</section>
+
+<section id="board">
+<div class="wrap">
+<p class="eyebrow">The project board</p>
+<div class="section-head">
+<h2>Behind every inbox item is one project's page.</h2>
+</div>
+<p class="lede">Each project moves through a fixed set of stages, keeps its own three-column task board, notes, docs, and an activity feed built from the same GitHub sync that feeds the inbox.</p>
+<ul class="stage-strip" aria-label="Project stages">
+<li class="stage-idea">Idea</li>
+<li class="stage-building">Building</li>
+<li class="stage-beta">Beta</li>
+<li class="stage-live">Live</li>
+<li class="stage-paused">Paused</li>
+<li class="stage-archived">Archived</li>
+</ul>
+<div class="board" aria-label="Sample task board, not real data">
+<div class="board-bar"><b>orbitctl &middot; Task board</b><span>sample data</span></div>
+<div class="board-cols">
+<div class="board-col">
+<h4>To do (2)</h4>
+<div class="board-card">Write release notes</div>
+<div class="board-card">Add CSV export for task board<span class="tag tag-open">open</span></div>
+</div>
+<div class="board-col">
+<h4>Doing (1)</h4>
+<div class="board-card">Fix crash on resume after background upload<span class="tag tag-soon">due soon</span></div>
+</div>
+<div class="board-col">
+<h4>Done (1)</h4>
+<div class="board-card">Set up TestFlight beta group<span class="tag tag-overdue">was overdue</span></div>
+</div>
+</div>
+</div>
+<p class="rule-note">Cards move with drag-and-drop or plain buttons, so the board works with JavaScript off. Each project also keeps notes, markdown docs, and a contributor list drawn straight from GitHub commit authorship.</p>
+</div>
+</section>
+
+<section id="under-the-hood">
+<div class="wrap">
+<p class="eyebrow">Under the hood</p>
+<div class="section-head">
+<h2>What it's built on, and why that's not a secret.</h2>
+</div>
+<p class="lede">This isn't a packaged product, so its dependencies are part of what it is rather than an implementation detail worth hiding.</p>
+<dl class="specs">
+<dt>Runtime</dt><dd>A SvelteKit app deployed to Vercel, with two Vercel cron jobs (daily and weekly) driving the sync and summary work.</dd>
+<dt>Data</dt><dd>Supabase Postgres holds projects, tasks, notes, docs, releases, and inbox events behind row-level security.</dd>
+<dt>Sign-in</dt><dd>GitHub OAuth against a short allowlist of accounts added by hand in Settings; anyone else's GitHub login is turned away.</dd>
+<dt>Repo sync</dt><dd>Each project's GitHub token pulls commits, pull requests, issues, and releases into Postgres on a schedule.</dd>
+<dt>Chat</dt><dd>A chat panel backed by an OpenAI account (connected per user, ChatGPT-plan aware) drives an agent with read-only tools over the synced data.</dd>
+</dl>
+<div class="agent-sample" aria-label="Sample chat exchange, not a real conversation">
+<p class="q">Sample &middot; asked in the chat panel</p>
+<p class="a">&#8220;What changed this week?&#8221;</p>
+<ul>
+<li>Reads back recent commits, open pull requests, and closed tasks for the project</li>
+<li>Can draft release notes from merged PRs and commits since the last tag</li>
+<li>Can list issues, releases, and cross-project status on request</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="support" id="support">
+<div class="wrap">
+<p class="eyebrow">Support</p>
+<h2>Questions about Helm</h2>
+<p class="lede">Helm isn't a public product with a sign-up flow or a support queue, but if something here needs clarifying, get in touch directly.</p>
+<a class="email" href="mailto:danijel@danyzmaj.com">danijel@danyzmaj.com</a>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap">
+<a href="/">danyzmaj.com</a>
+<span>Helm / personal, self-hosted</span>
+</div>
+</footer>
+</body>
+</html>

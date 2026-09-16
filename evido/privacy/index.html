@@ -4,25 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Evido | Privacy policy</title>
-<meta name="description" content="Evido privacy policy: what receipt, account, and company data the app collects, where it's stored, and how to request deletion.">
+<meta name="description" content="Evido privacy policy: what receipt, account, and company data the app collects, which infrastructure providers process it, and how to request deletion.">
 <meta name="theme-color" content="#0B4B45">
 <link rel="canonical" href="https://www.danyzmaj.com/evido/privacy/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Evido | Privacy policy">
-<meta property="og:description" content="What receipt, account, and company data Evido collects, where it's stored, and how to request deletion.">
+<meta property="og:description" content="What receipt, account, and company data Evido collects, which infrastructure providers process it, and how to request deletion.">
 <meta property="og:url" content="https://www.danyzmaj.com/evido/privacy/">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/evido/assets/social-preview.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Evido app icon: a white letter E on a teal background">
+<meta property="og:image:alt" content="Evido sample receipt becoming a structured record and PDF/XML exports">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/evido/assets/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" href="/evido/assets/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/png" href="/evido/assets/icon-192x192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="/evido/assets/favicon.svg" sizes="any">
 <link rel="apple-touch-icon" href="/evido/assets/apple-touch-icon.png" sizes="180x180">
+<!-- Design contract: plain-text policy page matching the site's privacy-page pattern (see
+     /pixelpup/privacy/); data-flow claims here are drawn from apps/mobile, packages/evido_core
+     and the Supabase schema/functions, not from aspirational copy. -->
 <style>
 :root{--ink:#0B1220;--bone:#F1F9F7;--teal-deep:#0B4B45;--muted:#4F6461;--line:#D9EAE6}
 *{box-sizing:border-box}
@@ -60,28 +63,32 @@ footer a:hover{text-decoration:underline}
 <p class="lead"><strong>Data controller:</strong> Danijel Lovrić, contact <a href="mailto:danijel@danyzmaj.com">danijel@danyzmaj.com</a>.</p>
 
 <h2>What Evido collects</h2>
-<p>Evido is built for businesses in Croatia to digitize R1 receipts. Owners sign in with email and password; workers don't have their own email address — an owner creates their access inside the app. What's collected:</p>
+<p>Evido is built for businesses in Croatia to digitize R1 receipts. Owners sign in with email and password; workers don't have their own email address. An owner or admin creates their account inside the app, with a system-generated placeholder address used only to satisfy the login system. What's collected:</p>
 <table>
 <tr><th>Data</th><th>Purpose</th></tr>
 <tr><td>Email address (owners)</td><td>Sign-in and account management</td></tr>
 <tr><td>Name</td><td>Showing who scanned a receipt</td></tr>
-<tr><td>Receipt photos (camera or gallery)</td><td>Core function — reading receipt data</td></tr>
-<tr><td>Receipt data (merchant, date, amounts, VAT, OIB, JIR/ZKI)</td><td>Core function — building digital and e-invoice records</td></tr>
+<tr><td>Receipt photos (camera or gallery)</td><td>Core function. Reading receipt data</td></tr>
+<tr><td>Receipt data (merchant, date, amounts, VAT, OIB, JIR/ZKI)</td><td>Core function. Building digital records and e-invoices</td></tr>
 <tr><td>Company details (name, OIB, address)</td><td>Grouping receipts and workers under the right company</td></tr>
 </table>
-<p>Evido does not collect location, contacts, device identifiers, or diagnostic data.</p>
+<p>Text recognition runs on your device using Google ML Kit before the receipt photo is uploaded. Receipt capture does not need your location or contacts. Infrastructure and SDK providers may process technical request data under their own privacy terms.</p>
 
 <h2>Legal basis and purpose</h2>
-<p>Data is processed to maintain a company's R1 receipt records and produce PDFs and UBL e-invoices for accounting, under the performance of a contract (GDPR Art. 6.1.b).</p>
+<p>Data is processed to maintain a company's R1 receipt records and produce PDFs and, where a receipt's merchant tax ID reads validly, UBL 2.1 e-invoices for accounting, under the performance of a contract (GDPR Art. 6.1.b).</p>
 
-<h2>Where data is stored</h2>
-<p>Data is stored with Supabase Inc. in an EU data center (Frankfurt). Access is restricted to the company the data belongs to and its own workers — one company cannot see another's receipts.</p>
+<h2>Where data is stored and who processes it</h2>
+<p>Receipt photos, extracted receipt data, and account records are stored in a Supabase project hosted in Supabase's EU data center (Frankfurt); Supabase Inc. is a data processor acting on these instructions, not an independent recipient of the data. Access to a company's records is restricted by row-level database rules to that company's own owner and workers, plus the service administrator for support and maintenance. One company cannot see another's receipts.</p>
+<p>The owner-facing web dashboard is hosted on Vercel. Like most web hosts, Vercel's infrastructure processes visiting IP addresses and request logs as part of serving the page; this website (the one you're reading) is hosted on GitHub Pages, which does the same for its visitors. Neither is Evido-operated tracking.</p>
 
 <h2>Sharing</h2>
-<p>Data is not sold and is not shared with third parties. Evido contains no ads and no third-party tracking or analytics tools.</p>
+<p>Data is not sold. Evido uses infrastructure providers to store records and operate the service. An owner can export records for their accountant or other recipients they choose. Evido does not add advertising or third-party analytics trackers.</p>
 
 <h2>Retention and deletion</h2>
-<p>Data is kept for as long as a company uses Evido. To request deletion of an account or of all of a company's data, email <a href="mailto:danijel@danyzmaj.com">danijel@danyzmaj.com</a>; requests are handled within 30 days.</p>
+<p>Receipt records are retained to provide the company's record-keeping service. To request deletion of an account or a company's data, email <a href="mailto:danijel@danyzmaj.com">danijel@danyzmaj.com</a>. The company may have separate accounting or legal obligations to retain records, including copies it has exported.</p>
+
+<h2>Support correspondence</h2>
+<p>If you contact support, your email address, message, and any attachments are used to respond and investigate the issue. The email provider also processes that correspondence. Do not send passwords or unnecessary personal information in a support request.</p>
 
 <h2>Your rights</h2>
 <p>You can request access, correction, deletion, restricted processing, or object to processing by emailing <a href="mailto:danijel@danyzmaj.com">danijel@danyzmaj.com</a>. If you're in Croatia, you may also complain to <a href="https://azop.hr/">AZOP</a>, the Croatian data protection authority; if you're elsewhere in the EU, your local supervisory authority.</p>

@@ -3,151 +3,219 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Evido | Paperless receipts for Croatian businesses</title>
-<meta name="description" content="Evido turns paper R1 receipts into digital records. Workers photograph a receipt, owners get a monthly overview, and accountants get a ready-to-import e-invoice.">
-<meta name="theme-color" content="#0F766E">
+<title>Evido | Receipt-to-ledger for Croatian businesses</title>
+<meta name="description" content="Scan Croatian R1 receipts, review your team's monthly records, and export PDFs and UBL XML with Evido.">
+<meta name="theme-color" content="#0B4B45">
 <link rel="canonical" href="https://www.danyzmaj.com/evido/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Evido | Paperless receipts for Croatian businesses">
-<meta property="og:description" content="Photograph a receipt and Evido reads the data. Owners get a monthly overview; accountants get a ready-to-import e-invoice for every receipt.">
+<meta property="og:title" content="Evido | Receipt-to-ledger for Croatian businesses">
+<meta property="og:description" content="Scan Croatian R1 receipts, review your team's monthly records, and export PDFs and UBL XML with Evido.">
 <meta property="og:url" content="https://www.danyzmaj.com/evido/">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/evido/assets/social-preview.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Evido app icon: a white letter E on a teal background">
+<meta property="og:image:alt" content="Evido sample receipt becoming a structured record and PDF/XML exports">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/evido/assets/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" href="/evido/assets/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/png" href="/evido/assets/icon-192x192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="/evido/assets/favicon.svg" sizes="any">
 <link rel="apple-touch-icon" href="/evido/assets/apple-touch-icon.png" sizes="180x180">
+<!--
+  Design contract: deep-teal full-height hero carrying an oversized Evido wordmark plus the
+  authored receipt-to-ledger illustration (assets/card-preview.svg, reused verbatim on the
+  homepage card). Mint "worksheet" body below: sequential Scan/Review/Export steps, a native
+  radio-button Worker/Owner screenshot switcher (zero JavaScript, works with CSS alone), and a
+  capability list. No gradients, no pill badges, no boxed icon+heading+text tiles. Sample
+  receipt figures are illustrative and labelled as such; the app's own UI is Croatian, this
+  page's copy is English.
+-->
 <style>
-:root{--teal:#0F766E;--teal-deep:#0B4B45;--ink:#0B1220;--bone:#F1F9F7;--muted:#4F6461;--line:#D9EAE6;--ease:cubic-bezier(.16,1,.3,1)}
+:root{--teal:#0F766E;--teal-deep:#0B4B45;--mint:#5EEAD4;--ink:#0B1220;--bone:#F1F9F7;--muted:#4F6461;--line:#D9EAE6;--ease:cubic-bezier(.16,1,.3,1)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bone);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 h1,h2,h3{margin:0;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
 p{margin:0;line-height:1.6}
-.wrap{width:min(1080px,calc(100% - 64px));margin-inline:auto}
-.hero{background:linear-gradient(160deg,#14958C 0%,#0B4B45 100%);color:#fff}
-header.top{display:flex;align-items:center;justify-content:space-between;padding:28px 0 0;gap:24px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:-.02em;color:#fff}
-.brand img{width:30px;height:30px;border-radius:8px;display:block}
-nav.top-nav{display:flex;gap:28px;font-size:14px;font-weight:600}
-nav.top-nav a{text-decoration:none;color:rgba(255,255,255,.85)}
+.wrap{width:min(1280px,calc(100% - 80px));margin-inline:auto}
+:focus-visible{outline:3px solid var(--teal);outline-offset:4px}
+.hero :focus-visible,.status :focus-visible{outline-color:var(--mint)}
+
+/* ---------- hero ---------- */
+.hero{background:var(--teal-deep);color:#fff}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:26px 0 0;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:17px;letter-spacing:-.01em;color:#fff}
+.brand img{width:28px;height:28px;border-radius:7px;display:block}
+nav.top-nav{display:flex;gap:26px;font-size:14px;font-weight:600}
+nav.top-nav a{text-decoration:none;color:#CFEFE9;padding:6px 0}
 nav.top-nav a:hover{color:#fff}
-.hero-body{padding:72px 0 88px;display:grid;gap:20px;max-width:640px}
-.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);border-radius:999px;padding:7px 14px;width:fit-content}
-.kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
-h1{font-size:clamp(48px,8vw,80px);font-weight:800}
-.hero-body p.lead{font-size:19px;color:rgba(255,255,255,.92);max-width:48ch}
-.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:8px}
-.primary{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--teal-deep);border-radius:999px;padding:15px 24px;text-decoration:none;font-weight:800;font-size:15px;transition:transform .2s var(--ease)}
-.primary:hover{transform:translateY(-2px)}
-.hero-cta .note{font-size:13px;color:rgba(255,255,255,.78)}
-.screens{background:#fff;border-top:1px solid var(--line);padding:56px 0}
-.screens h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:10px}
-.screens>.wrap>p{color:var(--muted);max-width:58ch;margin-bottom:32px}
-.screen-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-.screen{text-align:center}
-.screen .frame{background:#0B1220;border-radius:34px;padding:10px;box-shadow:0 30px 60px -24px rgba(11,18,32,.4)}
-.screen img{display:block;width:100%;border-radius:26px}
-.screen figcaption{margin-top:14px;font-size:14px;color:var(--muted)}
-.screen figcaption b{color:var(--ink)}
-.features{padding:64px 0}
-.features h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:36px}
-.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
-.feature{border:1px solid var(--line);border-radius:18px;padding:26px;background:#fff}
-.feature h3{font-size:19px;margin-bottom:10px}
-.feature p{color:var(--muted);font-size:15px}
+.masthead{width:min(1100px,calc(100% - 80px));margin:auto;padding:38px 0 8px;display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:60px}
+.masthead .word{font-size:clamp(80px,12vw,168px);font-weight:800;color:#fff;letter-spacing:-.04em}
+.masthead .tagline{max-width:40ch;font-size:clamp(18px,2vw,23px);color:#DDF3EE}
+.hero-visual{padding:20px 0 36px;display:flex;justify-content:center}
+.hero-visual img{width:min(860px,calc(100% - 40px));height:auto;display:block}
+.hero-actions{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.cta{display:inline-flex;align-items:center;gap:16px;background:#fff;color:var(--teal-deep);padding:14px 22px;min-height:48px;text-decoration:none;font-weight:750;font-size:15px;transition:transform .2s var(--ease)}
+.cta:hover{transform:translateY(-2px)}
+.cta.on-dark{background:var(--mint);color:var(--teal-deep)}
+.hero-actions .note{font-size:13px;color:#BFE3DC}
+
+/* ---------- workflow ---------- */
+.workflow{padding:72px 0 64px}
+.workflow h2{font-size:clamp(26px,3.2vw,34px);max-width:26ch}
+.workflow>.wrap>p.lead{color:var(--muted);max-width:64ch;margin-top:14px;font-size:16.5px}
+.steps{list-style:none;margin:44px 0 0;padding:0;display:grid;gap:0}
+.steps li{display:grid;grid-template-columns:64px 1fr;gap:22px;padding:28px 0;border-top:1px solid var(--line)}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps .num{font:800 15px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--teal);padding-top:3px}
+.steps h3{font-size:19px;margin-bottom:8px}
+.steps p{color:var(--muted);max-width:66ch;font-size:15.5px}
+
+/* ---------- walkthrough / switcher ---------- */
+.walkthrough{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:64px 0}
+.walkthrough h2{font-size:clamp(26px,3.2vw,34px)}
+.walkthrough>.wrap>p.lead{color:var(--muted);max-width:60ch;margin-top:12px;font-size:15.5px}
+.switcher{margin-top:36px}
+.tabs{display:inline-flex;border-bottom:1px solid var(--line);gap:8px}
+.tabs input{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.tabs label{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;font-weight:700;font-size:15px;color:var(--muted);cursor:pointer;transition:background-color .18s var(--ease),color .18s var(--ease)}
+.tabs input:checked+label{background:var(--teal-deep);color:#fff}
+.tabs input:focus-visible+label{outline:3px solid var(--teal);outline-offset:2px}
+.panels{margin-top:32px}
+.panel{display:none;grid-template-columns:auto 1fr;gap:36px;align-items:start}
+.panel-worker{display:grid}
+.switcher:has(#owner:checked) .panel-worker{display:none}
+.switcher:has(#owner:checked) .panel-owner{display:grid}
+.panel .shot{flex-shrink:0}
+.panel .shot img{width:260px;height:auto;display:block;border:1px solid var(--line);border-radius:18px}
+.panel .copy h3{font-size:clamp(24px,3vw,38px);margin-bottom:18px}
+.panel .copy p{color:var(--muted);font-size:15.5px;max-width:52ch;margin-bottom:10px}
+.panel .copy p:last-child{margin-bottom:0}
+.panel .copy .lang-note{font-size:13px;color:var(--muted);font-style:italic}
+
+
+/* ---------- status ---------- */
 .status{background:var(--ink);color:#fff}
-.status-inner{padding:64px 0;display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between}
-.status h2{font-size:clamp(24px,3vw,30px);margin-bottom:12px}
-.status p{color:rgba(255,255,255,.72);max-width:48ch}
-.status .primary{background:#5EEAD4;color:var(--teal-deep)}
+.status-inner{padding:60px 0;display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between}
+.status h2{font-size:clamp(22px,2.8vw,28px);margin-bottom:10px}
+.status p{color:#BFCFCC;max-width:50ch;font-size:15.5px}
+
+/* ---------- support ---------- */
 .support{padding:64px 0}
 .support h2{font-size:clamp(24px,3vw,30px);margin-bottom:14px}
-.support p{color:var(--muted);max-width:54ch;margin:8px 0}
-.support .email{display:inline-block;margin-top:14px;font-weight:800;font-size:18px;text-decoration:none;color:var(--teal-deep)}
+.support p{color:var(--muted);max-width:56ch;margin:8px 0;font-size:15.5px}
+.support .email{display:inline-block;margin-top:16px;min-height:44px;display:inline-flex;align-items:center;font-weight:800;font-size:18px;text-decoration:none;color:var(--teal-deep)}
 .support .email:hover{text-decoration:underline}
+
 footer{border-top:1px solid var(--line);padding:28px 0 40px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
 footer a{text-decoration:none}
 footer a:hover{text-decoration:underline}
 footer nav{display:flex;gap:18px}
-@media(max-width:720px){.feature-grid,.screen-grid{grid-template-columns:1fr}nav.top-nav{display:none}.status-inner{flex-direction:column;align-items:flex-start}}
+
+@media(max-width:760px){
+  .wrap{width:calc(100% - 40px)}
+  header.top{gap:12px}
+  nav.top-nav{display:flex;gap:16px;font-size:12px}
+  nav.top-nav a[href="#workflow"]{display:none}
+  .masthead{width:calc(100% - 40px);grid-template-columns:1fr;gap:20px;padding-top:32px}
+  .masthead .word{font-size:clamp(80px,22vw,140px)}
+  .hero-visual{padding-top:24px}
+  .panel{grid-template-columns:1fr}
+  .panel .shot img{width:min(260px,100%);margin:auto}
+  .steps li{grid-template-columns:36px 1fr;gap:12px}
+  .steps .num{padding-top:0}
+  .status-inner{flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
 </style>
 </head>
 <body>
+<main>
 <div class="hero">
 <div class="wrap">
 <header class="top">
-<a class="brand" href="/evido/"><img src="assets/icon-192x192.png" alt="" width="30" height="30">Evido</a>
-<nav class="top-nav" aria-label="Main navigation"><a href="#screens">Product</a><a href="#status">Status</a><a href="#support">Support</a></nav>
+<a class="brand" href="/evido/"><img src="assets/icon-192x192.png" alt="" width="28" height="28">Evido</a>
+<nav class="top-nav" aria-label="Main navigation"><a href="#workflow">Workflow</a><a href="#walkthrough">Walkthrough</a><a href="#support">Support</a></nav>
 </header>
-<div class="hero-body">
-<span class="kicker">Business · Pre-launch</span>
-<h1>Receipts, without the paper.</h1>
-<p class="lead">A worker photographs an R1 receipt and Evido reads the merchant, date, VAT ID, amount, and fiscal codes automatically. Owners get one overview across the whole team. Accountants get a ready-to-import e-invoice for every receipt.</p>
-<div class="hero-cta">
-<a class="primary" href="mailto:danijel@danyzmaj.com?subject=Evido%20early%20access">Ask about early access <span aria-hidden="true">↗</span></a>
-<span class="note">iOS &amp; Android · for businesses in Croatia</span>
+</div>
+<div class="masthead">
+<h1 class="word">Evido</h1>
+<div>
+<p class="tagline">From a paper receipt to your team’s monthly records. Scan it, check it, send it to accounting.</p>
+<div class="hero-actions">
+<a class="cta" href="#walkthrough">See how it works <span aria-hidden="true">↓</span></a>
+<span class="note">For businesses in Croatia</span>
 </div>
 </div>
 </div>
+<div class="hero-visual">
+<img src="assets/card-preview.svg" width="1000" height="700" alt="A sample 67,80 euro receipt from &quot;Trgovina Marić d.o.o.&quot; turning into a digitized line-item ledger, then exporting as PDF and XML files bundled into a monthly zip">
 </div>
-<section class="screens" id="screens">
+</div>
+
+<section class="workflow" id="workflow">
 <div class="wrap">
-<h2>Two views, one set of receipts.</h2>
-<p>Screens from the working app. The interface is in Croatian, Evido's primary market.</p>
-<div class="screen-grid">
-<figure class="screen">
-<div class="frame"><img src="assets/screen-worker.png" alt="Evido worker view listing five scanned receipts for September 2026, with one flagged for a rescan" width="450" height="1000" loading="lazy"></div>
-<figcaption><b>Worker</b> — this month's scanned receipts, with a rescan flagged in red.</figcaption>
-</figure>
-<figure class="screen">
-<div class="frame"><img src="assets/screen-owner.png" alt="Evido owner dashboard showing receipt count, monthly total, and per-worker status filters" width="450" height="1000" loading="lazy"></div>
-<figcaption><b>Owner</b> — every worker's receipts in one monthly overview, with send status per receipt.</figcaption>
-</figure>
+<h2>One receipt, three stops before it's filed.</h2>
+<p class="lead">Capture on the phone. Review across the company. Export for accounting.</p>
+<ol class="steps">
+<li><span class="num">01</span><div><h3>Scan and check</h3><p>Photograph a receipt. Evido reads its text on-device and extracts fiscal identifiers from the QR code. Check the merchant, date, and amounts before saving. Without a connection, scans wait on the phone until they can upload.</p></div></li>
+<li><span class="num">02</span><div><h3>Review the whole month</h3><p>Owners see the team’s receipts in one place, with monthly totals and filters by worker, company, or status. If a scan is unreadable, send it back to the worker with a note.</p></div></li>
+<li><span class="num">03</span><div><h3>Send it to accounting</h3><p>Download a PDF or a monthly ZIP organized by worker. UBL 2.1 XML is included when the merchant’s tax ID passes validation. These exports are generated from scanned receipt data, so review them before importing into accounting software.</p></div></li>
+</ol>
+</div>
+</section>
+
+<section class="walkthrough" id="walkthrough">
+<div class="wrap">
+<h2>See it from both sides.</h2>
+<p class="lead">The actual app, in Croatian. Switch between the worker’s receipt list and the owner’s monthly overview.</p>
+<div class="switcher">
+<div class="tabs" role="group" aria-label="Choose a screen">
+<input type="radio" name="view" id="worker" checked>
+<label for="worker">Worker</label>
+<input type="radio" name="view" id="owner">
+<label for="owner">Owner</label>
+</div>
+<div class="panels">
+<div class="panel panel-worker">
+<div class="shot"><img src="assets/screen-worker.png" width="405" height="900" alt="Evido worker screen listing this month's scanned receipts, one flagged for a rescan" loading="lazy"></div>
+<div class="copy">
+<h3>Worker: this month's receipts</h3>
+<p>Every receipt the worker has scanned this month, with its status: queued, submitted, or sent back for a rescan by the owner. Scanning works without a signal; queued receipts upload automatically once the phone reconnects.</p>
+<p class="lang-note"><span lang="hr">Svi</span> means all receipts. <span lang="hr">Za ponoviti</span> lists scans that need another attempt.</p>
+</div>
+</div>
+<div class="panel panel-owner">
+<div class="shot"><img src="assets/screen-owner.png" width="405" height="900" alt="Evido owner dashboard showing receipt count, monthly total, rescan count, and status filters" loading="lazy"></div>
+<div class="copy">
+<h3>Owner: the whole team's month</h3>
+<p>Every worker's receipts in one monthly view: count, total, and a filter by worker, company, or status. A third count flags the receipts the owner sent back for a rescan.</p>
+<p class="lang-note"><span lang="hr">Broj računa</span> is the receipt count. <span lang="hr">Ukupno</span> is the month’s total.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
-<section class="features" id="features">
-<div class="wrap">
-<h2>Built around the R1 receipt.</h2>
-<div class="feature-grid">
-<article class="feature">
-<h3>Snap a photo, done</h3>
-<p>Point the camera at a receipt. Evido reads the date, merchant, VAT ID (OIB), amount, VAT, and the fiscal codes (JIR/ZKI) — no retyping.</p>
-</article>
-<article class="feature">
-<h3>Works without signal</h3>
-<p>Scans queue on the device and send the moment the connection returns, so nothing is lost on a job site with no reception.</p>
-</article>
-<article class="feature">
-<h3>One overview for every worker</h3>
-<p>Owners see every receipt across the whole team, by month, filterable by worker, company, or status — and can flag one for a rescan.</p>
-</article>
-<article class="feature">
-<h3>Ready for the accountant</h3>
-<p>Every receipt exports as a UBL 2.1 e-invoice (EN 16931) alongside its PDF — one at a time, or the whole month as a single ZIP.</p>
-</article>
-</div>
-</div>
-</section>
+
+
 <section class="status" id="status">
 <div class="wrap status-inner">
 <div>
 <h2>Where it stands</h2>
-<p>Evido is pre-launch, built for businesses in Croatia. Company data is stored in the EU (Frankfurt); there are no ads and no third-party tracking.</p>
+<p>Built for businesses in Croatia, with a mobile app and an owner’s web dashboard. Contact me for current availability and help setting up your company.</p>
 </div>
-<a class="primary" href="mailto:danijel@danyzmaj.com?subject=Evido%20early%20access">Get in touch <span aria-hidden="true">↗</span></a>
+<a class="cta on-dark" href="mailto:danijel@danyzmaj.com?subject=Evido%20early%20access">Get in touch <span aria-hidden="true">↗</span></a>
 </div>
 </section>
-<main>
+
 <section class="support wrap" id="support">
 <h2>Questions, or want early access for your company?</h2>
 <p>I'm Danijel, the developer. Tell me a bit about your business and I'll follow up.</p>

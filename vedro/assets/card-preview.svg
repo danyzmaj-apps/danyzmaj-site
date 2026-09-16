@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="vedroCardTitle vedroCardDesc">
+<title id="vedroCardTitle">vedro route briefing</title>
+<desc id="vedroCardDesc">Illustrated map of a 312 km route departing in clear weather, crossing an amber watch band roughly a third of the way through, and returning to clear conditions before arrival.</desc>
+<defs>
+<pattern id="vedroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+<path d="M40 0H0V40" fill="none" stroke="#0F1A2E" stroke-width="1" opacity=".05"/>
+</pattern>
+</defs>
+<rect width="1000" height="700" fill="#F4F8FD"/>
+<path d="M0,700 Q150,540 350,602 T700,652 L1000,700 Z" fill="#E7EFFB"/>
+<path d="M600,0 Q745,58 860,0 Z" fill="#E7EFFB"/>
+<rect width="1000" height="700" fill="url(#vedroGrid)"/>
+<polygon points="0,0 150,0 410,700 0,700" fill="#0E9C52" opacity=".14"/>
+<polygon points="150,0 490,0 750,700 410,700" fill="#F29900" opacity=".16"/>
+<polygon points="490,0 1000,0 1000,700 750,700" fill="#0E9C52" opacity=".14"/>
+<line x1="150" y1="0" x2="410" y2="700" stroke="#0F1A2E" stroke-width="2" stroke-dasharray="2 9" opacity=".3"/>
+<line x1="490" y1="0" x2="750" y2="700" stroke="#0F1A2E" stroke-width="2" stroke-dasharray="2 9" opacity=".3"/>
+<rect x="16" y="16" width="968" height="668" rx="8" fill="none" stroke="#0F1A2E" stroke-width="2" opacity=".35"/>
+<g transform="translate(110,300)">
+<circle r="14" fill="#F7C948" stroke="#0F1A2E" stroke-width="2.5"/>
+<g stroke="#0F1A2E" stroke-width="3" stroke-linecap="round">
+<line x1="0" y1="-22" x2="0" y2="-30"/>
+<line x1="0" y1="22" x2="0" y2="30"/>
+<line x1="-22" y1="0" x2="-30" y2="0"/>
+<line x1="22" y1="0" x2="30" y2="0"/>
+<line x1="-15.5" y1="-15.5" x2="-21" y2="-21"/>
+<line x1="15.5" y1="-15.5" x2="21" y2="-21"/>
+<line x1="-15.5" y1="15.5" x2="-21" y2="21"/>
+<line x1="15.5" y1="15.5" x2="21" y2="21"/>
+</g>
+</g>
+<g transform="translate(860,400)">
+<circle r="14" fill="#F7C948" stroke="#0F1A2E" stroke-width="2.5"/>
+<g stroke="#0F1A2E" stroke-width="3" stroke-linecap="round">
+<line x1="0" y1="-22" x2="0" y2="-30"/>
+<line x1="0" y1="22" x2="0" y2="30"/>
+<line x1="-22" y1="0" x2="-30" y2="0"/>
+<line x1="22" y1="0" x2="30" y2="0"/>
+<line x1="-15.5" y1="-15.5" x2="-21" y2="-21"/>
+<line x1="15.5" y1="-15.5" x2="21" y2="-21"/>
+<line x1="-15.5" y1="15.5" x2="-21" y2="21"/>
+<line x1="15.5" y1="15.5" x2="21" y2="21"/>
+</g>
+</g>
+<g transform="translate(470,550)">
+<g fill="#F4F8FD" stroke="#0F1A2E" stroke-width="2.5">
+<ellipse cx="-14" cy="4" rx="16" ry="13"/>
+<ellipse cx="10" cy="0" rx="20" ry="16"/>
+<ellipse cx="30" cy="6" rx="14" ry="11"/>
+<rect x="-24" y="6" width="66" height="14" rx="7"/>
+</g>
+<g stroke="#F29900" stroke-width="3" stroke-linecap="round">
+<line x1="-8" y1="26" x2="-12" y2="38"/>
+<line x1="8" y1="26" x2="4" y2="38"/>
+<line x1="24" y1="26" x2="20" y2="38"/>
+</g>
+</g>
+<path d="M80,620 L190,560 L300,500 L323,466 L430,410 L530,340 L599,293 L700,235 L800,170 L920,90" fill="none" stroke="#0F1A2E" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M80,620 L190,560 L300,500 L323,466 L430,410 L530,340 L599,293 L700,235 L800,170 L920,90" fill="none" stroke="#F4F8FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="16 13"/>
+<g transform="translate(80,620)">
+<circle r="13" fill="#F4F8FD" stroke="#0F1A2E" stroke-width="4"/>
+<circle r="5" fill="#0F1A2E"/>
+</g>
+<g transform="translate(323,466)">
+<circle r="8" fill="#F29900" stroke="#F4F8FD" stroke-width="3"/>
+</g>
+<g transform="translate(599,293)">
+<circle r="8" fill="#0E9C52" stroke="#F4F8FD" stroke-width="3"/>
+</g>
+<g transform="translate(920,90)">
+<circle r="15" fill="#0F1A2E" stroke="#F4F8FD" stroke-width="4"/>
+<path d="M-8,2 L-3,7 L9,-8" fill="none" stroke="#F4F8FD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g font-family="'SFMono-Regular',Menlo,Consolas,monospace" font-size="15" font-weight="700" fill="#0F1A2E">
+<text x="80" y="655" text-anchor="middle">0 KM</text>
+<text x="323" y="450" text-anchor="middle">118 KM</text>
+<text x="599" y="277" text-anchor="middle">246 KM</text>
+<text x="920" y="122" text-anchor="middle">312 KM</text>
+</g>
+<g font-family="Arial,'Helvetica Neue',Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#0F1A2E" opacity=".75">
+<text x="80" y="671" text-anchor="middle">DEPART</text>
+<text x="920" y="138" text-anchor="middle">ARRIVE</text>
+</g>
+<text x="40" y="55" font-family="Arial,'Helvetica Neue',Helvetica,sans-serif" font-size="34" font-weight="800" letter-spacing="-1" fill="#0F1A2E">vedro</text>
+<text x="41" y="80" font-family="'SFMono-Regular',Menlo,Consolas,monospace" font-size="13" letter-spacing="2" fill="#0F1A2E" opacity=".65">ROUTE BRIEFING</text>
+<g transform="translate(930,58)">
+<circle r="26" fill="none" stroke="#0F1A2E" stroke-width="2" opacity=".5"/>
+<path d="M0,-20 L6,0 L0,20 L-6,0 Z" fill="#0F1A2E"/>
+<text y="-32" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12" fill="#0F1A2E">N</text>
+</g>
+<rect x="672" y="606" width="248" height="56" rx="10" fill="#F4F8FD" stroke="#DCE6F5" stroke-width="2"/>
+<text x="686" y="628" font-family="Arial,'Helvetica Neue',Helvetica,sans-serif" font-size="15" font-weight="800" fill="#0F1A2E">312 KM &#183; 3H 55M</text>
+<rect x="686" y="643" width="11" height="11" fill="#0E9C52"/>
+<text x="702" y="653" font-family="'SFMono-Regular',Menlo,Consolas,monospace" font-size="11" letter-spacing="1" fill="#0F1A2E">CLEAR</text>
+<rect x="782" y="643" width="11" height="11" fill="#F29900"/>
+<text x="798" y="653" font-family="'SFMono-Regular',Menlo,Consolas,monospace" font-size="11" letter-spacing="1" fill="#0F1A2E">WATCH</text>
+</svg>

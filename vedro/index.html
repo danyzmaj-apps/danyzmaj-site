@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>vedro | Weather-aware navigation for open-air travel</title>
-<meta name="description" content="vedro scores your route by weather severity, compares departure times, and speaks up mid-ride if conditions turn — built for motorcycles and convertibles.">
-<meta name="theme-color" content="#1D63C9">
+<title>vedro | The forecast, along your route</title>
+<meta name="description" content="vedro scores the weather along your actual driving route, not just your destination, and adjusts for motorcycle, convertible, or car before you leave.">
+<meta name="theme-color" content="#F4F8FD">
 <link rel="canonical" href="https://www.danyzmaj.com/vedro/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="vedro | Weather-aware navigation for open-air travel">
-<meta property="og:description" content="Every stretch of your route, scored by weather severity. Compare departure times, get voice callouts, and know before you go.">
+<meta property="og:title" content="vedro | The forecast, along your route">
+<meta property="og:description" content="vedro breaks your route into stretches and scores each one for the weather due when you'd pass through it, tuned to what you're driving.">
 <meta property="og:url" content="https://www.danyzmaj.com/vedro/">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/vedro/assets/social-preview.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="vedro app icon: a white checkmark and sun on a blue gradient background">
+<meta property="og:image:alt" content="Vedro route briefing with weather bands along an illustrative road">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/vedro/assets/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" href="/vedro/assets/favicon-96x96.png" sizes="96x96">
@@ -24,155 +24,240 @@
 <link rel="icon" type="image/svg+xml" href="/vedro/assets/favicon.svg" sizes="any">
 <link rel="apple-touch-icon" href="/vedro/assets/apple-touch-icon.png" sizes="180x180">
 <style>
-:root{--sky-top:#5AA7F2;--sky-deep:#1D4E96;--ink:#0F1A2E;--bone:#F4F8FD;--muted:#5A6B85;--line:#DCE6F5;--sun:#F7C948;--ok:#0E9C52;--warn:#F29900;--bad:#E5484D;--unknown:#B9BCB4;--ease:cubic-bezier(.16,1,.3,1)}
+/* Design contract: an atlas / flight-briefing register for a route weather
+   instrument, not a marketing gradient hero. Flat light mineral-sky ground
+   (--sky/--panel), dark navy lettering (--ink), bold Arial/Helvetica Neue
+   for every heading and body word; monospace (--mono) is reserved for
+   measurements only, distances, times, arrival stamps. No gradients, no
+   filters, no external requests beyond this file and local /vedro/assets.
+   Severity is the fixed app palette: ok/warn/bad/unknown, labeled here as
+   clear/watch/rough/unknown, always paired with a colored dot rather than
+   a filled badge so text stays navy-on-light and legible. */
+:root{--sky:#EFF5F7;--panel:#DCE9EE;--ink:#0F1A2E;--muted:#3E4C68;--line:#CCDCE4;--sun:#F7C948;--ok:#0E9C52;--warn:#F29900;--bad:#E5484D;--unknown:#B9BCB4;--sans:'Helvetica Neue',Helvetica,Arial,sans-serif;--mono:'SFMono-Regular',Menlo,Consolas,monospace}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bone);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit}
-h1,h2,h3{margin:0;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.08;text-wrap:balance}
 p{margin:0;line-height:1.6}
-.wrap{width:min(1080px,calc(100% - 64px));margin-inline:auto}
-.hero{background:linear-gradient(160deg,var(--sky-top) 0%,var(--sky-deep) 100%);color:#fff;overflow:hidden}
-header.top{display:flex;align-items:center;justify-content:space-between;padding:28px 0 0;gap:24px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:-.02em;color:#fff}
-.brand img{width:30px;height:30px;border-radius:8px;display:block}
-nav.top-nav{display:flex;gap:28px;font-size:14px;font-weight:600}
-nav.top-nav a{text-decoration:none;color:rgba(255,255,255,.85)}
-nav.top-nav a:hover{color:#fff}
-.hero-body{padding:72px 0 88px;display:grid;gap:20px;max-width:640px}
-.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);border-radius:999px;padding:7px 14px;width:fit-content}
-.kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sun)}
-h1{font-size:clamp(48px,8vw,80px);font-weight:800}
-.hero-body p.lead{font-size:19px;color:rgba(255,255,255,.92);max-width:46ch}
-.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:8px}
-.primary{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--sky-deep);border-radius:999px;padding:15px 24px;text-decoration:none;font-weight:800;font-size:15px;transition:transform .2s var(--ease)}
-.primary:hover{transform:translateY(-2px)}
-.hero-cta .note{font-size:13px;color:rgba(255,255,255,.78)}
-.strip{background:#fff;border-top:1px solid var(--line)}
-.strip-inner{padding:56px 0}
-.strip h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:10px}
-.strip>.wrap>p{color:var(--muted);max-width:56ch;margin-bottom:32px}
-.route{background:var(--bone);border:1px solid var(--line);border-radius:20px;padding:28px}
-.route-bar{display:flex;height:20px;border-radius:999px;overflow:hidden;gap:3px}
-.route-bar span{flex:1;display:block}
-.seg-ok{background:var(--ok)}
-.seg-warn{background:var(--warn)}
-.seg-bad{background:var(--bad)}
-.seg-unknown{background:repeating-linear-gradient(90deg,var(--unknown) 0 6px,transparent 6px 11px)}
-.route-legend{display:flex;flex-wrap:wrap;gap:22px;margin-top:20px;font-size:13px;font-weight:600;color:var(--ink)}
-.route-legend li{display:flex;align-items:center;gap:8px;list-style:none}
-.route-legend i{width:11px;height:11px;border-radius:50%;display:block;flex:none}
-.route-note{margin-top:18px;font-size:12.5px;color:var(--muted)}
-.features{padding:64px 0}
-.features h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:36px}
-.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
-.feature{border:1px solid var(--line);border-radius:18px;padding:26px;background:#fff}
-.feature h3{font-size:19px;margin-bottom:10px}
-.feature p{color:var(--muted);font-size:15px}
-.status{background:var(--ink);color:#fff}
-.status-inner{padding:64px 0;display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between}
-.status h2{font-size:clamp(24px,3vw,30px);margin-bottom:12px}
-.status p{color:rgba(255,255,255,.72);max-width:46ch}
-.status .primary{background:var(--sun);color:var(--ink)}
-.support{padding:64px 0}
-.support h2{font-size:clamp(24px,3vw,30px);margin-bottom:14px}
-.support p{color:var(--muted);max-width:52ch;margin:8px 0}
-.support .email{display:inline-block;margin-top:14px;font-weight:800;font-size:18px;text-decoration:none;color:var(--sky-deep)}
-.support .email:hover{text-decoration:underline}
-footer{border-top:1px solid var(--line);padding:28px 0 40px}
+.wrap{width:min(1280px,calc(100% - 80px));margin-inline:auto}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 0;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:27px;color:var(--ink)}
+.brand img{width:32px;height:32px;border-radius:8px;display:block}
+nav.top-nav{display:flex;gap:26px;font-size:14px;font-weight:700}
+nav.top-nav a{display:inline-flex;align-items:center;min-height:24px;text-decoration:none;color:var(--muted)}
+nav.top-nav a:hover,nav.top-nav a:focus-visible{color:var(--ink)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+main{display:block}
+.brief{padding:56px 0 44px}
+.brief>.wrap{padding:0}
+.brief-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:52px;align-items:center}
+.brief h1{font-size:clamp(40px,4.4vw,64px);line-height:1;letter-spacing:-.035em;text-wrap:normal}
+.brief .lead{margin-top:24px;font-size:18px;color:var(--muted);max-width:40ch}
+.brief .sub{margin-top:12px;font-size:15px;color:var(--muted);max-width:46ch}
+.brief .actions{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.brief .cta{display:inline-flex;align-items:center;gap:20px;background:var(--ink);color:var(--sky);padding:15px 22px;text-decoration:none;font-weight:700;font-size:15px;min-height:48px}
+.brief .platforms{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.visual{margin:0;overflow:hidden}
+.visual img{display:block;width:100%;height:auto}
+.visual figcaption{padding:12px 0;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+section{border-top:1px solid var(--line)}
+section>.wrap{padding:48px 0}
+h2{font-size:clamp(23px,2.8vw,29px)}
+.lede{margin-top:14px;max-width:66ch;color:var(--muted);font-size:16px}
+
+.legend-row{display:flex;flex-wrap:wrap;gap:22px;margin-top:26px;font-family:var(--mono);font-size:13px;font-weight:700;padding:0;list-style:none}
+.legend-row li{display:flex;align-items:center;gap:8px}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none}
+
+.specs{display:grid;grid-template-columns:170px 1fr;gap:16px 28px;margin-top:30px}
+.specs dt{margin:0;font-weight:800;font-size:15px}
+.specs dd{margin:0;color:var(--muted);font-size:15px;line-height:1.65}
+
+.compare{background:var(--panel)}
+.demo-tag{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:18px}
+.scenarios{display:none;flex-wrap:wrap;gap:10px;margin-top:20px}
+.js .scenarios{display:flex}
+.js-only{display:none}
+.js .js-only{display:inline}
+.scenario{flex:1 1 200px;min-height:72px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;padding:14px 18px;border:1px solid var(--line);background:var(--sky);color:var(--ink);font-family:var(--sans);font-size:15px;font-weight:800;cursor:pointer;text-align:left}
+.scenario span{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--muted)}
+.scenario[aria-pressed="true"]{background:var(--ink);color:var(--sky);border-color:var(--ink)}
+.scenario:hover:not([aria-pressed="true"]){border-color:var(--ink)}
+.scenario[aria-pressed="true"] span{color:#B9C6E0}
+.result{margin-top:22px;border-block:1px solid var(--ink);padding:24px 0}
+.result-status{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.result-status strong{font-size:15px}
+.result-status span.headline{color:var(--muted);font-size:15px}
+.result-bar{display:flex;height:16px;border-radius:999px;overflow:hidden;gap:2px;margin-top:16px}
+.result-bar span{display:block}
+.result-arrive{margin-top:14px;font-size:14px;color:var(--muted)}
+.result-arrive b{font-family:var(--mono);color:var(--ink)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.support .email{display:inline-block;margin-top:16px;font-weight:800;font-size:19px;text-decoration:none;color:var(--ink);border-bottom:2px solid var(--sun)}
+.support .email:hover{border-bottom-color:var(--ink)}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
 footer a{text-decoration:none}
 footer a:hover{text-decoration:underline}
 footer nav{display:flex;gap:18px}
-@media(max-width:720px){.feature-grid{grid-template-columns:1fr}nav.top-nav{display:none}.status-inner{flex-direction:column;align-items:flex-start}}
+.screens{background:#fff}
+.screens-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,4vw,64px);max-width:940px;margin-top:38px}
+.screens figure{margin:0}
+.phone{width:min(268px,100%);padding:11px;background:var(--ink);border-radius:42px;box-shadow:0 26px 48px -30px rgba(15,26,46,.55)}
+.phone img{display:block;width:100%;height:auto;border-radius:31px}
+.screens h3{font-size:19px;margin:24px 0 8px}
+.screens figcaption{color:var(--muted);font-size:15px;line-height:1.6;max-width:44ch}
+.screens .stamp{display:block;margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+@media(max-width:860px){.wrap{width:calc(100% - 40px)}.brief{padding:32px 0}.brief-grid{grid-template-columns:1fr;gap:30px}.brief h1{max-width:600px}.brief .lead{max-width:60ch}.brief .sub{max-width:60ch}header.top{gap:12px}nav.top-nav{gap:16px;font-size:12px}nav.top-nav a[href="#reading"]{display:none}.specs{grid-template-columns:1fr;gap:8px}.specs dt:not(:first-child){margin-top:16px}.screens-grid{grid-template-columns:1fr;gap:44px}.phone{width:min(268px,78%)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<div class="hero">
-<div class="wrap">
-<header class="top">
-<a class="brand" href="/vedro/"><img src="assets/icon-192x192.png" alt="" width="30" height="30">vedro</a>
-<nav class="top-nav" aria-label="Main navigation"><a href="#features">Features</a><a href="#status">Status</a><a href="#support">Support</a></nav>
+<header class="top wrap">
+<a class="brand" href="/vedro/"><img src="assets/icon-192x192.png" alt="" width="32" height="32">vedro</a>
+<nav class="top-nav" aria-label="Main navigation"><a href="#reading">How it works</a><a href="#screens">In the app</a><a href="#support">Support</a></nav>
 </header>
-<div class="hero-body">
-<span class="kicker">Navigation · In testing</span>
-<h1>Ride ahead of the weather.</h1>
-<p class="lead">vedro reads the sky along your route before you leave the driveway. Every stretch of road is scored by weather severity, so you know exactly where it turns rough — and can pick a better time to go.</p>
-<div class="hero-cta">
-<a class="primary" href="mailto:danijel@danyzmaj.com?subject=vedro%20early%20access">Request early access <span aria-hidden="true">↗</span></a>
-<span class="note">iOS &amp; Android · free while in testing</span>
-</div>
-</div>
-</div>
-</div>
-<section class="strip">
-<div class="strip-inner wrap">
-<h2>See the ride ahead.</h2>
-<p>vedro breaks your route into segments and colors each one by forecast severity — the same fixed palette used across the app, so a glance at the map tells you what a glance at the sky can't.</p>
-<div class="route" aria-hidden="true">
-<div class="route-bar">
-<span class="seg-ok" style="flex:3"></span>
-<span class="seg-ok" style="flex:2"></span>
-<span class="seg-warn" style="flex:2"></span>
-<span class="seg-bad" style="flex:1"></span>
-<span class="seg-unknown" style="flex:2"></span>
-<span class="seg-ok" style="flex:2"></span>
-</div>
-<ul class="route-legend">
-<li><i style="background:var(--ok)"></i>Clear</li>
-<li><i style="background:var(--warn)"></i>Caution</li>
-<li><i style="background:var(--bad)"></i>Severe</li>
-<li><i style="background:repeating-linear-gradient(90deg,var(--unknown) 0 3px,transparent 3px 5px)"></i>No data</li>
-</ul>
-<p class="route-note">Illustrative route. Segments update live from the forecast along your actual path.</p>
-</div>
-</div>
-</section>
-<section class="features" id="features">
-<div class="wrap">
-<h2>Built for riding, not just driving.</h2>
-<div class="feature-grid">
-<article class="feature">
-<h3>Every mile, scored</h3>
-<p>Your route is sampled point by point and colored by conditions — clear, caution, severe, or no data — so trouble shows up on the map before it shows up on the road.</p>
-</article>
-<article class="feature">
-<h3>Pick your moment</h3>
-<p>Compare departure times side by side. Leaving in twenty minutes can put you ahead of the worst of it, or well behind it.</p>
-</article>
-<article class="feature">
-<h3>Speaks up when it matters</h3>
-<p>On-device voice guidance and a push alert if conditions turn worse than forecast mid-ride, so you don't need to stare at the screen.</p>
-</article>
-<article class="feature">
-<h3>No roof, no problem</h3>
-<p>vedro accounts for your vehicle and heading — riding a motorcycle or top-down convertible feels weather differently than a sealed cabin, and the routing does too.</p>
-</article>
-</div>
-</div>
-</section>
-<section class="status" id="status">
-<div class="wrap status-inner">
-<div>
-<h2>Where it stands</h2>
-<p>vedro is currently in TestFlight and Google Play internal testing ahead of a public launch. No account needed — just install and go.</p>
-</div>
-<a class="primary" href="mailto:danijel@danyzmaj.com?subject=vedro%20early%20access">Get the beta <span aria-hidden="true">↗</span></a>
-</div>
-</section>
 <main>
-<section class="support wrap" id="support">
-<h2>Questions, bugs, or feature requests?</h2>
-<p>I'm Danijel, the developer. Tell me your device and what happened, and I'll take a look.</p>
-<p>vedro needs your location to route around weather — read how that's handled in the <a href="/vedro/privacy/">privacy policy</a>.</p>
-<a class="email" href="mailto:danijel@danyzmaj.com?subject=vedro">danijel@danyzmaj.com ↗</a>
+<section class="brief">
+<div class="wrap brief-grid">
+<div>
+<h1>The forecast,<br>along your route.</h1>
+<p class="lead">Weather changes along the road. Vedro matches the forecast to the time you’ll reach each stretch, not just the place you’re heading.</p>
+<p class="sub">Plan for a motorcycle, a convertible, or a car. Compare departure times before you set off.</p>
+<div class="actions">
+<a class="cta" href="#support">Get in touch <span aria-hidden="true">&#8599;</span></a>
+<span class="platforms">iOS &amp; Android &#183; in development</span>
+</div>
+</div>
+<figure class="visual">
+<img src="assets/card-preview.svg" width="1000" height="700" alt="Illustrated map of a 312 km sample route: clear near departure, crossing a watch-severity weather band about a third of the way in, and clear again before arrival.">
+<figcaption>Sample route, illustrative &#183; not a live forecast</figcaption>
+</figure>
+</div>
+</section>
+
+<section id="reading">
+<div class="wrap">
+<h2>How the map reads</h2>
+<p class="lede">Rain, crosswind, and temperature are rated for your vehicle. Missing weather stays unknown, never green. Forecasts are guidance, not a guarantee of safe road conditions.</p>
+<ul class="legend-row">
+<li><i class="dot" style="background:var(--ok)"></i>Clear</li>
+<li><i class="dot" style="background:var(--warn)"></i>Watch</li>
+<li><i class="dot" style="background:var(--bad)"></i>Rough</li>
+<li><i class="dot" style="background:var(--unknown)"></i>Unknown</li>
+</ul>
+<dl class="specs">
+<dt>Clear</dt><dd>Conditions sit inside the comfortable range for the vehicle profile you picked.</dd>
+<dt>Watch</dt><dd>Rain, crosswind, or temperature approaching the point where it's worth paying attention.</dd>
+<dt>Rough</dt><dd>Past that line: heavy rain, strong crosswind, ice, or extreme cold or heat for an open-air ride.</dd>
+<dt>Unknown</dt><dd>The forecast for that stretch isn't in yet. It stays gray, never green, until it is.</dd>
+</dl>
+</div>
+</section>
+
+<section class="screens" id="screens">
+<div class="wrap">
+<h2>In the app</h2>
+<p class="lede">Two screens from the build running on a phone: the route preview you check before leaving, and the guidance you get while driving it.</p>
+<div class="screens-grid">
+<figure>
+<div class="phone"><img src="assets/screen-plan.webp" width="480" height="1044" alt="Vedro route preview: Maribor to Zagreb, 116 km in 1 h 25, with pass-time weather chips along the painted route and a strip reading 17:05 Maribor 23 degrees, 17:28 Ptuj 23 degrees, 18:06 Zaprešić 23 degrees, 18:31 Zagreb 24 degrees" loading="lazy"></div>
+<h3>The route, scored before you leave</h3>
+<figcaption>Each stretch carries the forecast for the time you would reach it. The strip under the map reads Maribor 17:05 through Zagreb 18:31, and the verdict line sums it up: dry the whole way, 21° to 24°, using the E 59 toll road.</figcaption>
+</figure>
+<figure>
+<div class="phone"><img src="assets/screen-drive.webp" width="480" height="1044" alt="Vedro guidance screen: a green banner reading 0.2 km, make a sharp left onto Ulica Moše Pijada, with the line clear the rest of the way, plus current speed, the 50 km/h limit, and 1 h 25 to arrival at 18:32" loading="lazy"></div>
+<h3>The next turn, and the weather after it</h3>
+<figcaption>Guidance keeps both on one card: the maneuver coming up and what the sky does beyond it. Here the rest of the drive is clear, so the banner says so instead of staying silent.</figcaption>
+</figure>
+</div>
+<p class="stamp">Screenshots from the app on 15 September 2026 · live forecast, so the numbers were true that afternoon</p>
+</div>
+</section>
+
+<section class="compare" id="departures" aria-labelledby="compare-h">
+<div class="wrap">
+<h2 id="compare-h">Same road, different hour</h2>
+<p class="lede">A later start changes the weather you meet along the way. <span class="js-only">Choose a departure to explore this sample trip.</span></p>
+<p class="demo-tag">Illustrative sample data, not a live forecast</p>
+<div class="scenarios" role="group" aria-label="Sample departure options">
+<button type="button" class="scenario" id="scn-now" data-label="Leave now" data-time="14:20" data-severity="warn" data-severity-label="Watch" data-headline="Showers near the Tauern Pass, 40 minutes in" data-arrive="18:15" data-segments="ok:40,warn:35,ok:25" aria-pressed="true">Leave now<span>14:20</span></button>
+<button type="button" class="scenario" id="scn-afternoon" data-label="This afternoon" data-time="17:00" data-severity="ok" data-severity-label="Clear" data-headline="Rain clears the pass before you'd reach it" data-arrive="20:55" data-segments="ok:100" aria-pressed="false">This afternoon<span>17:00</span></button>
+<button type="button" class="scenario" id="scn-tomorrow" data-label="Tomorrow morning" data-time="07:00" data-severity="bad" data-severity-label="Rough" data-headline="Possible ice above 1,200 m near the summit" data-arrive="10:55" data-segments="ok:55,bad:20,ok:25" aria-pressed="false">Tomorrow morning<span>07:00</span></button>
+</div>
+<div class="result" id="result">
+<p class="result-status"><i class="dot" id="result-dot" style="background:var(--warn)"></i><strong id="result-label">Watch</strong><span class="headline" id="result-headline">Showers near the Tauern Pass, 40 minutes in</span></p>
+<div class="result-bar" id="result-bar" aria-hidden="true"><span style="width:40%;background:var(--ok)"></span><span style="width:35%;background:var(--warn)"></span><span style="width:25%;background:var(--ok)"></span></div>
+<p class="result-arrive">Arrive by <b id="result-arrive">18:15</b></p>
+</div>
+<p id="result-live" class="sr-only" role="status" aria-live="polite"></p>
+</div>
+</section>
+
+<section id="capabilities">
+<div class="wrap">
+<h2>On the road</h2>
+<dl class="specs">
+<dt>Route scoring</dt><dd>Plan a trip between two places and vedro splits the whole road into stretches, each scored for the weather due when you'd be passing through, not for right now.</dd>
+<dt>Vehicle profile</dt><dd>Pick motorcycle, convertible, or hardtop car before you plan. Rain, crosswind, and temperature thresholds shift to match what actually affects that ride.</dd>
+<dt>Departure comparison</dt><dd>Compare leaving now against a few hours from now or the next morning, so a rough window along one stretch doesn't have to mean cancelling the whole trip.</dd>
+<dt>Guidance ahead</dt><dd>Once you're moving, turn-by-turn guidance shows the next turn and the next stretch of rough weather on the same map, so it doesn't arrive as a surprise.</dd>
+<dt>Spoken callouts</dt><dd>Turn on voice and vedro speaks upcoming turns plus a heads-up if conditions ahead turn worse mid-ride. It ducks music instead of cutting over it, and stays off until you switch it on.</dd>
+<dt>Camera heads-up</dt><dd>A short spoken and haptic alert fires 500 meters ahead of a known speed camera regardless of the voice setting, since that one's about the road, not the forecast.</dd>
+</dl>
+</div>
+</section>
+
+<section class="support" id="support">
+<div class="wrap">
+<h2>Support</h2>
+<p class="lede">vedro is in development for iOS and Android. For questions, ride reports, or bugs, email directly and I'll get back to you.</p>
+<a class="email" href="mailto:danijel@danyzmaj.com?subject=vedro">danijel@danyzmaj.com</a>
+</div>
 </section>
 </main>
 <footer>
 <div class="wrap">
-<a href="/">danyzmaj.com</a>
-<nav aria-label="Footer"><a href="/vedro/privacy/">Privacy</a><a href="mailto:danijel@danyzmaj.com">Support</a></nav>
+<nav aria-label="Footer"><a href="/">danyzmaj.com</a><a href="/vedro/privacy/">Privacy</a><a href="mailto:danijel@danyzmaj.com">Contact</a></nav>
+<span>vedro &#183; iOS &amp; Android</span>
 </div>
 </footer>
+<script>
+(function(){
+  var scenarios=[].slice.call(document.querySelectorAll('.scenario'));
+  var dot=document.getElementById('result-dot');
+  var label=document.getElementById('result-label');
+  var headline=document.getElementById('result-headline');
+  var bar=document.getElementById('result-bar');
+  var arrive=document.getElementById('result-arrive');
+  var live=document.getElementById('result-live');
+  var colors={ok:'var(--ok)',warn:'var(--warn)',bad:'var(--bad)',unknown:'var(--unknown)'};
+  function apply(btn){
+    scenarios.forEach(function(s){s.setAttribute('aria-pressed',String(s===btn))});
+    var sev=btn.dataset.severity;
+    dot.style.background=colors[sev]||colors.unknown;
+    label.textContent=btn.dataset.severityLabel;
+    headline.textContent=btn.dataset.headline;
+    arrive.textContent=btn.dataset.arrive;
+    bar.innerHTML='';
+    btn.dataset.segments.split(',').forEach(function(seg){
+      var parts=seg.split(':');
+      var span=document.createElement('span');
+      span.style.width=parts[1]+'%';
+      span.style.background=colors[parts[0]]||colors.unknown;
+      bar.appendChild(span);
+    });
+    live.textContent=btn.dataset.label+', '+btn.dataset.time+': '+btn.dataset.severityLabel+'. '+btn.dataset.headline+'. Arrive by '+btn.dataset.arrive+'.';
+  }
+  scenarios.forEach(function(btn){btn.addEventListener('click',function(){apply(btn)})});
+  document.documentElement.classList.add('js');
+})();
+</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>vedro | Privacy policy</title>
 <meta name="description" content="vedro privacy policy: what location and route data the app uses, which services process it, and what is never collected.">
-<meta name="theme-color" content="#1D4E96">
+<meta name="theme-color" content="#F4F8FD">
 <link rel="canonical" href="https://www.danyzmaj.com/vedro/privacy/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="vedro | Privacy policy">
@@ -16,7 +16,7 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="vedro app icon: a white checkmark and sun on a blue gradient background">
+<meta property="og:image:alt" content="Vedro route briefing with weather bands along an illustrative road">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/vedro/assets/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" href="/vedro/assets/favicon-96x96.png" sizes="96x96">
@@ -24,9 +24,9 @@
 <link rel="icon" type="image/svg+xml" href="/vedro/assets/favicon.svg" sizes="any">
 <link rel="apple-touch-icon" href="/vedro/assets/apple-touch-icon.png" sizes="180x180">
 <style>
-:root{--ink:#0F1A2E;--bone:#F4F8FD;--sky-deep:#1D4E96;--muted:#5A6B85;--line:#DCE6F5}
+:root{--ink:#0F1A2E;--bone:#F4F8FD;--sky-deep:#1D4E96;--muted:#3E4C68;--line:#DCE6F5}
 *{box-sizing:border-box}
-body{margin:0;background:#fff;color:var(--ink);font:400 16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{margin:0;background:#fff;color:var(--ink);font:400 16px/1.7 Arial,'Helvetica Neue',Helvetica,sans-serif}
 header{background:var(--bone);padding:24px max(24px,calc((100vw - 760px)/2));border-bottom:1px solid var(--line)}
 header a{font-size:22px;font-weight:800;text-decoration:none;color:var(--ink)}
 main,footer{width:min(760px,calc(100% - 48px));margin:auto}
@@ -43,9 +43,10 @@ strong{color:var(--sky-deep)}
 a{color:var(--sky-deep);text-underline-offset:4px}
 a:focus-visible{outline:3px solid var(--sky-deep);outline-offset:5px}
 footer{border-top:1px solid var(--line);padding:24px 0 48px;font-size:13px;color:var(--muted)}
-footer nav{display:flex;gap:18px}
+footer nav{display:flex;flex-wrap:wrap;gap:18px}
 footer a{color:inherit;text-decoration:none}
 footer a:hover{text-decoration:underline}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -54,24 +55,27 @@ footer a:hover{text-decoration:underline}
 <h1>Privacy policy</h1>
 <p class="date">Effective 15 September 2026</p>
 
-<p class="lead"><strong>vedro has no accounts.</strong> Trips and alert preferences are tied to your device, not to your identity.</p>
+<p class="lead"><strong>vedro has no accounts.</strong> Trips and vehicle preferences are tied to your device, not to your identity.</p>
 
 <h2>Location</h2>
-<p>vedro requests precise location to plan routes, place you on the map, and score the weather along your path. Location is used only for this app functionality — it is not linked to your identity and is never used for advertising or tracking.</p>
+<p>vedro requests precise location to plan routes, place you on the map, and score the weather along your path. Location is used only for this app functionality. It is not linked to your identity and is never used for advertising or tracking.</p>
 
 <h2>What's on your device vs. what's sent to plan a route</h2>
-<p>There is no sign-up and no account. To plan a route and its weather, your app sends the relevant coordinates to vedro's server, which in turn queries:</p>
+<p>There is no sign-up and no account. To plan a route and its weather, your app sends the relevant coordinates to vedro's own server, which in turn queries:</p>
 <ul>
-<li><strong>Mapbox</strong>, for maps, routing, and place search.</li>
+<li><strong>Mapbox</strong>, for routing and place search. Map rendering uses Mapbox's SDK inside the app, so map tiles are requested from Mapbox by your device rather than through Vedro's server.</li>
 <li><strong>Open-Meteo</strong>, for weather forecasts along your route.</li>
 </ul>
-<p>These requests are not tied to an account, because vedro doesn't have one. See <a href="https://www.mapbox.com/legal/privacy">Mapbox's privacy policy</a> and <a href="https://open-meteo.com/en/terms">Open-Meteo's terms</a> for how each service handles requests it receives.</p>
-
-<h2>Notifications</h2>
-<p>If you enable alerts, your device registers a push token (via Firebase Cloud Messaging) used solely to deliver a notification if conditions along your active trip turn worse than forecast. It is not used for any other purpose.</p>
+<p>These requests are not tied to an account, because vedro doesn't have one. Mapbox's map SDK and routing calls run under Mapbox's own terms, which can include the request metadata typical of a mapping service (things like IP address and device identifiers) as described in its policy. See <a href="https://www.mapbox.com/legal/privacy">Mapbox's privacy policy</a> and <a href="https://open-meteo.com/en/terms">Open-Meteo's terms</a> for how each service handles the requests it receives.</p>
 
 <h2>Voice guidance</h2>
-<p>Spoken directions and weather callouts are generated on-device using your phone's built-in text-to-speech engine. No audio or transcript is sent anywhere.</p>
+<p>Vedro uses your phone's text-to-speech engine for spoken directions and callouts. Vedro does not record your voice or upload audio recordings. Speech processing depends on the engine and voice installed on your phone; its provider's settings and privacy terms apply.</p>
+
+<h2>Notifications</h2>
+<p>vedro does not currently send push notifications and has no push-messaging service integrated. Any weather-turn or camera alert you receive while a trip is open is generated on-device from data already on your phone, not delivered as a push message.</p>
+
+<h2>This website</h2>
+<p>The website uses no analytics, advertising trackers, or cookies. It's hosted on GitHub Pages, which GitHub states logs and stores visitors' IP addresses for security purposes, so hosting itself is not a zero-data service even though this site adds no tracking of its own. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's Privacy Statement</a>.</p>
 
 <h2>What vedro does not do</h2>
 <ul>
@@ -82,7 +86,10 @@ footer a:hover{text-decoration:underline}
 </ul>
 
 <h2>Your choices</h2>
-<p>You can revoke location and notification permissions at any time in your device's system settings; the app simply won't be able to plan weather-aware routes or send alerts until you re-enable them. Uninstalling vedro removes anything stored on your device.</p>
+<p>You can revoke location permission at any time in your device's system settings. Features that need your current position will then be unavailable. You can also remove locally stored app data through your device's settings.</p>
+
+<h2>Support correspondence</h2>
+<p>If you email support, I receive your email address, your message, and anything you choose to attach. My email provider also processes those messages. I use them to answer questions and fix problems, and I don't add you to a marketing list.</p>
 
 <h2>Contact</h2>
 <p>Questions about this policy: <a href="mailto:danijel@danyzmaj.com">danijel@danyzmaj.com</a>.</p>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shipyard | Build and ship Flutter apps, no fastlane</title>
+<meta name="description" content="Shipyard is a macOS app that builds a Flutter project and uploads it to TestFlight and Google Play. No fastlane, no Ruby, only xcrun altool as an external binary.">
+<meta name="theme-color" content="#2E2E30">
+<link rel="canonical" href="https://www.danyzmaj.com/shipyard/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Shipyard | Build and ship Flutter apps, no fastlane">
+<meta property="og:description" content="A macOS ship deck for Flutter: named workflows, real build commands, one tap to build and upload to TestFlight and Google Play, and a persisted history of every run.">
+<meta property="og:url" content="https://www.danyzmaj.com/shipyard/">
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image" content="https://www.danyzmaj.com/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="danyzmaj logomark on a dark background">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/shipyard/assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/shipyard/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/shipyard/assets/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/shipyard/assets/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/shipyard/assets/apple-touch-icon.png" sizes="180x180">
+<style>
+/* Design contract: THESIS - Shipyard is a local machine room, not a
+   marketing surface, so the page proves itself with the app's own
+   commands and states rather than claims. OWN-WORLD - graphite cockpit
+   greys lifted straight from the app's real theme constants (panel/
+   hairline/console), one signal-blue accent, hairline borders, no card
+   chrome, no icon+text tiles; the only gradient is the navy field behind
+   the ship-deck screenshot, taken from that same screenshot's field.
+   STORY - name the workflow, show the exact build command, show the ship
+   action, show what survives in history. Monospace is reserved for
+   commands, paths, and versions; everything else is the workbench sans. */
+:root{--bg:#2E2E30;--bg-below:#272729;--panel:#3A3A3D;--field:#242426;--console:#1E1E20;--hair:#5A5A5F;--text:#FFFFFF;--dim:#C6C6CA;--faint:#9C9CA2;--accent:#6E97C7;--ok:#78C4A0;--warn:#E0B366;--err:#EE8A84;--onsig:#1A1A1C;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;--mono:Menlo,'SFMono-Regular',Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em;line-height:1.12;text-wrap:balance}
+p{margin:0;line-height:1.65}
+.wrap{width:min(1180px,calc(100% - 64px));margin-inline:auto}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+header.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid var(--hair)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:19px;color:var(--text);min-height:44px}
+.brand img{width:28px;height:28px;border-radius:6px;display:block}
+nav.top-nav{display:flex;gap:24px;font-size:14px;font-weight:600}
+nav.top-nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:var(--faint)}
+nav.top-nav a:hover,nav.top-nav a:focus-visible{color:var(--text)}
+
+main{display:block}
+.brief{padding:52px 0 40px}
+.brief-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center}
+.brief h1{font-size:clamp(34px,4vw,54px);letter-spacing:-.03em}
+.brief .lead{margin-top:22px;font-size:17px;color:var(--dim);max-width:46ch}
+.brief .sub{margin-top:12px;font-size:14px;color:var(--faint);max-width:48ch}
+.brief .actions{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.brief .cta{display:inline-flex;align-items:center;gap:16px;background:var(--accent);color:var(--onsig);padding:13px 20px;text-decoration:none;font-weight:700;font-size:14px;border-radius:7px;min-height:44px}
+.brief .cta:hover{background:#7FA3CE}
+.brief .platforms{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.visual{margin:0;overflow:hidden;border-radius:9px;border:1px solid var(--hair)}
+.visual img{display:block;width:100%;height:auto}
+.visual figcaption{padding:10px 2px 0;font-family:var(--mono);font-size:11px;color:var(--faint)}
+
+section{border-top:1px solid var(--hair)}
+section.deck{background:var(--bg-below)}
+section>.wrap{padding:44px 0}
+h2{font-size:clamp(21px,2.4vw,26px)}
+.lede{margin-top:12px;max-width:66ch;color:var(--dim);font-size:15px}
+
+.command{margin-top:16px;background:var(--console);border:1px solid var(--hair);border-radius:7px;padding:14px 16px;overflow-x:auto}
+.command code{display:block;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--dim);white-space:pre}
+.command .tag{display:block;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+
+.deck-rows{display:grid;gap:12px;margin-top:24px}
+.deck-row{background:var(--panel);border:1px solid var(--hair);border-radius:8px;padding:16px 18px}
+.deck-row-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.deck-row-head b{font-size:15px}
+.deck-row-head span.dest{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+.deck-row .cmd{margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--dim);overflow-wrap:anywhere}
+.deck-row .actions{margin-top:12px;display:flex;flex-wrap:wrap;gap:10px}
+.pill{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:6px;font-size:12.5px;font-weight:700;font-family:var(--sans)}
+.pill.ship{background:var(--accent);color:var(--onsig)}
+.pill.ghost{background:transparent;border:1px solid var(--hair);color:var(--dim)}
+.status-line{margin-top:10px;display:flex;align-items:center;gap:8px;font-size:12.5px}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block;flex:none}
+
+.specs{display:grid;grid-template-columns:190px 1fr;gap:16px 28px;margin-top:26px}
+.specs dt{margin:0;font-weight:700;font-size:14.5px}
+.specs dd{margin:0;color:var(--dim);font-size:14.5px;line-height:1.65}
+
+.history{margin-top:22px;border:1px solid var(--hair);border-radius:8px;overflow:hidden}
+.history-row{display:grid;grid-template-columns:16px 1fr auto;gap:12px;align-items:center;padding:12px 16px;font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+.history-row+.history-row{border-top:1px solid var(--hair)}
+.history-row .dot{margin-top:1px}
+.history-row .dur{color:var(--faint)}
+.demo-tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-top:16px}
+
+.support .email{display:inline-flex;align-items:center;min-height:44px;margin-top:14px;font-weight:700;font-size:18px;text-decoration:none;color:var(--text);border-bottom:2px solid var(--accent)}
+.support .email:hover{border-bottom-color:var(--text)}
+
+footer{border-top:1px solid var(--hair);padding:24px 0 36px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--faint)}
+footer a{text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
+footer a:hover{text-decoration:underline}
+footer nav{display:flex;gap:18px}
+
+@media(max-width:860px){.wrap{width:calc(100% - 36px)}.brief{padding:30px 0}.brief-grid{grid-template-columns:1fr;gap:26px}.brief h1{max-width:600px}nav.top-nav{gap:14px;font-size:12px}nav.top-nav a[href="#how"]{display:none}.specs{grid-template-columns:1fr;gap:6px}.specs dt:not(:first-child){margin-top:14px}.history-row{grid-template-columns:14px 1fr;grid-template-areas:"dot label" ". dur"}.history-row .dur{grid-area:dur}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top wrap">
+<a class="brand" href="/shipyard/"><img src="assets/icon-192x192.png" alt="" width="28" height="28">Shipyard</a>
+<nav class="top-nav" aria-label="Main navigation"><a href="#how">How it ships</a><a href="#deck">Ship deck</a><a href="#support">Support</a></nav>
+</header>
+<main>
+<section class="brief">
+<div class="wrap brief-grid">
+<div>
+<h1>Build once,<br>ship to both stores.</h1>
+<p class="lead">Shipyard is a macOS app that runs your Flutter build command, then uploads the artifact it just produced to TestFlight or Google Play. No fastlane, no Ruby, no third-party orchestration.</p>
+<p class="sub">The only external binary it touches is Apple's own <code style="font-family:var(--mono)">xcrun altool</code>, since Apple exposes no HTTP endpoint for uploads; Shipyard runs it directly and does everything else in-process.</p>
+<div class="actions">
+<a class="cta" href="#support">Get in touch <span aria-hidden="true">&#8599;</span></a>
+<span class="platforms">macOS &#183; in development, not publicly distributed</span>
+</div>
+</div>
+<figure class="visual">
+<img src="assets/card-preview.svg" width="1000" height="700" alt="Shipyard app window shipping the Prod workflow: Android already built at 41.2 MB, iOS uploading to TestFlight at 63 percent, with a history list below.">
+<figcaption>Sample workflow and history rows, illustrative &#183; not a live run</figcaption>
+</figure>
+</div>
+</section>
+
+<section id="how">
+<div class="wrap">
+<h2>Workflows, not scripts</h2>
+<p class="lede">Each project keeps its store credentials once and any number of named workflows, such as Dev, Staging, or Prod, each holding a git ref to build, its <code style="font-family:var(--mono)">.env</code>, an Android and an iOS build command, and a Play release target (track and status). Switch workflows and every one of those swaps with it.</p>
+<dl class="specs">
+<dt>Ship</dt><dd>One tap per platform: run the build command, then upload whatever it produced. The split button also offers Build only and Upload last build, so you can build now and upload later without rebuilding. Ship both runs Android then iOS in sequence.</dd>
+<dt>Reproducible builds</dt><dd>Give a workflow a branch, tag, or commit and Shipyard builds it in an isolated <code style="font-family:var(--mono)">git worktree</code> of that ref: a clean build that never touches your working tree, removed again once the build finishes. Leave the ref blank to build the working tree as-is, uncommitted changes included.</dd>
+<dt>Gitignored inputs</dt><dd>A fresh worktree only has committed files, so Shipyard writes the workflow's <code style="font-family:var(--mono)">.env</code> into it before codegen, and copies gitignored carry-over paths, such as <code style="font-family:var(--mono)">android/key.properties</code> or Firebase config, from your working checkout. Signing secrets themselves are never copied into Shipyard.</dd>
+<dt>Upload, not exit code</dt><dd><code style="font-family:var(--mono)">flutter build appbundle</code> can exit non-zero on a benign debug-symbol strip step. Shipyard treats the produced <code style="font-family:var(--mono)">.aab</code>/<code style="font-family:var(--mono)">.ipa</code> as the real success signal, not the shell exit code.</dd>
+</dl>
+<div class="command"><span class="tag">Codegen build, chained with &amp;&amp;</span><code>fvm flutter pub get &amp;&amp; fvm dart run build_runner build --delete-conflicting-outputs &amp;&amp; fvm flutter build appbundle --flavor development --target lib/main_development.dart</code></div>
+<div class="command"><span class="tag">Release-grade build</span><code>fvm flutter clean &amp;&amp; fvm flutter build appbundle --flavor production \
+  --target lib/main_production.dart --obfuscate --split-debug-info=build/symbols</code></div>
+</div>
+</section>
+
+<section class="deck" id="deck">
+<div class="wrap">
+<h2>The ship deck</h2>
+<p class="lede">The daily surface is one row per platform: the destination, the exact command that will run, and a live status line. Configuration (build commands, <code style="font-family:var(--mono)">.env</code>, release targets) lives one level down, behind Configure.</p>
+<div class="deck-rows">
+<div class="deck-row">
+<div class="deck-row-head"><b>Android</b><span class="dest">&rarr; Play &#183; production &#183; completed</span></div>
+<div class="cmd">$ fvm flutter build appbundle --flavor production --target lib/main_production.dart</div>
+<div class="status-line"><i class="dot" style="background:var(--ok)"></i>Built 41.2 MB &#183; 12.4.0 (118)</div>
+<div class="actions"><span class="pill ship">Ship &#9662;</span><span class="pill ghost">Build only</span><span class="pill ghost">Upload last build</span></div>
+</div>
+<div class="deck-row">
+<div class="deck-row-head"><b>iOS</b><span class="dest">&rarr; TestFlight</span></div>
+<div class="cmd">$ xcrun altool --upload-app --type ios --file app-1.ipa --apiKey KEYID --apiIssuer ISSUERID</div>
+<div class="status-line"><i class="dot" style="background:var(--accent)"></i>Uploading &#183; 63%</div>
+<div class="actions"><span class="pill ship">Ship &#9662;</span><span class="pill ghost">Build only</span><span class="pill ghost">Upload last build</span></div>
+</div>
+</div>
+<p class="demo-tag">Sample ship deck state, illustrative &#183; matches the real command syntax</p>
+<p class="lede" style="margin-top:24px">Play uploads run in-process: a service-account JWT exchanges for an OAuth2 token, then the Play Developer API's <code style="font-family:var(--mono)">edits.insert</code>, an upload of the bundle, assigning the version code to the track, and <code style="font-family:var(--mono)">commit</code>. A brand-new Play app may reject <code style="font-family:var(--mono)">completed</code> on its first upload; use <code style="font-family:var(--mono)">draft</code>, finalize once in the Play web UI, then <code style="font-family:var(--mono)">completed</code> afterward. Shipping to production as completed asks for confirmation first. TestFlight uploads copy the <code style="font-family:var(--mono)">.p8</code> key to where <code style="font-family:var(--mono)">altool</code> looks for it, then run the command above; external testers need a one-time Beta App Review, internal testers (100 or fewer) don't.</p>
+</div>
+</section>
+
+<section id="history">
+<div class="wrap">
+<h2>Every run, kept</h2>
+<p class="lede">Every build and upload lands in a persisted history: result, version and build number, duration, and the artifact path and size. It's stashed durably, so an artifact you built yesterday is still there to upload today, even after a restart.</p>
+<div class="history">
+<div class="history-row"><i class="dot" style="background:var(--ok)"></i><span>Android &#183; Ship &#183; 12.4.0 (118)</span><span class="dur">3m 12s</span></div>
+<div class="history-row"><i class="dot" style="background:var(--warn)"></i><span>iOS &#183; Ship &#183; 12.3.0 (117)</span><span class="dur">4m 46s</span></div>
+<div class="history-row"><i class="dot" style="background:var(--err)"></i><span>Android &#183; Build &#183; 12.3.0 (116)</span><span class="dur">1m 58s</span></div>
+</div>
+<p class="demo-tag">Sample history rows, illustrative &#183; not a real project's ship log</p>
+</div>
+</section>
+
+<section id="requirements">
+<div class="wrap">
+<h2>What it needs</h2>
+<dl class="specs">
+<dt>macOS</dt><dd>The app itself, and the only place <code style="font-family:var(--mono)">xcrun altool</code> exists, which is why iOS uploads are macOS-only.</dd>
+<dt>Flutter, via FVM</dt><dd>Build commands are run through a login shell so <code style="font-family:var(--mono)">fvm</code>, <code style="font-family:var(--mono)">flutter</code>, and <code style="font-family:var(--mono)">xcrun</code> resolve from your normal PATH, the same as a terminal build.</dd>
+<dt>Apple API key</dt><dd>An App Store Connect key: Key ID, Issuer ID, and the <code style="font-family:var(--mono)">.p8</code> file, referenced by path only.</dd>
+<dt>Play service account</dt><dd>A Google Play Developer API service-account JSON, referenced by path only. The package name is auto-detected from the build flavor.</dd>
+<dt>Not App Store distributed</dt><dd>Shipyard runs unsandboxed so it can spawn build tools and read arbitrary project and credential paths: a local developer utility, installed straight into <code style="font-family:var(--mono)">/Applications</code>, not shipped through the Mac App Store.</dd>
+</dl>
+</div>
+</section>
+
+<section class="support" id="support">
+<div class="wrap">
+<h2>Support</h2>
+<p class="lede">Shipyard is in development for macOS and isn't publicly distributed yet. For questions or bug reports, email directly and I'll get back to you.</p>
+<a class="email" href="mailto:danijel@danyzmaj.com?subject=Shipyard">danijel@danyzmaj.com</a>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap">
+<nav aria-label="Footer"><a href="/">danyzmaj.com</a><a href="mailto:danijel@danyzmaj.com">Contact</a></nav>
+<span>Shipyard &#183; macOS</span>
+</div>
+</footer>
+</body>
+</html>

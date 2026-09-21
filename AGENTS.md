@@ -37,6 +37,16 @@ python3 tools/sync-art.py --check   # report drift, write nothing, exit 1 if sta
 python3 tools/sync-art.py           # rewrite the copies, then read `git status`
 ```
 
+## Change Pipeline
+Follow the route that matches the change; each ends at a deploy.
+
+1. **Page markup, copy, CSS, inline script (any product page or the homepage)** — edit the file here. Nothing to generate, nothing to sync. This includes PixelMew's page: the PixelMew repo's `brand/page.html` is a design study, not an upstream.
+2. **Product artwork or catalogue (a new cat/dog, new palette, moved scenery, new sprite)** — change it in the app repo (`../pixelmew`, `../pixelpup`), run that repo's generators and its `verify.py` where it has one, then come back here and run `python3 tools/sync-art.py`. Never hand-edit a synced file; `--check` will just flag it again.
+3. **A new synced file or a new product** — add a step to `MANIFEST` in `tools/sync-art.py` (ops: `copy`, `downscale`, `icons`, `json`, `embed`), then run the script. Hand-copying is what the manifest exists to prevent.
+4. **Deploy** — commit and push `main`; GitHub Pages builds in about a minute. Assets are served with a ten-minute CDN TTL (`cache-control: max-age=600`), so a stale live response right after a push is the cache, not a failed deploy. Confirm with a fresh fetch after the TTL, not with a query string.
+
+Before committing anything: `python3 tools/sync-art.py --check` must print `in sync`, and a changed page must be exercised in a browser over `http://localhost:8000` (click the thing that changed, then confirm no-JS still renders). The two watch-face pages must stay section-for-section and action-for-action identical.
+
 ## Code Conventions & Common Patterns
 - **Everything inline**: keep CSS in the `<head>` `<style>` block and SVG inline; do not split into separate files or add dependencies.
 - **Design tokens** live as CSS custom properties on `:root` with poetic comments:

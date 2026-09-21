@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>danyzmaj</title>
-<meta name="description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, Vedro, Evido, Shipyard, and Helm.">
+<meta name="description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, PixelMew, Vedro, Evido, Shipyard, and Helm.">
 <meta name="theme-color" content="#171210">
 <meta property="og:title" content="danyzmaj">
 <meta property="og:url" content="https://www.danyzmaj.com/">
@@ -179,7 +179,7 @@ html.rampage body{animation:quake 1300ms linear 2150ms} /* the impact shakes the
   html{transition:none}
 }
 /* the cabinet: a second screen, cut from the same sheet */
-:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--route-bed:#cfe6fb;--receipt-bed:#d3ede7;--ship-bed:#d5d8de;--helm-bed:#e4e0f2;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--route-bed:#cfe6fb;--receipt-bed:#d3ede7;--ship-bed:#d5d8de;--helm-bed:#e4e0f2;--mew-bed:#eee0d3;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
 a:focus-visible{outline:2px solid var(--ember);outline-offset:6px}
 .projects-link{position:fixed;top:max(5vmin,1.5rem);right:max(6vmin,1.5rem);z-index:5;display:flex;align-items:center;gap:20px;min-height:44px;color:var(--bone);font:500 12px/1.4 var(--mono);text-decoration:none}
 .projects-link span{color:var(--ember)}
@@ -219,6 +219,7 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .project-
 .project-ship{background:var(--ship-bed)}
 .project-helm{background:var(--helm-bed)}
 .project-route{background:var(--route-bed)}
+.project-mew{background:var(--mew-bed)}
 .project-receipt{background:var(--receipt-bed)}
 .project-preview{display:block;width:80%;height:auto;object-fit:contain}
 @media(max-width:600px){.project-grid{grid-template-columns:1fr;gap:34px}.projects-head{padding-block:16px}.project-info{margin-top:16px;padding-top:14px}#plate{font-size:12px}}
@@ -226,7 +227,7 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .project-
 </style>
 <link rel="canonical" href="https://www.danyzmaj.com/">
 <meta property="og:type" content="website">
-<meta property="og:description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, Vedro, Evido, Shipyard, and Helm.">
+<meta property="og:description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, PixelMew, Vedro, Evido, Shipyard, and Helm.">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/assets/social-preview.png">
 <meta property="og:image:type" content="image/png">
@@ -302,6 +303,12 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .project-
       <div class="project-info"><h3>PixelPup</h3><span aria-hidden="true">↗</span></div>
       <p>A dog on your Garmin, with your daily stats.</p>
       <small>GARMIN WATCH FACE · BETA</small>
+    </a>
+    <a class="project" href="/pixelmew/">
+      <div class="project-art project-mew" aria-hidden="true"><img class="project-preview" src="/pixelmew/assets/card-preview.svg" width="1000" height="700" alt="" loading="lazy"></div>
+      <div class="project-info"><h3>PixelMew</h3><span aria-hidden="true">↗</span></div>
+      <p>A cat on your Garmin, with your daily stats.</p>
+      <small>GARMIN WATCH FACE &#183; IN DEVELOPMENT</small>
     </a>
     <a class="project" href="/vedro/">
       <div class="project-art project-route" aria-hidden="true"><img class="project-preview" src="/vedro/assets/card-preview.svg" width="1000" height="700" alt="" loading="lazy"></div>

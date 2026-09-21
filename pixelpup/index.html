@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PixelPup | Dog watch faces for Garmin</title>
-<meta name="description" content="Choose a dog breed, background, and daily stats for your Garmin. PixelPup is a pixel-art watch face for round AMOLED Garmin watches.">
+<meta name="description" content="Choose from 20 dog breeds, three backgrounds, and configurable daily stats for your Garmin. PixelPup is a pixel-art watch face for round AMOLED Garmin watches.">
 <meta name="theme-color" content="#dce9bd">
 <link rel="canonical" href="https://www.danyzmaj.com/pixelpup/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="PixelPup | Dog watch faces for Garmin">
-<meta property="og:description" content="A pixel-art dog watch face with three backgrounds and configurable stats for round AMOLED Garmin watches.">
+<meta property="og:description" content="A pixel-art watch face with 20 dog breeds, three backgrounds, and configurable stats for round AMOLED Garmin watches.">
 <meta property="og:url" content="https://www.danyzmaj.com/pixelpup/">
 <meta property="og:image" content="https://www.danyzmaj.com/pixelpup/assets/social-preview.png">
 <meta property="og:image:width" content="1440">
@@ -100,10 +100,6 @@ h1 .second{display:block}
 h2{font-size:clamp(38px,4.5vw,62px)}
 .section-heading p{max-width:330px;font-size:15px;color:var(--muted)}
 .pack{display:grid;grid-template-columns:repeat(5,1fr);gap:32px 20px;margin-top:54px}
-.companions{margin-top:48px;text-align:center}
-.companions>h3{font-size:23px;letter-spacing:-.02em}
-.companions>p{max-width:520px;margin:12px auto 0;font-size:15px;color:var(--muted)}
-.companions .pack{grid-template-columns:repeat(3,1fr);max-width:640px;margin:24px auto 0}
 .pup{text-align:center;border:0;background:transparent;padding:0;min-width:0;border-radius:4px}
 .pup-art{height:158px;display:flex;align-items:flex-end;justify-content:center;border-bottom:2px solid var(--line);padding-bottom:15px;position:relative}
 .pup-art img{height:134px;width:auto;image-rendering:pixelated;transition:transform .3s var(--ease)}
@@ -177,7 +173,7 @@ footer .footnote{font-size:10px;margin-top:7px}
 <div class="hero-copy">
 <p class="kicker">A pixel-art watch face for Garmin</p>
 <h1 id="hero-title">Your dog.<span class="second">On your Garmin.</span></h1>
-<p class="intro">Choose a breed and a background, then add the stats you want to see when you check the time.</p>
+<p class="intro">Choose from 20 dog breeds and three backgrounds, then add the stats you want to see when you check the time.</p>
 <a class="primary" href="#the-pack">Choose your dog <span class="arrow" aria-hidden="true">↓</span></a>
 <p class="availability">Currently in beta. Coming soon to Garmin Connect IQ.</p>
 </div>
@@ -193,7 +189,7 @@ footer .footnote{font-size:10px;margin-top:7px}
 <button class="swatch" type="button" data-palette="shoreline" aria-label="Shoreline palette" aria-pressed="false" style="--swatch:#b9d6e2"><span></span></button>
 <button class="mode" id="mode" type="button" aria-pressed="false" aria-label="Dark watch palette"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 1H7v3H4v3H2v7h2v3h3v2h7v-2h3v-3h2V9h-3v3h-3V9h-3V4h2z"/></svg><span id="mode-label">Night mode</span></button>
 </div>
-<div class="breed-select"><label for="breed">Your pup</label><select id="breed"><option value="labrador">Labrador Retriever</option><option value="golden_retriever">Golden Retriever</option><option value="german_shepherd">German Shepherd</option><option value="french_bulldog">French Bulldog</option><option value="beagle">Beagle</option><option value="poodle">Poodle</option><option value="rottweiler">Rottweiler</option><option value="german_shorthaired_pointer">German Shorthaired Pointer</option><option value="dachshund">Dachshund</option><option value="bulldog">Bulldog</option><option value="generic_brown">Brown pup</option><option value="generic_tan">Tan pup</option><option value="generic_grey">Grey pup</option></select></div>
+<div class="breed-select"><label for="breed">Your pup</label><select id="breed"><option value="labrador">Labrador Retriever</option><option value="golden_retriever">Golden Retriever</option><option value="german_shepherd">German Shepherd</option><option value="french_bulldog">French Bulldog</option><option value="beagle">Beagle</option><option value="poodle">Poodle</option><option value="rottweiler">Rottweiler</option><option value="german_shorthaired_pointer">German Shorthaired Pointer</option><option value="dachshund">Dachshund</option><option value="bulldog">Bulldog</option><option value="australian_shepherd">Australian Shepherd</option><option value="bernese_mountain_dog">Bernese Mountain Dog</option><option value="boxer">Boxer</option><option value="cane_corso">Cane Corso</option><option value="cavalier_king_charles_spaniel">Cavalier King Charles Spaniel</option><option value="doberman_pinscher">Doberman Pinscher</option><option value="miniature_schnauzer">Miniature Schnauzer</option><option value="pembroke_welsh_corgi">Pembroke Welsh Corgi</option><option value="pomeranian">Pomeranian</option><option value="yorkshire_terrier">Yorkshire Terrier</option></select></div>
 </div>
 <p class="preview-caption" id="preview-caption" aria-live="polite">Labrador Retriever · Meadow · Sample readings</p>
 <p class="preview-error" id="preview-error" role="alert" hidden></p>
@@ -203,29 +199,30 @@ footer .footnote{font-size:10px;margin-top:7px}
 <svg class="ground" viewBox="0 0 1440 55" preserveAspectRatio="none" aria-hidden="true"><path d="M0 25h120V15h130v10h160V5h140v10h200v15h160V10h170v15h160V15h200v40H0z"/></svg>
 <svg class="grass-mark" viewBox="0 0 24 18" aria-hidden="true"><path d="M0 0h6v6h6V0h6v6h6v6h-6v6H6v-6H0z"/></svg><svg class="grass-mark other" viewBox="0 0 24 18" aria-hidden="true"><path d="M0 0h6v6h6V0h6v6h6v6h-6v6H6v-6H0z"/></svg>
 </div>
-<div class="ribbon"><div class="wrap"><span><b class="pixel-star" aria-hidden="true">✦</b> 13 dogs to choose from</span><span><b class="pixel-star" aria-hidden="true">✦</b> 3 backgrounds, light & dark</span><span><b class="pixel-star" aria-hidden="true">✦</b> 4 configurable stat rows</span></div></div>
+<div class="ribbon"><div class="wrap"><span><b class="pixel-star" aria-hidden="true">✦</b> 20 dogs to choose from</span><span><b class="pixel-star" aria-hidden="true">✦</b> 3 backgrounds, light & dark</span><span><b class="pixel-star" aria-hidden="true">✦</b> 4 configurable stat rows</span></div></div>
 <section class="pups wrap" id="the-pack" aria-labelledby="pack-title">
-<div class="section-heading"><h2 id="pack-title">Find your dog.</h2><p>Ten breeds, plus brown, tan, and grey dogs. Tap a dog to try it in the watch preview.</p></div>
+<div class="section-heading"><h2 id="pack-title">Find your dog.</h2><p>Twenty dog breeds. Tap a dog to try it in the watch preview.</p></div>
 <div class="pack">
-<button class="pup" type="button" data-dog="labrador" aria-pressed="false" aria-label="Try Labrador Retriever" disabled><span class="pup-art"><img src="assets/dog_labrador.png" width="116" height="158" alt="Black Labrador pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Labrador Retriever</strong></button>
+<button class="pup" type="button" data-dog="labrador" aria-pressed="false" aria-label="Try Labrador Retriever" disabled><span class="pup-art"><img src="assets/dog_labrador.png" width="116" height="158" alt="Labrador Retriever pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Labrador Retriever</strong></button>
 <button class="pup" type="button" data-dog="golden_retriever" aria-pressed="false" aria-label="Try Golden Retriever" disabled><span class="pup-art"><img src="assets/dog_golden_retriever.png" width="129" height="158" alt="Golden Retriever pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Golden Retriever</strong></button>
 <button class="pup" type="button" data-dog="german_shepherd" aria-pressed="false" aria-label="Try German Shepherd" disabled><span class="pup-art"><img src="assets/dog_german_shepherd.png" width="100" height="158" alt="German Shepherd pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>German Shepherd</strong></button>
 <button class="pup" type="button" data-dog="french_bulldog" aria-pressed="false" aria-label="Try French Bulldog" disabled><span class="pup-art"><img src="assets/dog_french_bulldog.png" width="101" height="158" alt="French Bulldog pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>French Bulldog</strong></button>
-<button class="pup" type="button" data-dog="beagle" aria-pressed="false" aria-label="Try Beagle" disabled><span class="pup-art"><img src="assets/dog_beagle.png" width="126" height="158" alt="Tricolor Beagle pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Beagle</strong></button>
-<button class="pup" type="button" data-dog="poodle" aria-pressed="false" aria-label="Try Poodle" disabled><span class="pup-art"><img src="assets/dog_poodle.png" width="113" height="158" alt="Apricot Poodle pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Poodle</strong></button>
+<button class="pup" type="button" data-dog="beagle" aria-pressed="false" aria-label="Try Beagle" disabled><span class="pup-art"><img src="assets/dog_beagle.png" width="126" height="158" alt="Beagle pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Beagle</strong></button>
+<button class="pup" type="button" data-dog="poodle" aria-pressed="false" aria-label="Try Poodle" disabled><span class="pup-art"><img src="assets/dog_poodle.png" width="113" height="158" alt="Poodle pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Poodle</strong></button>
 <button class="pup" type="button" data-dog="rottweiler" aria-pressed="false" aria-label="Try Rottweiler" disabled><span class="pup-art"><img src="assets/dog_rottweiler.png" width="111" height="158" alt="Rottweiler pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Rottweiler</strong></button>
 <button class="pup" type="button" data-dog="german_shorthaired_pointer" aria-pressed="false" aria-label="Try German Shorthaired Pointer" disabled><span class="pup-art"><img src="assets/dog_german_shorthaired_pointer.png" width="116" height="158" alt="German Shorthaired Pointer pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>German Shorthaired Pointer</strong></button>
 <button class="pup" type="button" data-dog="dachshund" aria-pressed="false" aria-label="Try Dachshund" disabled><span class="pup-art"><img src="assets/dog_dachshund.png" width="118" height="158" alt="Dachshund pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Dachshund</strong></button>
 <button class="pup" type="button" data-dog="bulldog" aria-pressed="false" aria-label="Try Bulldog" disabled><span class="pup-art"><img src="assets/dog_bulldog.png" width="124" height="158" alt="Bulldog pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Bulldog</strong></button>
-</div>
-<div class="companions">
-<h3>Brown, tan, or grey</h3>
-<p>These three dogs aren’t tied to a breed. Pick the one that looks closest to yours.</p>
-<div class="pack">
-<button class="pup" type="button" data-dog="generic_brown" aria-pressed="false" aria-label="Try Brown pup" disabled><span class="pup-art"><img src="assets/dog_generic_brown.png" width="116" height="158" alt="Generic brown pup pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Brown pup</strong></button>
-<button class="pup" type="button" data-dog="generic_tan" aria-pressed="false" aria-label="Try Tan pup" disabled><span class="pup-art"><img src="assets/dog_generic_tan.png" width="116" height="158" alt="Generic tan pup pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Tan pup</strong></button>
-<button class="pup" type="button" data-dog="generic_grey" aria-pressed="false" aria-label="Try Grey pup" disabled><span class="pup-art"><img src="assets/dog_generic_grey.png" width="116" height="158" alt="Generic grey pup pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Grey pup</strong></button>
-</div>
+<button class="pup" type="button" data-dog="australian_shepherd" aria-pressed="false" aria-label="Try Australian Shepherd" disabled><span class="pup-art"><img src="assets/dog_australian_shepherd.png" width="109" height="158" alt="Australian Shepherd pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Australian Shepherd</strong></button>
+<button class="pup" type="button" data-dog="bernese_mountain_dog" aria-pressed="false" aria-label="Try Bernese Mountain Dog" disabled><span class="pup-art"><img src="assets/dog_bernese_mountain_dog.png" width="121" height="158" alt="Bernese Mountain Dog pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Bernese Mountain Dog</strong></button>
+<button class="pup" type="button" data-dog="boxer" aria-pressed="false" aria-label="Try Boxer" disabled><span class="pup-art"><img src="assets/dog_boxer.png" width="117" height="158" alt="Boxer pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Boxer</strong></button>
+<button class="pup" type="button" data-dog="cane_corso" aria-pressed="false" aria-label="Try Cane Corso" disabled><span class="pup-art"><img src="assets/dog_cane_corso.png" width="103" height="158" alt="Cane Corso pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Cane Corso</strong></button>
+<button class="pup" type="button" data-dog="cavalier_king_charles_spaniel" aria-pressed="false" aria-label="Try Cavalier King Charles Spaniel" disabled><span class="pup-art"><img src="assets/dog_cavalier_king_charles_spaniel.png" width="123" height="158" alt="Cavalier King Charles Spaniel pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Cavalier King Charles Spaniel</strong></button>
+<button class="pup" type="button" data-dog="doberman_pinscher" aria-pressed="false" aria-label="Try Doberman Pinscher" disabled><span class="pup-art"><img src="assets/dog_doberman_pinscher.png" width="96" height="158" alt="Doberman Pinscher pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Doberman Pinscher</strong></button>
+<button class="pup" type="button" data-dog="miniature_schnauzer" aria-pressed="false" aria-label="Try Miniature Schnauzer" disabled><span class="pup-art"><img src="assets/dog_miniature_schnauzer.png" width="111" height="158" alt="Miniature Schnauzer pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Miniature Schnauzer</strong></button>
+<button class="pup" type="button" data-dog="pembroke_welsh_corgi" aria-pressed="false" aria-label="Try Pembroke Welsh Corgi" disabled><span class="pup-art"><img src="assets/dog_pembroke_welsh_corgi.png" width="110" height="158" alt="Pembroke Welsh Corgi pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Pembroke Welsh Corgi</strong></button>
+<button class="pup" type="button" data-dog="pomeranian" aria-pressed="false" aria-label="Try Pomeranian" disabled><span class="pup-art"><img src="assets/dog_pomeranian.png" width="128" height="158" alt="Pomeranian pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Pomeranian</strong></button>
+<button class="pup" type="button" data-dog="yorkshire_terrier" aria-pressed="false" aria-label="Try Yorkshire Terrier" disabled><span class="pup-art"><img src="assets/dog_yorkshire_terrier.png" width="97" height="158" alt="Yorkshire Terrier pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Yorkshire Terrier</strong></button>
 </div>
 <p class="pack-note">Missing your breed? <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20breed%20request">Send me a request.</a></p>
 </section>

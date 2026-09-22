@@ -5,7 +5,10 @@ const catButtons=[...document.querySelectorAll('.cat')];
 const catSelect=document.getElementById('cat-select');
 const darkMode=document.getElementById('dark-mode');
 const preview=document.getElementById('preview');
-const face=document.getElementById('face-art');
+const watch=document.getElementById('watch-face');
+const roomLayer=watch.querySelector('[data-layer="room"]');
+const catLayer=watch.querySelector('[data-layer="cat"]');
+const readingsLayer=watch.querySelector('[data-layer="readings"]');
 const error=document.getElementById('preview-error');
 let selectedCat=0,selectedTheme=0,revision=0;
 async function update(){
@@ -24,10 +27,11 @@ async function update(){
   error.hidden=true;
   preview.setAttribute('aria-busy','true');
   try{
-    const src=`faces/${cat[0]}-${theme.slug}.svg`;
-    const image=new Image();image.src=src;await image.decode();
+    const room=`faces/scene-${theme.slug}.svg`,front=`faces/scene-${theme.slug}-front.svg`,catSrc=`faces/cat-${cat[0]}.svg`;
+    await Promise.all([room,front,catSrc].map(src=>{const i=new Image();i.src=src;return i.decode();}));
     if(request!==revision)return;
-    face.src=src;face.alt=`${cat[1]} in ${theme.name}. Sample readings.`;
+    roomLayer.src=room;catLayer.src=catSrc;readingsLayer.src=front;
+    watch.querySelector('.face').setAttribute('aria-label',`${cat[1]} in ${theme.name}. Sample readings.`);
     document.querySelector('.live-cat').textContent=cat[1];
     document.querySelector('.live-theme').textContent=theme.name;
   }catch{

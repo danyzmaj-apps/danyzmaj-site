@@ -101,6 +101,11 @@ MANIFEST = [
                 "dst": "pixelpup/assets",
             },
             {
+                "op": "copy",
+                "src": "faces/sit-*.svg",
+                "dst": "pixelpup/assets",
+            },
+            {
                 "op": "embed",
                 "src": "watchface/resources/drawables/dog_labrador.png",
                 "page": "index.html",

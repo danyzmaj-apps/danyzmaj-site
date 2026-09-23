@@ -75,10 +75,9 @@ h1 .second{display:block}
 .face-dog{position:absolute;max-width:none;height:43.888889%;width:auto;left:71.111111%;bottom:12.222222%;transform:translateX(-50%);image-rendering:pixelated}
 .face-prop{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .preview-controls{margin:22px auto 0;width:min(100%,365px)}
-.js-only{display:none}
-.js .js-only{display:block}
-.js .palette-row{display:flex}
-.palette-row{align-items:center;justify-content:center;gap:10px;margin-bottom:13px}
+.js-only{visibility:hidden}
+.js .js-only{visibility:visible}
+.palette-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:13px}
 .swatch{width:38px;height:38px;border-radius:50%;border:2px solid transparent;padding:5px;background:transparent}
 .swatch span{display:block;width:100%;height:100%;border-radius:50%;border:1px solid var(--muted);background:var(--swatch)}
 .swatch[aria-pressed="true"]{border-color:var(--ink)}

@@ -20,6 +20,7 @@ Sibling layout assumed (same parent directory as this checkout):
     danyzmaj/danyzmaj-site   <- this repo
     danyzmaj/pixelmew
     danyzmaj/pixelpup
+    danyzmaj/pixelzoo
 """
 from __future__ import annotations
 
@@ -111,6 +112,19 @@ MANIFEST = [
                 "page": "index.html",
                 "container": "mini-watch",
             },
+        ],
+    },
+    {
+        "product": "PixelZoo",
+        "repo": "pixelzoo",
+        "steps": [
+            {
+                "op": "copy",
+                "src": "watchface/resources/drawables/animal_*.png",
+                "dst": "pixelzoo/assets",
+            },
+            {"op": "copy", "src": "faces/zoo-*.svg", "dst": "pixelzoo/assets"},
+            {"op": "icons", "src": "faces/mark.svg", "dst": "pixelzoo/assets", "bed": "#f4e2b8"},
         ],
     },
 ]

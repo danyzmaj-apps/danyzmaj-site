@@ -179,7 +179,7 @@ html.rampage body{animation:quake 1300ms linear 2150ms} /* the impact shakes the
   html{transition:none}
 }
 /* the cabinet: a second screen, cut from the same sheet */
-:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--route-bed:#cfe6fb;--receipt-bed:#d3ede7;--ship-bed:#d5d8de;--helm-bed:#e4e0f2;--zoo-bed:#f4e2b8;--mew-bed:#eee0d3;--mew-face:#f5ece0;--mew-ink:#55434d;--mew-box:#cbaea5;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--route-bed:#cfe6fb;--receipt-bed:#d3ede7;--ship-bed:#d5d8de;--helm-bed:#e4e0f2;--zoo-bed:#f4e2b8;--zoo-ground:#d8ab60;--zoo-ink:#293e38;--mew-bed:#eee0d3;--mew-face:#f5ece0;--mew-ink:#55434d;--mew-box:#cbaea5;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
 a:focus-visible{outline:2px solid var(--ember);outline-offset:6px}
 .projects-link{position:fixed;top:max(5vmin,1.5rem);right:max(6vmin,1.5rem);z-index:5;display:flex;align-items:center;gap:20px;min-height:44px;color:var(--bone);font:500 12px/1.4 var(--mono);text-decoration:none}
 .projects-link span{color:var(--ember)}
@@ -204,7 +204,7 @@ html:has(#projects:target),html:has(#projects:target) body{touch-action:pan-y pi
 .mini-sign img{position:relative;width:100%;height:auto;display:block}
 .project-pup{background:var(--meadow);color:var(--forest)}
 .mini-watch{width:54%;aspect-ratio:1;border:clamp(4px,1.5cqw,8px) solid var(--forest);border-radius:50%;position:relative;overflow:hidden;background:var(--meadow)}
-.mini-sign,.mini-watch,.mini-mew,.project-preview{transform:rotate(var(--tilt));transition:transform 400ms var(--reveal)}
+.mini-sign,.mini-watch,.mini-mew,.mini-zoo,.project-preview{transform:rotate(var(--tilt));transition:transform 400ms var(--reveal)}
 .mini-watch::before{content:"";position:absolute;inset:60% 0 0;background:var(--grass);clip-path:polygon(0 20%,35% 0,70% 28%,100% 8%,100% 100%,0 100%)}
 .mini-watch time{position:absolute;top:15%;left:12%;font:800 clamp(18px,10cqw,54px)/1 Arial,sans-serif;letter-spacing:-.06em}
 .mini-watch img{position:absolute;height:56%;width:auto;right:12%;bottom:8%;image-rendering:pixelated}
@@ -213,7 +213,12 @@ html:has(#projects:target),html:has(#projects:target) body{touch-action:pan-y pi
 .mini-mew::before{content:"";position:absolute;inset:74% 0 0;background:color-mix(in srgb,var(--mew-box) 80%,var(--mew-face))}
 .mini-mew time{position:absolute;top:16%;left:11%;font:800 clamp(18px,10cqw,54px)/1 Arial,sans-serif;letter-spacing:-.06em}
 .mini-mew img{position:absolute;height:46%;width:auto;right:11%;bottom:25%;image-rendering:pixelated}
-a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew,a.project:hover .project-preview,a.project:focus-visible .mini-sign,a.project:focus-visible .mini-watch,a.project:focus-visible .mini-mew,a.project:focus-visible .project-preview{transform:rotate(0)}
+.project-zoo{background:var(--zoo-bed);color:var(--zoo-ink)}
+.mini-zoo{width:54%;aspect-ratio:1;border:clamp(4px,1.5cqw,8px) solid var(--zoo-ink);border-radius:50%;position:relative;overflow:hidden;background:var(--zoo-bed)}
+.mini-zoo::before{content:"";position:absolute;inset:66% 0 0;background:var(--zoo-ground);clip-path:polygon(0 14%,40% 14%,40% 0,76% 0,76% 22%,100% 22%,100% 100%,0 100%)}
+.mini-zoo time{position:absolute;top:15%;left:12%;font:800 clamp(18px,10cqw,54px)/1 Arial,sans-serif;letter-spacing:-.06em}
+.mini-zoo img{position:absolute;height:54%;width:auto;right:13%;bottom:9%;image-rendering:pixelated}
+a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew,a.project:hover .mini-zoo,a.project:hover .project-preview,a.project:focus-visible .mini-sign,a.project:focus-visible .mini-watch,a.project:focus-visible .mini-mew,a.project:focus-visible .mini-zoo,a.project:focus-visible .project-preview{transform:rotate(0)}
 .project-info{border-top:1px solid color-mix(in srgb,var(--bone) 25%,var(--ink));margin-top:22px;padding-top:18px;display:flex;justify-content:space-between;align-items:baseline;gap:16px}
 .project-info h3{font:500 clamp(23px,3vw,36px)/1.2 var(--mono);letter-spacing:-.06em;margin:0}
 .project-info span{font:400 24px/1 var(--mono);color:var(--ember)}
@@ -221,14 +226,13 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
 .project small{font:400 10px/1.5 var(--mono);color:color-mix(in srgb,var(--bone) 60%,var(--ink))}
 .project-soon .project-info h3{color:color-mix(in srgb,var(--bone) 72%,var(--ink))}
 .project-soon small{color:var(--ember)}
-.project-zoo{background:var(--zoo-bed)}
 .project-ship{background:var(--ship-bed)}
 .project-helm{background:var(--helm-bed)}
 .project-route{background:var(--route-bed)}
 .project-receipt{background:var(--receipt-bed)}
 .project-preview{display:block;width:80%;height:auto;object-fit:contain}
 @media(max-width:600px){.project-grid{grid-template-columns:1fr;gap:34px}.projects-head{padding-block:16px}.project-info{margin-top:16px;padding-top:14px}#plate{font-size:12px}}
-@media(prefers-reduced-motion:reduce){#projects,.mini-sign,.mini-watch,.mini-mew,.project-preview{transition:none}.mini-sign,.mini-watch,.mini-mew,.project-preview{transform:none}}
+@media(prefers-reduced-motion:reduce){#projects,.mini-sign,.mini-watch,.mini-mew,.mini-zoo,.project-preview{transition:none}.mini-sign,.mini-watch,.mini-mew,.mini-zoo,.project-preview{transform:none}}
 </style>
 <link rel="canonical" href="https://www.danyzmaj.com/">
 <meta property="og:type" content="website">
@@ -316,7 +320,7 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
       <small>GARMIN WATCH FACE &#183; IN DEVELOPMENT</small>
     </a>
     <a class="project" href="/pixelzoo/">
-      <div class="project-art project-zoo" aria-hidden="true"><img class="project-preview" src="/pixelzoo/assets/card-preview.svg" width="1000" height="700" alt="" loading="lazy"></div>
+      <div class="project-art project-zoo" aria-hidden="true"><div class="mini-zoo"><time>10:08</time><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHIAAACWCAYAAAACCNzpAAAEwklEQVR4nO2dsWsUQRTGVzmbFBaxUUhA0KCFcoidCHJY2dmJdoIR7EXFIkUqFf+DBOyMpY1YSRDSigQbJQkoiIpFGksL7S4vsM+bcXZ2Z7/7/arjWHdn8/E+3715M1NVAAAAAAAAADB1HGjzYSfnjv6JuX77649Wx9fn8R9s60GQF4QUYdCmHa0/vTTx+u2PX8afF1erKCvLTcr4c9ssESkCQopwoE07XX/5ofb60dWztdZkWVz9PP68dHG2ysnyxu5EO/XeZf704Ynjz2GzRKQICClC9qzVY+v7r/HnUdVvtsy7eNaaGyJSBIQUoVVrtdlp3+105LyLl3XnhogUASFFGHQ1xdPUD/Y+ctL8rZoqDhCRIiCkCIOmLMKrf47uvp1Yt7TXpEwh5SBlbLa+ev3Eodpr1qpmbJaIFAEhRcheELCW69lUV7YZgh2b92Pfey/PTnNARIqAkCK0Wmu1Nuv9qJ89d+W/77/7/nXVNW3aqYWIFAEhp9VaQ4oAKU1NfWTl1vGoIoDFXpNSHCAiRUBIETprvgrJTkvIQvsCESkCQoqAkCIgpAgIKUL2rNUrAqhmpCsJxYEUiEgREFIEhBQBIUVAyGnNWu30yvLG3vYjTa3rn7v2Yvx5Yf5Y59Nec2Y8IzMem52msLbze/yZvlbAWlXobBrLw9ppCSwUNh4Pkh0REFKE4qz11cMjVR/G8+1nVRREpAgIKUKrfa0hzMyeqUpixownx9Yr9LXCPrBWEQa5N9nLjV1kev/8qah/+/jdJ5klDESkCAgpQtKuS7EZbOxqrJCtUTbfPKr9/vm9Z7Xf33hys/b74eUHE58VMnUV23DFNBbsA2sVobhaq7VTzzZjM1LLjaqekGdZ+22qQ6ApiEgREFKEJGvN3YgVy9BYn2eVIdfkpqlM1UJEioCQInS281XIPq6xbAZYZQ47bXPVlQcRKQJCipD92EEvg/U2FbQ2m1JrjSW21mrt1OJueR2QqXonNYRktkSkCAgpQtYDnFOnuiwpJxSEEHt/+y5eR0SsnXr3DLkPESkCQorQqrVaUvZ6bZOlgHF6Nmixlhjy302sXRORIiCkCNlrrV6WZae9YreMbpOtgB7dHNNSsRCRIiCkCAgpAkKKgJAiFNHXevvOhU56X71prJCjBi1rO/VTWk01rVFrnSKwVhGKsNau7NRi71ny0gBbp6XWKgjWKsKgK1vo+5p9vylrLwsNqbt6Gax///oMmYgUASFFGExzplpyBhv7LCJSBIQUoThrtbXNEn6MrxQwhhCISBEQUgSEFAEhRUBIERBSBIQUASFFQEgREFIEhBQBIUVASBEQUoTiprE82txndVhwX6sHESkCQoqAkCIgpAgIKUJvsla7xCBHBjtMWOiaYxlF7HOJSBEQUoROdmn612aDKWxG2mzI9texhKzAClmV5lmrXY3FQldBsFYRer/Q1VrQMNIqc4zBLnRt6rmenVqISBEQUoSB6r4B65lPJfDw1vvnsFMLESkCQopQRK015AjC2GMKRwkWGjueEroIiEgREFKEIqw1B9uRR/vlJtbqY08rICJFQEgRirDWkCy0hGKCJXY2P/fBLkSkCAgpQqsdArkzxu1I+yptPCkQkSIgZKXBX7ac67JjjoHTAAAAAElFTkSuQmCC" alt=""></div></div>
       <div class="project-info"><h3>PixelZoo</h3><span aria-hidden="true">↗</span></div>
       <p>Twenty zoo animals on your Garmin, with your daily stats.</p>
       <small>GARMIN WATCH FACE &#183; IN DEVELOPMENT</small>

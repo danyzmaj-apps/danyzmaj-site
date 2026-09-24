@@ -125,6 +125,12 @@ MANIFEST = [
             },
             {"op": "copy", "src": "faces/zoo-*.svg", "dst": "pixelzoo/assets"},
             {"op": "icons", "src": "faces/mark.svg", "dst": "pixelzoo/assets", "bed": "#f4e2b8"},
+            {
+                "op": "embed",
+                "src": "watchface/resources/drawables/animal_lion.png",
+                "page": "index.html",
+                "container": "mini-zoo",
+            },
         ],
     },
 ]

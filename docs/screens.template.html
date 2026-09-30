@@ -1,0 +1,1652 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Screens</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!--
+  Screens canvas: a Figma-like viewer for captured app screens.
+
+  PLATNO COPY — vendored from evido-mobile/docs/screens.template.html and patched:
+  per-screen `badge` ("new" | "updated" | "removed"), manifest `emptyTitle`/`emptySub`,
+  and two header placeholders (PLATNO_BACK, PLATNO_ACTIONS) filled by the server.
+
+  - Self-contained: open it straight from disk (file://). No network, no build
+    step, no external assets.
+  - Shared verbatim by evido-mobile and evido-web. Each repo's capture generator
+    copies this file and replaces ONLY the JSON inside the manifest script near
+    the end of <body>. That block stays on one line and its opening tag must not
+    change; the JSON must escape "<" as \u003c.
+  - Manifest: { title, platform: "mobile" | "web", sibling, generatedAt,
+      groups: [{ id, name, screens: [{ id, name, state, file, width, height,
+      route?, widget?, note? }] }] }
+    width/height are logical canvas units; the PNG may be @2x/@3x.
+-->
+<style>
+/* ==========================================================================
+   Tokens: neutral greys; the brand teal only marks selection and focus
+   ========================================================================== */
+:root {
+  --canvas: #1e1e1e;
+  --chrome: #2c2c2c;
+  --chrome-hover: #353535;
+  --field: #383838;
+  --line: #444444;
+  --line-soft: #383838;
+  --text: #ececec;
+  --text-2: #b3b3b3;
+  --text-3: #8c8c8c;
+  --hover: rgba(255, 255, 255, .06);
+  --accent: #0f766e;
+  --accent-hi: #2dd4bf;
+  --accent-wash: rgba(15, 118, 110, .32);
+  --font: "Noto Sans", NotoSans, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --header-h: 44px;
+  --sidebar-w: 260px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; }
+body {
+  overflow: hidden;
+  background: var(--canvas);
+  color: var(--text);
+  font: 13px/1.4 var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+
+/* ==========================================================================
+   App shell: header across the top, layers panel left, canvas right
+   ========================================================================== */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  grid-template-rows: var(--header-h) minmax(0, 1fr);
+  height: 100%;
+}
+.app.is-collapsed { grid-template-columns: 0 minmax(0, 1fr); }
+
+/* ---- Header -------------------------------------------------------------- */
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0 8px 0 8px;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--line-soft);
+  white-space: nowrap;
+}
+.title {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 600;
+}
+.badge {
+  flex: none;
+  padding: 0 7px;
+  border-radius: 9px;
+  background: #3a3a3a;
+  color: var(--text-2);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 18px;
+}
+.meta { flex: none; color: var(--text-3); font-size: 12px; }
+.meta + .meta::before { content: "·"; margin-right: 10px; color: #5c5c5c; }
+.spacer { flex: 1; }
+.sibling {
+  flex: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: var(--text-2);
+  font-size: 12px;
+  text-decoration: none;
+}
+.sibling:hover { background: var(--hover); color: var(--text); }
+.zoombar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+  padding-left: 8px;
+  border-left: 1px solid var(--line-soft);
+}
+.icon-btn, .zoom-pct {
+  display: inline-grid;
+  place-items: center;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.icon-btn { width: 28px; }
+.icon-btn svg { width: 16px; height: 16px; }
+.zoom-pct {
+  min-width: 50px;
+  padding: 0 6px;
+  color: var(--text);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.icon-btn:hover, .zoom-pct:hover { background: var(--hover); color: var(--text); }
+.icon-btn[aria-disabled="true"] { opacity: .35; cursor: default; }
+.icon-btn[aria-disabled="true"]:hover { background: transparent; color: var(--text-2); }
+
+/* ---- Layers panel -------------------------------------------------------- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--chrome);
+  border-right: 1px solid var(--line-soft);
+}
+.app.is-collapsed .sidebar { visibility: hidden; border-right: 0; }
+.sb-head {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+.filter { position: relative; flex: none; margin: 0 10px 8px; }
+.filter input {
+  width: 100%;
+  height: 30px;
+  padding: 0 30px 0 30px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  outline: none;
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+}
+.filter input::placeholder { color: var(--text-3); }
+.filter input:hover { border-color: var(--line); }
+.filter input:focus { border-color: var(--accent-hi); }
+.filter input:disabled { opacity: .5; }
+.filter-icon {
+  position: absolute;
+  top: 8px;
+  left: 9px;
+  width: 14px;
+  height: 14px;
+  color: var(--text-3);
+  pointer-events: none;
+}
+.filter-kbd {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  min-width: 16px;
+  padding: 0 4px;
+  border: 1px solid #4a4a4a;
+  border-radius: 4px;
+  color: var(--text-3);
+  font: 11px/14px var(--font);
+  text-align: center;
+  pointer-events: none;
+}
+.filter.has-value .filter-kbd, .filter:focus-within .filter-kbd { display: none; }
+.filter-clear {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: none;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+}
+.filter-clear svg { width: 14px; height: 14px; }
+.filter-clear:hover { background: var(--hover); color: var(--text); }
+.filter.has-value .filter-clear { display: grid; }
+
+.layers {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 0 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #4a4a4a transparent;
+}
+.group-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  height: 30px;
+  padding: 0 12px 0 6px;
+  border: 0;
+  background: var(--chrome);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.group-head:hover { background: var(--chrome-hover); }
+.group-head:focus-visible, .row:focus-visible { outline-offset: -2px; }
+.chev { flex: none; width: 18px; height: 18px; color: var(--text-3); transition: transform .12s ease; }
+.group.is-collapsed .chev { transform: rotate(-90deg); }
+.group-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.group-count {
+  flex: none;
+  color: var(--text-3);
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.rows { margin: 0 0 6px; padding: 0; list-style: none; }
+.group.is-collapsed .rows { display: none; }
+.layers.is-filtering .group.is-collapsed .rows { display: block; }
+.layers.is-filtering .group.is-collapsed .chev { transform: none; }
+.row {
+  position: relative;
+  display: block;
+  height: 28px;
+  padding: 0 12px 0 26px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 28px;
+  text-decoration: none;
+  scroll-margin: 34px 0 8px;
+}
+.row-text { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row-state { color: var(--text-3); }
+.row:hover, .row.is-hover { background: var(--hover); }
+.row[aria-current="true"] { background: var(--accent-wash); }
+.row[aria-current="true"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--accent-hi);
+}
+.row[aria-current="true"] .row-state { color: #a7c9c4; }
+.sb-note { margin: 0; padding: 10px 14px; color: var(--text-3); font-size: 12px; }
+.sb-hint {
+  flex: none;
+  margin: 0;
+  padding: 9px 14px 11px;
+  border-top: 1px solid var(--line-soft);
+  color: var(--text-3);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.sb-hint kbd { color: var(--text-2); font: inherit; }
+
+/* ==========================================================================
+   Canvas: dot grid, section frames, the transformed world, then a
+   screen-space overlay for labels and outlines (they stay crisp at any zoom)
+   ========================================================================== */
+.viewport {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  contain: strict;
+  background: var(--canvas);
+  cursor: default;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.viewport.is-space, .viewport.is-space * { cursor: grab !important; }
+.viewport.is-panning, .viewport.is-panning * { cursor: grabbing !important; }
+.grid, .frames, .overlay { position: absolute; inset: 0; pointer-events: none; }
+.grid {
+  opacity: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, .15) 0 1px, transparent 1.3px);
+}
+
+/* ---- Section frames (screen space) -------------------------------------- */
+.frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid rgba(255, 255, 255, .075);
+  border-radius: 6px;
+  background: #232323;
+  transition: opacity .15s ease;
+}
+.frame.is-dim { opacity: .5; }
+
+/* ---- World: artboards (canvas units, one CSS transform for pan + zoom) --- */
+.world {
+  --inv: 1; /* 1 / zoom, refreshed when the view settles: keeps hairlines ~1px */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+}
+.world.is-moving { will-change: transform; }
+.ab {
+  position: absolute;
+  background: #2a2a2a;
+  box-shadow:
+    0 0 0 calc(var(--inv) * 1px) rgba(255, 255, 255, .08),
+    0 calc(var(--inv) * 2px) calc(var(--inv) * 10px) rgba(0, 0, 0, .35);
+  cursor: zoom-in;
+  transition: opacity .15s ease;
+}
+.ab img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 0;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.ab.is-missing {
+  background: #242424;
+  box-shadow: none;
+  outline: calc(var(--inv) * 1px) dashed rgba(255, 255, 255, .2);
+  outline-offset: calc(var(--inv) * -1px);
+}
+.ab.is-dim { opacity: .14; }
+.ab.is-removed { opacity: .38; }
+
+/* ---- Platno additions ---------------------------------------------------- */
+.ab-badge, .row-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 5px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 16px;
+  vertical-align: top;
+}
+.row-badge { margin-left: 4px; line-height: 14px; }
+.is-new { background: rgba(45, 212, 191, .16); color: #5eead4; }
+.is-updated { background: rgba(250, 204, 21, .16); color: #fde047; }
+.is-removed-badge { background: rgba(248, 113, 113, .16); color: #fca5a5; }
+.is-changed { background: rgba(251, 146, 60, .16); color: #fdba74; }
+.is-pending { background: rgba(255, 255, 255, .08); color: var(--text-2); }
+.pl-back { color: var(--text-2); font-size: 12px; text-decoration: none; white-space: nowrap; }
+.pl-back:hover { color: var(--text); }
+.pl-status { color: var(--text-2); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 46vw; }
+.pl-status.is-warn { color: #fde047; }
+.pl-status.is-error { color: #fca5a5; }
+.pl-status a { color: inherit; }
+.pl-form { display: contents; }
+.pl-btn {
+  height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pl-btn:hover { background: #0d9488; }
+.pl-btn[disabled] { opacity: .5; cursor: default; }
+.pl-btn.is-quiet { background: var(--field); color: var(--text); }
+.pl-btn.is-quiet:hover { background: var(--chrome-hover); }
+
+/* ---- Overlay (screen space) --------------------------------------------- */
+.ab-title, .sec-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: max-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform-origin: 0 0;
+  pointer-events: auto;
+  transition: opacity .15s ease;
+}
+.ab-title {
+  height: 22px;
+  padding: 0 0 6px;
+  color: var(--text-2);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 16px;
+  cursor: default;
+}
+.ab-state {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, .075);
+  color: var(--text-3);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 16px;
+  vertical-align: top;
+}
+.ab-title.is-hover { color: var(--text); }
+.ab-title.is-selected { color: var(--accent-hi); }
+.sec-label {
+  height: 36px;
+  margin: 0;
+  padding: 0 2px 12px 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  cursor: pointer;
+}
+.sec-text { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sec-label.is-side .sec-text { text-align: right; }
+.sec-count {
+  margin-left: 8px;
+  color: var(--text-3);
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.sec-label:hover .sec-name {
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, .35);
+  text-underline-offset: 3px;
+}
+.sec-label:focus-visible { outline-offset: 0; border-radius: 4px; }
+.ab-title.is-dim, .sec-label.is-dim, .miss.is-dim { opacity: .3; }
+.miss {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+  overflow: hidden;
+  color: var(--text-3);
+  font-size: 12px;
+  text-align: center;
+}
+.miss svg { flex: none; width: 22px; height: 22px; color: #5e5e5e; }
+.miss code { max-width: 100%; color: var(--text-2); font: 11px/1.45 var(--mono); overflow-wrap: anywhere; }
+.hover-box, .sel-box { position: absolute; top: 0; left: 0; pointer-events: none; }
+.hover-box { box-shadow: 0 0 0 1px rgba(45, 212, 191, .45); }
+.sel-box { box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(15, 118, 110, .22); }
+
+/* ---- Empty state --------------------------------------------------------- */
+.empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  pointer-events: none;
+}
+.empty-card { max-width: 360px; text-align: center; }
+.empty-card svg { width: 44px; height: 44px; margin-bottom: 12px; color: #555555; }
+.empty-title { margin: 0; color: var(--text-2); font-size: 14px; }
+.empty-sub { margin: 6px 0 0; color: var(--text-3); font-size: 12px; }
+
+@media (max-width: 760px) {
+  .meta-generated, .sb-hint { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- ======================= Header ======================= -->
+  <header class="topbar">
+    <button class="icon-btn" id="toggle-sidebar" type="button" aria-label="Hide layers panel" aria-controls="sidebar" aria-expanded="true" title="Toggle layers panel">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><rect x="1.75" y="2.75" width="12.5" height="10.5" rx="2"/><path d="M6.25 2.75v10.5"/></svg>
+    </button>
+    <!--PLATNO_BACK-->
+    <h1 class="title" id="title">Screens</h1>
+    <span class="badge" id="platform">Mobile</span>
+    <span class="meta" id="count">0 screens</span>
+    <time class="meta meta-generated" id="generated" hidden></time>
+    <span class="spacer"></span>
+    <!--PLATNO_ACTIONS-->
+    <a class="sibling" id="sibling" hidden></a>
+    <div class="zoombar" role="toolbar" aria-label="Zoom">
+      <button class="icon-btn" id="zoom-fit" type="button" aria-label="Fit all screens" title="Fit all (0)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6V3.5a1 1 0 0 1 1-1H6M10 2.5h2.5a1 1 0 0 1 1 1V6M13.5 10v2.5a1 1 0 0 1-1 1H10M6 13.5H3.5a1 1 0 0 1-1-1V10"/></svg>
+      </button>
+      <button class="icon-btn" id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out (-)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3.5 8h9"/></svg>
+      </button>
+      <button class="zoom-pct" id="zoom-pct" type="button" aria-label="Zoom 100%. Reset to 100%" title="Zoom to 100% (1)">100%</button>
+      <button class="icon-btn" id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in (+)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3.5 8h9M8 3.5v9"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================= Layers panel ======================= -->
+  <aside class="sidebar" id="sidebar" aria-label="Layers">
+    <div class="sb-head">Layers</div>
+    <div class="filter" id="filter-box">
+      <svg class="filter-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+      <input id="filter" type="text" placeholder="Filter screens" aria-label="Filter screens" autocomplete="off" spellcheck="false">
+      <kbd class="filter-kbd" aria-hidden="true">/</kbd>
+      <button class="filter-clear" id="filter-clear" type="button" aria-label="Clear filter">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="m4.5 4.5 7 7m0-7-7 7"/></svg>
+      </button>
+    </div>
+    <nav class="layers" id="layers" aria-label="Screens"></nav>
+    <p class="sb-note" id="layers-note" hidden></p>
+    <p class="sb-hint">Drag to pan · <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + scroll to zoom<br><kbd>0</kbd> fit all · <kbd>1</kbd> 100% · <kbd>+</kbd>/<kbd>−</kbd> zoom · <kbd>/</kbd> filter</p>
+  </aside>
+
+  <!-- ======================= Canvas ======================= -->
+  <main class="viewport" id="viewport" aria-label="Screens canvas">
+    <div class="grid" id="grid" aria-hidden="true"></div>
+    <div class="frames" id="frames" aria-hidden="true"></div>
+    <div class="world" id="world"></div>
+    <div class="overlay" id="overlay">
+      <div class="hover-box" id="hover-box" hidden></div>
+      <div class="sel-box" id="sel-box" hidden></div>
+    </div>
+    <div class="empty" id="empty" hidden>
+      <div class="empty-card">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="9" width="14" height="30" rx="2.5"/><rect x="24" y="9" width="18" height="13" rx="2.5"/><rect x="24" y="26" width="18" height="13" rx="2.5" stroke-dasharray="3 3"/></svg>
+        <p class="empty-title" id="empty-title">No screens yet — run the capture command</p>
+        <p class="empty-sub" id="empty-sub" hidden></p>
+      </div>
+    </div>
+  </main>
+</div>
+<noscript><p style="position:fixed;inset:auto 0 16px;text-align:center;color:#b3b3b3">This canvas needs JavaScript.</p></noscript>
+
+<!-- Manifest: generated; keep on one line (see the note at the top). -->
+<script id="manifest" type="application/json">{"title":"Screens","platform":"mobile","sibling":"","generatedAt":null,"groups":[]}</script>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ========================================================================
+     1. Manifest
+     ======================================================================== */
+  let manifest = null;
+  let manifestOk = true;
+  try {
+    manifest = JSON.parse(document.getElementById('manifest').textContent);
+  } catch (err) {
+    manifestOk = false;
+    console.error('[screens] The embedded manifest is not valid JSON:', err);
+  }
+  if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)) manifest = {};
+
+  const text = (v) => (v == null ? '' : String(v));
+  /** Platno: labels for per-screen change badges. */
+  const BADGE = { new: 'New', updated: 'Updated', removed: 'Removed', changed: 'Code changed', pending: 'Not captured' };
+  const BADGE_TIP = {
+    new: 'New since the previous capture',
+    updated: 'Looks different since the previous capture',
+    removed: 'Removed since the previous capture',
+    changed: 'Its code changed since this capture — Update re-captures it',
+    pending: 'In the code but not captured yet — Update adds it',
+  };
+  const BADGE_CLASS = { new: 'is-new', updated: 'is-updated', removed: 'is-removed-badge', changed: 'is-changed', pending: 'is-pending' };
+  const platform = manifest.platform === 'web' ? 'web' : 'mobile';
+  const docTitle = text(manifest.title).trim() || 'Screens';
+  document.title = docTitle;
+
+  /** Case- and diacritic-insensitive form used by the filter ("Račun" → "racun"). */
+  function fold(value) {
+    return String(value)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/đ/g, 'd')
+      .replace(/ł/g, 'l')
+      .replace(/ø/g, 'o')
+      .replace(/ß/g, 'ss');
+  }
+
+  const FALLBACK = platform === 'web' ? { w: 1440, h: 900 } : { w: 390, h: 844 };
+  const groups = [];
+  const screens = [];
+  const byId = new Map();
+
+  (Array.isArray(manifest.groups) ? manifest.groups : []).forEach((rawGroup, gi) => {
+    if (!rawGroup || !Array.isArray(rawGroup.screens)) return;
+    const group = {
+      index: groups.length,
+      id: text(rawGroup.id) || `group-${gi + 1}`,
+      name: text(rawGroup.name).trim() || text(rawGroup.id) || `Group ${gi + 1}`,
+      screens: [],
+      collapsed: false,
+      x: 0, y: 0, w: 0, h: 0,
+    };
+    rawGroup.screens.forEach((raw, si) => {
+      if (!raw || typeof raw !== 'object') return;
+      const width = Number(raw.width);
+      const height = Number(raw.height);
+      const sc = {
+        index: screens.length,
+        group,
+        id: text(raw.id) || `${group.id}-${si + 1}`,
+        name: text(raw.name).trim() || text(raw.id) || `Screen ${si + 1}`,
+        state: text(raw.state).trim(),
+        file: text(raw.file).trim(),
+        route: text(raw.route).trim(),
+        widget: text(raw.widget).trim(),
+        note: text(raw.note).trim(),
+        badge: Object.hasOwn(BADGE, raw.badge) ? raw.badge : '',
+        w: width > 0 ? width : FALLBACK.w,
+        h: height > 0 ? height : FALLBACK.h,
+        x: 0, y: 0,
+        match: true,
+        missing: false,
+      };
+      sc.haystack = fold([group.name, sc.name, sc.state, sc.route, sc.widget, BADGE[sc.badge] || ''].join(' '));
+      group.screens.push(sc);
+      screens.push(sc);
+      if (!byId.has(sc.id)) byId.set(sc.id, sc);
+    });
+    if (group.screens.length) groups.push(group);
+  });
+
+  /* ========================================================================
+     2. Layout (world units = logical screen pixels)
+     Each group is one section row: artboards left to right, top-aligned,
+     rows stacked. Spacing scales with the typical artboard width so a web
+     canvas (1440 wide) breathes like a mobile one (390 wide).
+     ======================================================================== */
+  const widths = screens.map((s) => s.w).sort((a, b) => a - b);
+  const unit = widths.length ? Math.min(4, Math.max(1, widths[widths.length >> 1] / 390)) : 1;
+  const LAYOUT = {
+    padX: 64 * unit,     // section frame padding, left and right
+    padTop: 128 * unit,  // room above the artboards for their titles
+    padBottom: 64 * unit,
+    gapX: 72 * unit,     // between artboards
+    rowGap: 320 * unit,  // between sections; holds the section label
+  };
+  const TITLE_H = 22;    // artboard title box, screen px (incl. gap to the artboard)
+  const SECTION_H = 36;  // section label box, screen px (incl. gap to the frame)
+  const SIDE_MIN = 96;   // screen px left of a frame needed to put its label beside it
+
+  let worldW = 0;
+  let worldH = 0;
+  {
+    let y = 0;
+    for (const g of groups) {
+      let x = LAYOUT.padX;
+      let rowH = 0;
+      for (const sc of g.screens) {
+        sc.x = x;
+        sc.y = y + LAYOUT.padTop;
+        x += sc.w + LAYOUT.gapX;
+        rowH = Math.max(rowH, sc.h);
+      }
+      g.x = 0;
+      g.y = y;
+      g.w = x - LAYOUT.gapX + LAYOUT.padX;
+      g.h = LAYOUT.padTop + rowH + LAYOUT.padBottom;
+      worldW = Math.max(worldW, g.w);
+      y += g.h + LAYOUT.rowGap;
+    }
+    worldH = groups.length ? y - LAYOUT.rowGap : 0;
+  }
+
+  /* ========================================================================
+     3. DOM references & helpers
+     ======================================================================== */
+  const $ = (id) => document.getElementById(id);
+  const app = $('app');
+  const viewport = $('viewport');
+  const gridEl = $('grid');
+  const framesEl = $('frames');
+  const world = $('world');
+  const overlay = $('overlay');
+  const hoverBox = $('hover-box');
+  const selBox = $('sel-box');
+  const layersEl = $('layers');
+  const layersNote = $('layers-note');
+  const filterBox = $('filter-box');
+  const filterInput = $('filter');
+  const filterClear = $('filter-clear');
+  const sidebarBtn = $('toggle-sidebar');
+  const zoomPctBtn = $('zoom-pct');
+  const zoomInBtn = $('zoom-in');
+  const zoomOutBtn = $('zoom-out');
+  const countEl = $('count');
+
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const mod = (a, n) => ((a % n) + n) % n;
+  const plural = (n) => (n === 1 ? 'screen' : 'screens');
+
+  function el(tag, className, content) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (content != null) node.textContent = content;
+    return node;
+  }
+
+  /** Relative manifest paths are encoded per segment ("#", spaces, …). */
+  function fileUrl(file) {
+    if (/^[a-z][a-z0-9+.-]*:/i.test(file) || file.startsWith('/')) return file;
+    return file.split('/').map((seg) => (seg === '.' || seg === '..' ? seg : encodeURIComponent(seg))).join('/');
+  }
+
+  /** Native tooltip text: the optional metadata lives here. */
+  function describe(sc) {
+    const lines = [sc.state ? `${sc.name} · ${sc.state}` : sc.name];
+    if (sc.badge) lines.push(BADGE_TIP[sc.badge]);
+    if (sc.route) lines.push(`Route: ${sc.route}`);
+    if (sc.widget) lines.push(`Widget: ${sc.widget}`);
+    if (sc.note) lines.push(sc.note);
+    if (sc.file) lines.push(sc.file);
+    return lines.join('\n');
+  }
+
+  const ICON_CHEVRON = '<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 6.5 3 3 3-3"/></svg>';
+  const ICON_MISSING = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="m3.5 16 4.5-4.5 3.5 3.5 2.5-2.5 6.5 6.5"/><circle cx="15.5" cy="9" r="1.5"/></svg>';
+
+  /* ========================================================================
+     4. Header
+     ======================================================================== */
+  $('title').textContent = docTitle;
+  $('platform').textContent = platform === 'web' ? 'Web' : 'Mobile';
+  if (manifest.generatedAt) {
+    const d = new Date(manifest.generatedAt);
+    if (!Number.isNaN(d.getTime())) {
+      const gen = $('generated');
+      gen.textContent = `Generated ${d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}`;
+      gen.dateTime = d.toISOString();
+      gen.title = d.toISOString();
+      gen.hidden = false;
+    }
+  }
+  const siblingHref = text(manifest.sibling).trim();
+  if (siblingHref && !/^(javascript|data|vbscript):/i.test(siblingHref)) {
+    const a = $('sibling');
+    a.href = siblingHref;
+    a.textContent = platform === 'web' ? 'Mobile canvas ↗' : 'Web canvas ↗';
+    a.hidden = false;
+  }
+
+  function renderCount(matched, filtering) {
+    const n = screens.length;
+    countEl.textContent = filtering ? `${matched} of ${n} ${plural(n)}` : `${n} ${plural(n)}`;
+  }
+
+  /* ========================================================================
+     5. Build canvas + layers panel
+     ======================================================================== */
+  {
+    const frameFrag = document.createDocumentFragment();
+    const worldFrag = document.createDocumentFragment();
+    const labelFrag = document.createDocumentFragment();
+    const titleFrag = document.createDocumentFragment();
+    const layerFrag = document.createDocumentFragment();
+
+    for (const g of groups) {
+      g.frameEl = el('div', 'frame');
+      frameFrag.append(g.frameEl);
+
+      const label = el('button', 'sec-label');
+      label.type = 'button';
+      label.dataset.gid = g.index;
+      label.title = `Zoom to ${g.name}`;
+      const labelText = el('span', 'sec-text');
+      labelText.append(el('span', 'sec-name', g.name), el('span', 'sec-count', String(g.screens.length)));
+      label.append(labelText);
+      g.labelEl = label;
+      labelFrag.append(label);
+
+      const wrap = el('div', 'group');
+      const head = el('button', 'group-head');
+      head.type = 'button';
+      head.dataset.gid = g.index;
+      head.setAttribute('aria-expanded', 'true');
+      head.setAttribute('aria-controls', `rows-${g.index}`);
+      head.innerHTML = ICON_CHEVRON;
+      g.countEl = el('span', 'group-count', String(g.screens.length));
+      head.append(el('span', 'group-name', g.name), g.countEl);
+      const list = el('ul', 'rows');
+      list.id = `rows-${g.index}`;
+      wrap.append(head, list);
+      g.groupEl = wrap;
+      g.headEl = head;
+      layerFrag.append(wrap);
+
+      for (const sc of g.screens) {
+        const tip = describe(sc);
+
+        const ab = el('div', sc.badge === 'removed' ? 'ab is-removed' : 'ab');
+        ab.dataset.sid = sc.index;
+        ab.title = tip;
+        ab.style.cssText = `left:${sc.x}px;top:${sc.y}px;width:${sc.w}px;height:${sc.h}px`;
+        if (sc.file) {
+          const img = document.createElement('img');
+          img.decoding = 'async';
+          img.draggable = false;
+          img.alt = sc.state ? `${sc.name} — ${sc.state}` : sc.name;
+          img.width = Math.round(sc.w);
+          img.height = Math.round(sc.h);
+          img.addEventListener('error', () => markMissing(sc), { once: true });
+          img.src = fileUrl(sc.file);
+          ab.append(img);
+        }
+        sc.el = ab;
+        worldFrag.append(ab);
+
+        const title = el('div', 'ab-title');
+        title.dataset.sid = sc.index;
+        title.title = tip;
+        title.setAttribute('aria-hidden', 'true');
+        title.append(el('span', 'ab-name', sc.name));
+        if (sc.state) title.append(el('span', 'ab-state', sc.state));
+        if (sc.badge) title.append(el('span', `ab-badge ${BADGE_CLASS[sc.badge]}`, BADGE[sc.badge]));
+        sc.titleEl = title;
+        titleFrag.append(title);
+
+        const item = el('li');
+        const row = el('a', 'row');
+        row.href = `#${encodeURIComponent(sc.id)}`;
+        row.dataset.sid = sc.index;
+        row.title = tip;
+        const rowText = el('span', 'row-text');
+        rowText.append(el('span', 'row-name', sc.name));
+        if (sc.state) rowText.append(el('span', 'row-state', ` · ${sc.state}`));
+        if (sc.badge) rowText.append(el('span', `row-badge ${BADGE_CLASS[sc.badge]}`, BADGE[sc.badge]));
+        row.append(rowText);
+        item.append(row);
+        list.append(item);
+        sc.rowEl = row;
+        sc.itemEl = item;
+      }
+    }
+
+    framesEl.append(frameFrag);
+    world.append(worldFrag);
+    overlay.prepend(labelFrag, titleFrag);
+    layersEl.append(layerFrag);
+  }
+
+  /** Quiet placeholder for a screen whose PNG is absent: hatched frame + filename. */
+  function markMissing(sc) {
+    if (sc.missing) return;
+    sc.missing = true;
+    sc.el.classList.add('is-missing');
+    const img = sc.el.querySelector('img');
+    if (img) img.remove();
+    const cap = el('div', sc.match ? 'miss' : 'miss is-dim');
+    cap.innerHTML = ICON_MISSING;
+    cap.append(el('span', null, 'Image not found'), el('code', null, sc.file || 'no file in manifest'));
+    cap.hidden = true;
+    sc.missEl = cap;
+    sc.missVis = false;
+    overlay.insertBefore(cap, hoverBox);
+    requestRender();
+  }
+
+  /* ========================================================================
+     6. View state + rendering
+     view maps world → viewport: screen = world * s + (x, y)
+     ======================================================================== */
+  const MIN_SCALE = 0.02;
+  const MAX_SCALE = 8;
+  const ZOOM_STEPS = [0.02, 0.03, 0.05, 0.08, 0.1, 0.125, 0.17, 0.25, 0.33, 0.5, 0.67, 1, 1.5, 2, 3, 4, 6, 8];
+  const GRID = 24;           // dot spacing, world units
+  const DRAG_THRESHOLD = 4;  // px before a press becomes a pan
+  const FIT_MAX_ARTBOARD = 2;
+
+  const view = { x: 0, y: 0, s: 1 };
+  const vp = { left: 0, top: 0, w: 0, h: 0 };
+  let autoFit = false;       // true while the view is "fit all" (re-fit on resize)
+  let selected = null;
+  let hovered = null;
+
+  function measure() {
+    const r = viewport.getBoundingClientRect();
+    vp.left = r.left;
+    vp.top = r.top;
+    vp.w = r.width;
+    vp.h = r.height;
+  }
+
+  let raf = 0;
+  let lastTransform = '';
+  let lastGridAlpha = -1;
+  let lastPct = '';
+  let lastLimits = '';
+
+  function requestRender() {
+    if (!raf) raf = requestAnimationFrame(render);
+  }
+
+  function render() {
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    const { x, y, s } = view;
+    const tf = `translate(${x}px, ${y}px) scale(${s})`;
+    if (tf !== lastTransform) { world.style.transform = tf; lastTransform = tf; }
+    renderGrid(x, y, s);
+    renderFrames(x, y, s);
+    renderOverlay(x, y, s);
+    renderZoomUi(s);
+  }
+
+  /** Dot grid lives in the viewport background; it fades out at low zoom. */
+  function renderGrid(x, y, s) {
+    const g = GRID * s;
+    const alpha = Math.round(clamp((g - 7) / 9, 0, 1) * 100) / 100;
+    if (alpha !== lastGridAlpha) { gridEl.style.opacity = alpha; lastGridAlpha = alpha; }
+    if (alpha > 0) {
+      gridEl.style.backgroundSize = `${g}px ${g}px`;
+      gridEl.style.backgroundPosition = `${mod(x - g / 2, g)}px ${mod(y - g / 2, g)}px`;
+    }
+  }
+
+  const dpr = () => window.devicePixelRatio || 1;
+  const snap = (v) => Math.round(v * dpr()) / dpr();
+
+  function renderFrames(tx, ty, s) {
+    const W = vp.w;
+    const H = vp.h;
+    for (const g of groups) {
+      const x0 = snap(g.x * s + tx);
+      const y0 = snap(g.y * s + ty);
+      const x1 = snap((g.x + g.w) * s + tx);
+      const y1 = snap((g.y + g.h) * s + ty);
+      const vis = x0 < W && x1 > 0 && y0 < H && y1 > 0;
+      if (vis !== g.frameVis) { g.frameEl.hidden = !vis; g.frameVis = vis; }
+      if (!vis) continue;
+      const st = g.frameEl.style;
+      st.transform = `translate(${x0}px, ${y0}px)`;
+      st.width = `${x1 - x0}px`;
+      st.height = `${y1 - y0}px`;
+    }
+  }
+
+  /** Place a counter-scaled label: k = 1 keeps it at its CSS size on screen;
+      k < 1 shrinks it with the world once the reserved room gets too small.
+      alignEnd anchors the label's right edge at x instead of its left edge. */
+  function placeLabel(node, x, y, k, maxWidth, alignEnd = false) {
+    node.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`
+      + (alignEnd ? ' translateX(-100%)' : '')
+      + (k < 1 ? ` scale(${k.toFixed(3)})` : '');
+    const mw = Math.floor(maxWidth / k);
+    if (node._maxW !== mw) { node.style.maxWidth = `${mw}px`; node._maxW = mw; }
+  }
+
+  function placeBox(node, sc, tx, ty, s) {
+    if (!sc) {
+      if (!node.hidden) node.hidden = true;
+      return;
+    }
+    // Unsnapped on purpose: the ring must hug the artboard's own (fractional) edges.
+    const x0 = sc.x * s + tx;
+    const y0 = sc.y * s + ty;
+    const x1 = (sc.x + sc.w) * s + tx;
+    const y1 = (sc.y + sc.h) * s + ty;
+    node.hidden = false;
+    const st = node.style;
+    st.transform = `translate(${x0}px, ${y0}px)`;
+    st.width = `${x1 - x0}px`;
+    st.height = `${y1 - y0}px`;
+  }
+
+  function renderOverlay(tx, ty, s) {
+    const W = vp.w;
+    const H = vp.h;
+
+    // Section labels sit above each frame, in the gap between rows. Once that
+    // gap is too thin on screen they move beside the frame (to its left) when
+    // there is room there, and otherwise shrink with the world.
+    const ks = Math.min(1, (LAYOUT.rowGap * s - 8) / SECTION_H);
+    for (const g of groups) {
+      const sx = g.x * s + tx;
+      const sy = g.y * s + ty;
+      const sw = g.w * s;
+      const sh = g.h * s;
+      const side = ks < 0.8 && sx >= SIDE_MIN && sx - 14 <= W && sh >= 24;
+      const k = side ? 1 : ks;
+      const x = side ? sx - 14 : sx;
+      const y = side ? sy - 4 : sy - SECTION_H * k;
+      const vis = side
+        ? y < H && sy + sh > 0
+        : k >= 0.5 && sw >= 48 && sx < W && sx + sw > 0 && sy > 0 && y < H;
+      if (vis !== g.labelVis) { g.labelEl.hidden = !vis; g.labelVis = vis; }
+      if (side !== g.labelSide) { g.labelEl.classList.toggle('is-side', side); g.labelSide = side; }
+      if (vis) placeLabel(g.labelEl, x, y, k, side ? sx - 20 : sw, side);
+    }
+
+    // Artboard titles sit right above each artboard, truncated to its width.
+    const kt = Math.min(1, (LAYOUT.padTop * s - 6) / TITLE_H);
+    const titlesOn = kt >= 0.55;
+    for (const sc of screens) {
+      const sx = sc.x * s + tx;
+      const sy = sc.y * s + ty;
+      const sw = sc.w * s;
+      const sh = sc.h * s;
+      const top = sy - TITLE_H * kt;
+      const tVis = titlesOn && sw >= 20 && sx < W && sx + sw > 0 && sy > 0 && top < H;
+      if (tVis !== sc.titleVis) { sc.titleEl.hidden = !tVis; sc.titleVis = tVis; }
+      if (tVis) placeLabel(sc.titleEl, sx, top, kt, sw);
+
+      if (sc.missEl) {
+        // Caption covers the visible part of the artboard so the filename stays in view.
+        const x0 = Math.max(sx, 0);
+        const y0 = Math.max(sy, 0);
+        const x1 = Math.min(sx + sw, W);
+        const y1 = Math.min(sy + sh, H);
+        const mVis = sw >= 120 && sh >= 90 && x1 - x0 >= 110 && y1 - y0 >= 80;
+        if (mVis !== sc.missVis) { sc.missEl.hidden = !mVis; sc.missVis = mVis; }
+        if (mVis) {
+          const st = sc.missEl.style;
+          st.transform = `translate(${Math.round(x0)}px, ${Math.round(y0)}px)`;
+          st.width = `${Math.round(x1 - x0)}px`;
+          st.height = `${Math.round(y1 - y0)}px`;
+        }
+      }
+    }
+
+    placeBox(hoverBox, hovered && hovered !== selected ? hovered : null, tx, ty, s);
+    placeBox(selBox, selected, tx, ty, s);
+  }
+
+  function renderZoomUi(s) {
+    const pct = `${Math.round(s * 100)}%`;
+    if (pct !== lastPct) {
+      lastPct = pct;
+      zoomPctBtn.textContent = pct;
+      zoomPctBtn.setAttribute('aria-label', `Zoom ${pct}. Reset to 100%`);
+    }
+    const limits = `${s >= MAX_SCALE - 1e-6}|${s <= MIN_SCALE + 1e-6}`;
+    if (limits !== lastLimits) {
+      lastLimits = limits;
+      const [atMax, atMin] = limits.split('|');
+      zoomInBtn.setAttribute('aria-disabled', atMax);
+      zoomOutBtn.setAttribute('aria-disabled', atMin);
+    }
+  }
+
+  /* While the view moves, the world is its own compositor layer (cheap
+     pan/zoom). Once it settles the layer is dropped so the browser
+     re-rasterises screenshots crisply at the final zoom. */
+  let moving = false;
+  let settleTimer = 0;
+
+  function markMoving() {
+    if (!moving) { moving = true; world.classList.add('is-moving'); }
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(settle, 160);
+  }
+
+  function settle() {
+    if (anim || pointers.size) { settleTimer = setTimeout(settle, 160); return; }
+    clearTimeout(settleTimer);
+    moving = false;
+    view.x = snap(view.x);
+    view.y = snap(view.y);
+    world.classList.remove('is-moving');
+    world.style.setProperty('--inv', String(1 / view.s));
+    render();
+  }
+
+  function viewChanged() {
+    markMoving();
+    requestRender();
+  }
+
+  /** Keep at least a sliver of content on screen so it can't be lost. */
+  function clampPan() {
+    if (!groups.length) return;
+    const m = 64;
+    view.x = clamp(view.x, m - worldW * view.s, vp.w - m);
+    view.y = clamp(view.y, m - worldH * view.s, vp.h - m);
+  }
+
+  function panBy(dx, dy) {
+    if (!dx && !dy) return;
+    view.x += dx;
+    view.y += dy;
+    clampPan();
+    autoFit = false;
+    viewChanged();
+  }
+
+  /** Zoom by `factor` keeping viewport point (px, py) fixed. */
+  function zoomAt(px, py, factor) {
+    const s = clamp(view.s * factor, MIN_SCALE, MAX_SCALE);
+    if (s === view.s) return;
+    const k = s / view.s;
+    view.x = px - (px - view.x) * k;
+    view.y = py - (py - view.y) * k;
+    view.s = s;
+    clampPan();
+    autoFit = false;
+    viewChanged();
+  }
+
+  /* ---- Animated moves ----------------------------------------------------- */
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let anim = 0;
+
+  function cancelAnim() {
+    if (anim) { cancelAnimationFrame(anim); anim = 0; }
+  }
+
+  /** Move to `target`. With a zoom change the path is a pure zoom around the
+      transform's fixed point, so everything travels in straight lines. */
+  function animateTo(target, animate = true, duration = 320) {
+    cancelAnim();
+    if (!animate || reducedMotion.matches) {
+      view.x = target.x;
+      view.y = target.y;
+      view.s = target.s;
+      viewChanged();
+      return;
+    }
+    const from = { x: view.x, y: view.y, s: view.s };
+    const r = target.s / from.s;
+    const pivot = Math.abs(r - 1) > 1e-6
+      ? { x: (r * from.x - target.x) / (r - 1), y: (r * from.y - target.y) / (r - 1) }
+      : null;
+    const t0 = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / duration);
+      const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      if (t >= 1) {
+        view.x = target.x;
+        view.y = target.y;
+        view.s = target.s;
+      } else if (pivot) {
+        const k = Math.pow(r, e);
+        view.s = from.s * k;
+        view.x = pivot.x - (pivot.x - from.x) * k;
+        view.y = pivot.y - (pivot.y - from.y) * k;
+      } else {
+        view.x = from.x + (target.x - from.x) * e;
+        view.y = from.y + (target.y - from.y) * e;
+      }
+      anim = t < 1 ? requestAnimationFrame(step) : 0;
+      markMoving();
+      render();
+    };
+    anim = requestAnimationFrame(step);
+  }
+
+  /** View that fits world rect `r` with padding (+ `extraTop` for its label). */
+  function fitView(r, extraTop, maxScale) {
+    const pad = clamp(Math.min(vp.w, vp.h) * 0.06, 16, 56);
+    const aw = Math.max(1, vp.w - pad * 2);
+    const ah = Math.max(1, vp.h - pad * 2 - extraTop);
+    const s = clamp(Math.min(aw / r.w, ah / r.h), MIN_SCALE, maxScale);
+    return {
+      s,
+      x: pad + (aw - r.w * s) / 2 - r.x * s,
+      y: pad + extraTop + (ah - r.h * s) / 2 - r.y * s,
+    };
+  }
+
+  function fitAll(animate) {
+    if (!groups.length) return;
+    animateTo(fitView({ x: 0, y: 0, w: worldW, h: worldH }, SECTION_H, 1), animate);
+    autoFit = true;
+  }
+
+  function zoomToGroup(g) {
+    animateTo(fitView(g, SECTION_H, 1));
+    autoFit = false;
+  }
+
+  function zoomToScreen(sc, animate = true) {
+    animateTo(fitView(sc, TITLE_H, FIT_MAX_ARTBOARD), animate);
+    autoFit = false;
+  }
+
+  function zoomToScale(target) {
+    const s = clamp(target, MIN_SCALE, MAX_SCALE);
+    const cx = vp.w / 2;
+    const cy = vp.h / 2;
+    const k = s / view.s;
+    animateTo({ s, x: cx - (cx - view.x) * k, y: cy - (cy - view.y) * k }, true, 200);
+    autoFit = false;
+  }
+
+  function stepZoom(dir) {
+    const s = view.s;
+    const next = dir > 0
+      ? ZOOM_STEPS.find((z) => z > s * 1.02)
+      : ZOOM_STEPS.slice().reverse().find((z) => z < s / 1.02);
+    zoomToScale(next == null ? (dir > 0 ? MAX_SCALE : MIN_SCALE) : next);
+  }
+
+  /* ========================================================================
+     7. Selection, hover, deep links
+     ======================================================================== */
+  function readHash() {
+    const raw = location.hash.slice(1);
+    if (!raw) return '';
+    try { return decodeURIComponent(raw); } catch (_) { return raw; }
+  }
+
+  function writeHash(id) {
+    const url = id ? `#${encodeURIComponent(id)}` : location.href.split('#')[0];
+    try {
+      history.replaceState(history.state, '', url);
+    } catch (_) {
+      location.hash = id ? encodeURIComponent(id) : '';
+    }
+  }
+
+  function select(sc, { zoom = true, animate = true, reveal = false, hash = true } = {}) {
+    if (sc !== selected) {
+      if (selected) {
+        selected.titleEl.classList.remove('is-selected');
+        selected.rowEl.removeAttribute('aria-current');
+      }
+      selected = sc;
+      if (sc) {
+        sc.titleEl.classList.add('is-selected');
+        sc.rowEl.setAttribute('aria-current', 'true');
+      }
+      if (hash) writeHash(sc ? sc.id : '');
+    }
+    if (sc && reveal) revealRow(sc);
+    if (sc && zoom) zoomToScreen(sc, animate);
+    requestRender();
+  }
+
+  function setHover(sc) {
+    if (sc === hovered) return;
+    if (hovered) {
+      hovered.titleEl.classList.remove('is-hover');
+      hovered.rowEl.classList.remove('is-hover');
+    }
+    hovered = sc;
+    if (sc) {
+      sc.titleEl.classList.add('is-hover');
+      sc.rowEl.classList.add('is-hover');
+    }
+    requestRender();
+  }
+
+  window.addEventListener('hashchange', () => {
+    const sc = byId.get(readHash());
+    if (sc && sc !== selected) select(sc, { reveal: true, hash: false });
+  });
+
+  /* ========================================================================
+     8. Layers panel: collapse, filter, reveal
+     ======================================================================== */
+  function setSidebar(open) {
+    app.classList.toggle('is-collapsed', !open);
+    sidebarBtn.setAttribute('aria-expanded', String(open));
+    sidebarBtn.setAttribute('aria-label', open ? 'Hide layers panel' : 'Show layers panel');
+  }
+
+  function setCollapsed(g, collapsed) {
+    g.collapsed = collapsed;
+    g.groupEl.classList.toggle('is-collapsed', collapsed);
+    g.headEl.setAttribute('aria-expanded', String(!collapsed));
+  }
+
+  function revealRow(sc) {
+    if (app.classList.contains('is-collapsed') || !sc.match) return;
+    if (sc.group.collapsed) setCollapsed(sc.group, false);
+    sc.rowEl.scrollIntoView({ block: 'nearest' });
+  }
+
+  function focusFilter() {
+    if (app.classList.contains('is-collapsed')) setSidebar(true);
+    filterInput.focus();
+    filterInput.select();
+  }
+
+  /** Every whitespace-separated term must appear in group, name, state, route or widget. */
+  function applyFilter() {
+    const raw = filterInput.value;
+    const terms = fold(raw).split(/\s+/).filter(Boolean);
+    const filtering = terms.length > 0;
+    filterBox.classList.toggle('has-value', raw.length > 0);
+    layersEl.classList.toggle('is-filtering', filtering);
+    let total = 0;
+    for (const g of groups) {
+      let n = 0;
+      for (const sc of g.screens) {
+        const match = !filtering || terms.every((t) => sc.haystack.includes(t));
+        if (match !== sc.match) {
+          sc.match = match;
+          sc.el.classList.toggle('is-dim', !match);
+          sc.titleEl.classList.toggle('is-dim', !match);
+          if (sc.missEl) sc.missEl.classList.toggle('is-dim', !match);
+          sc.itemEl.hidden = !match;
+        }
+        if (match) n += 1;
+      }
+      total += n;
+      g.groupEl.hidden = n === 0;
+      g.countEl.textContent = filtering ? `${n}/${g.screens.length}` : String(g.screens.length);
+      g.frameEl.classList.toggle('is-dim', n === 0);
+      g.labelEl.classList.toggle('is-dim', n === 0);
+    }
+    if (screens.length) {
+      layersNote.textContent = 'No matching screens';
+      layersNote.hidden = !filtering || total > 0;
+    }
+    renderCount(total, filtering);
+  }
+
+  filterInput.addEventListener('input', applyFilter);
+  filterInput.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const first = screens.find((sc) => sc.match);
+    if (first) select(first, { reveal: true });
+  });
+  filterClear.addEventListener('click', () => {
+    filterInput.value = '';
+    applyFilter();
+    filterInput.focus();
+  });
+
+  layersEl.addEventListener('click', (e) => {
+    const row = e.target.closest('.row');
+    if (row) {
+      // Modified clicks keep the browser default: open the deep link elsewhere.
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      select(screens[Number(row.dataset.sid)]);
+      return;
+    }
+    const head = e.target.closest('.group-head');
+    if (head) {
+      const g = groups[Number(head.dataset.gid)];
+      setCollapsed(g, !g.collapsed);
+    }
+  });
+  layersEl.addEventListener('pointerover', (e) => {
+    const row = e.target.closest('.row');
+    setHover(row ? screens[Number(row.dataset.sid)] : null);
+  });
+  layersEl.addEventListener('pointerleave', () => setHover(null));
+
+  sidebarBtn.addEventListener('click', () => {
+    const open = app.classList.contains('is-collapsed');
+    if (!open && app.querySelector('.sidebar').contains(document.activeElement)) sidebarBtn.focus();
+    setSidebar(open);
+  });
+
+  /* ========================================================================
+     9. Canvas input: drag / space-drag pan, wheel, pinch, click-to-zoom
+     ======================================================================== */
+  const pointers = new Map(); // pointerId → { x, y } (client coords)
+  let press = null;           // current press: { x0, y0, moved, hit }
+  let spaceDown = false;
+  let pointerInside = false;
+  let safariGesture = null;
+
+  function hitTest(target) {
+    const node = target && target.closest ? target.closest('[data-sid], [data-gid]') : null;
+    if (!node || !viewport.contains(node)) return null;
+    if (node.dataset.sid != null) return { sc: screens[Number(node.dataset.sid)] };
+    return { g: groups[Number(node.dataset.gid)] };
+  }
+
+  function pinchState() {
+    const [a, b] = pointers.values();
+    return { cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2, d: Math.hypot(a.x - b.x, a.y - b.y) };
+  }
+
+  function beginPan() {
+    viewport.classList.add('is-panning');
+    setHover(null);
+  }
+
+  viewport.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 1) return;
+    cancelAnim();
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    try { viewport.setPointerCapture(e.pointerId); } catch (_) { /* pointer already gone */ }
+    if (pointers.size === 1) {
+      const forcePan = spaceDown || e.button === 1;
+      press = { x0: e.clientX, y0: e.clientY, moved: forcePan, hit: hitTest(e.target) };
+      if (forcePan) {
+        e.preventDefault();
+        beginPan();
+      }
+    } else if (press) {
+      press.moved = true; // a second finger: this is a pinch, never a click
+      beginPan();
+    }
+  });
+
+  viewport.addEventListener('pointermove', (e) => {
+    const p = pointers.get(e.pointerId);
+    if (!p || !press) return;
+    if (pointers.size === 1) {
+      if (!press.moved) {
+        if (Math.hypot(e.clientX - press.x0, e.clientY - press.y0) < DRAG_THRESHOLD) return;
+        press.moved = true;
+        beginPan();
+      }
+      panBy(e.clientX - p.x, e.clientY - p.y);
+      p.x = e.clientX;
+      p.y = e.clientY;
+      return;
+    }
+    const before = pinchState();
+    p.x = e.clientX;
+    p.y = e.clientY;
+    const after = pinchState();
+    panBy(after.cx - before.cx, after.cy - before.cy);
+    if (before.d > 0 && after.d > 0) zoomAt(after.cx - vp.left, after.cy - vp.top, after.d / before.d);
+  });
+
+  function endPress(e) {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.delete(e.pointerId);
+    if (pointers.size) return;
+    const wasClick = press && !press.moved && e.type === 'pointerup';
+    const hit = press && press.hit;
+    press = null;
+    viewport.classList.remove('is-panning');
+    if (!wasClick) return;
+    if (hit && hit.sc) select(hit.sc, { reveal: true });
+    else if (hit && hit.g) zoomToGroup(hit.g);
+    else if (selected) select(null, { zoom: false });
+  }
+  viewport.addEventListener('pointerup', endPress);
+  viewport.addEventListener('pointercancel', endPress);
+  viewport.addEventListener('lostpointercapture', endPress);
+  viewport.addEventListener('mousedown', (e) => { if (e.button === 1) e.preventDefault(); });
+
+  viewport.addEventListener('pointerover', (e) => {
+    if (e.pointerType !== 'mouse' || pointers.size) return;
+    const hit = hitTest(e.target);
+    setHover(hit && hit.sc ? hit.sc : null);
+  });
+  viewport.addEventListener('pointerenter', () => { pointerInside = true; });
+  viewport.addEventListener('pointerleave', () => {
+    pointerInside = false;
+    setHover(null);
+  });
+
+  // Keyboard activation of a section label (pointer clicks go through endPress).
+  overlay.addEventListener('click', (e) => {
+    if (e.detail !== 0) return;
+    const label = e.target.closest('.sec-label');
+    if (label) zoomToGroup(groups[Number(label.dataset.gid)]);
+  });
+
+  // Wheel: plain = pan (shift = horizontal); ctrl/⌘ or trackpad pinch = zoom at cursor.
+  viewport.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (safariGesture) return;
+    cancelAnim();
+    let dx = e.deltaX;
+    let dy = e.deltaY;
+    if (e.deltaMode === 1) { dx *= 16; dy *= 16; }
+    else if (e.deltaMode === 2) { dx *= vp.w; dy *= vp.h; }
+    if (e.ctrlKey || e.metaKey) {
+      zoomAt(e.clientX - vp.left, e.clientY - vp.top, Math.exp(-clamp(dy, -30, 30) / 100));
+      return;
+    }
+    if (e.shiftKey && !dx) { dx = dy; dy = 0; }
+    panBy(-dx, -dy);
+  }, { passive: false });
+
+  // Safari trackpad pinch arrives as gesture events rather than ctrl+wheel.
+  viewport.addEventListener('gesturestart', (e) => {
+    e.preventDefault();
+    if (pointers.size) return;
+    cancelAnim();
+    safariGesture = { s: view.s };
+  });
+  viewport.addEventListener('gesturechange', (e) => {
+    e.preventDefault();
+    if (!safariGesture || pointers.size) return;
+    const px = Number.isFinite(e.clientX) ? e.clientX - vp.left : vp.w / 2;
+    const py = Number.isFinite(e.clientY) ? e.clientY - vp.top : vp.h / 2;
+    zoomAt(px, py, (safariGesture.s * e.scale) / view.s);
+  });
+  viewport.addEventListener('gestureend', (e) => {
+    e.preventDefault();
+    safariGesture = null;
+  });
+
+  /* ========================================================================
+     10. Keyboard + toolbar
+     ======================================================================== */
+  const isTyping = (t) => !!(t && t.closest && t.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])'));
+
+  document.addEventListener('keydown', (e) => {
+    const t = e.target;
+    const typing = isTyping(t);
+    if (e.key === 'Escape') {
+      if (typing) t.blur();
+      else if (selected) select(null, { zoom: false });
+      return;
+    }
+    if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === ' ') {
+      // Space over the canvas pans; on a focused control elsewhere it still activates it.
+      if (!pointerInside && t && t.closest && t.closest('button, a')) return;
+      e.preventDefault();
+      if (!spaceDown) { spaceDown = true; viewport.classList.add('is-space'); }
+      return;
+    }
+    switch (e.key) {
+      case '0': fitAll(true); break;
+      case '1': zoomToScale(1); break;
+      case '+': case '=': stepZoom(1); break;
+      case '-': case '_': stepZoom(-1); break;
+      case 'f': case 'F': case '/': focusFilter(); break;
+      default: return;
+    }
+    e.preventDefault();
+  });
+  document.addEventListener('keyup', (e) => {
+    if (e.key === ' ' && spaceDown) {
+      e.preventDefault();
+      spaceDown = false;
+      viewport.classList.remove('is-space');
+    }
+  });
+  window.addEventListener('blur', () => {
+    spaceDown = false;
+    viewport.classList.remove('is-space');
+  });
+
+  $('zoom-fit').addEventListener('click', () => fitAll(true));
+  zoomInBtn.addEventListener('click', () => stepZoom(1));
+  zoomOutBtn.addEventListener('click', () => stepZoom(-1));
+  zoomPctBtn.addEventListener('click', () => zoomToScale(1));
+
+  /* ========================================================================
+     11. Resize + first paint
+     ======================================================================== */
+  const resizeObserver = new ResizeObserver(() => {
+    const oldW = vp.w;
+    const oldH = vp.h;
+    measure();
+    if (vp.w === oldW && vp.h === oldH) return;
+    if (autoFit) {
+      fitAll(false);
+    } else {
+      // Keep whatever sits in the middle of the canvas in the middle.
+      view.x += (vp.w - oldW) / 2;
+      view.y += (vp.h - oldH) / 2;
+      clampPan();
+      viewChanged();
+    }
+    render();
+  });
+
+  if (window.innerWidth < 720) setSidebar(false);
+  measure();
+  renderCount(screens.length, false);
+  for (const sc of screens) if (!sc.file) markMissing(sc);
+
+  if (!screens.length) {
+    $('empty').hidden = false;
+    filterInput.disabled = true;
+    layersNote.textContent = 'No screens';
+    layersNote.hidden = false;
+    if (manifestOk && text(manifest.emptyTitle).trim()) {
+      $('empty-title').textContent = text(manifest.emptyTitle).trim();
+      const sub = $('empty-sub');
+      sub.textContent = text(manifest.emptySub).trim();
+      sub.hidden = !sub.textContent;
+    }
+    if (!manifestOk) {
+      $('empty-title').textContent = 'Couldn’t read the screens manifest';
+      const sub = $('empty-sub');
+      sub.textContent = 'The JSON embedded in this file is invalid — run the capture command again.';
+      sub.hidden = false;
+    }
+    view.x = vp.w / 2;
+    view.y = vp.h / 2;
+  } else {
+    const initial = byId.get(readHash());
+    if (initial) select(initial, { animate: false, reveal: true, hash: false });
+    else fitAll(false);
+  }
+  settle();
+  resizeObserver.observe(viewport);
+})();
+</script>
+</body>
+</html>

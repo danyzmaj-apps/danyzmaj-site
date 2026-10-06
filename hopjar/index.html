@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hopjar | Daily habit tracker for iPhone and Android</title>
+<meta name="description" content="Tap what you did today and it hops into the jar. Hopjar keeps your habits, notes and to-dos on your phone, with an optional backup. Support, questions and contact.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#A9DCFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B1640" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://www.danyzmaj.com/hopjar/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hopjar | Daily habit tracker for iPhone and Android">
+<meta property="og:description" content="Every day starts with an empty jar. Tap what you did and it hops in. Your habits stay on your phone.">
+<meta property="og:url" content="https://www.danyzmaj.com/hopjar/">
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image" content="https://www.danyzmaj.com/hopjar/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hopjar: a glass jar of glossy habit jellies on a pastel sky">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/hopjar/assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/hopjar/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/hopjar/assets/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/hopjar/assets/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/hopjar/assets/apple-touch-icon.png" sizes="180x180">
+<style>
+/* Design contract: Hopjar's own "Jelly Jar" world, ported from the app's
+   design kit (hopjar/design/kit.css): the cotton-candy sky (night candy in
+   dark), candy-wrapper cards with crimped edges, grape ink, cherry accent and
+   the system rounded face for every heading. Text sits on the sky only in
+   --ink/--ink2; --accent (cherry for words) is used inside cards, where it
+   keeps AA contrast in both themes (dark: a shade lighter than the kit's
+   #FF86B3, and the night blobs a little fainter). No third-party requests. */
+:root{color-scheme:light dark;
+  --ink:#2A1433;/* grape ink */--ink2:#663A5E;/* soft ink */--accent:#B0124F;/* cherry, for words */--cherry:#C3134F;/* cherry, for jelly */
+  --page:#FFC9DF;/* the jar's pink, behind the sky */
+  --sky:linear-gradient(180deg,#A9DCFF 0%,#CFD8FF 20%,#FFC6DE 46%,#FFD0BE 74%,#FFE3C4 100%);/* cotton-candy sky */
+  --blob1:rgba(255,255,255,.75);--blob2:rgba(255,150,196,.55);--blob3:rgba(255,196,140,.6);--blob4:rgba(255,255,255,.7);
+  --card:linear-gradient(112deg,rgba(255,255,255,0) 28%,rgba(255,255,255,.5) 40%,rgba(255,255,255,0) 52%),linear-gradient(165deg,rgba(255,255,255,.8),rgba(255,255,255,.56));/* candy wrapper */
+  --card-border:rgba(255,255,255,.9);
+  --card-shadow:0 22px 40px -26px rgba(150,40,100,.55),inset 0 1px 0 #fff,inset 0 -12px 24px -18px rgba(255,150,200,.5);
+  --crimp:repeating-linear-gradient(180deg,rgba(255,255,255,.95) 0 2px,rgba(255,170,205,.35) 2px 5px);/* the wrapper's crimped ends */
+  --gloss:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.55));--gloss-border:rgba(255,255,255,.95);
+  --gloss-shadow:0 4px 12px -6px rgba(140,40,90,.45),inset 0 1px 0 #fff;
+  --jelly:radial-gradient(120% 140% at 30% -20%,#E5336A 0%,#C3134F 48%,#A50D43 100%);/* a cherry jelly that keeps white text AA */
+  --art-shadow:0 30px 60px -34px rgba(150,40,100,.7);
+  --sep:rgba(120,50,100,.13);--chev:rgba(102,58,94,.55);--focus:rgba(195,19,79,.55);
+  --display:ui-rounded,"SF Pro Rounded",-apple-system,"SF Pro Display",system-ui,sans-serif;
+  --sans:-apple-system,"SF Pro Text",system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root{
+  --ink:#F8ECF7;--ink2:#CDB6D9;--accent:#FF9EC4;--cherry:#FF4F87;
+  --page:#1B1640;
+  --sky:linear-gradient(180deg,#1B1640 0%,#251A4F 24%,#3A1F5C 52%,#4C2560 76%,#5C2A5E 100%);/* night candy */
+  --blob1:rgba(150,120,255,.15);--blob2:rgba(255,92,170,.12);--blob3:rgba(255,140,110,.09);--blob4:rgba(185,165,255,.14);
+  --card:linear-gradient(112deg,rgba(255,255,255,0) 28%,rgba(255,255,255,.06) 40%,rgba(255,255,255,0) 52%),linear-gradient(165deg,rgba(64,40,108,.74),rgba(40,23,76,.68));
+  --card-border:rgba(255,255,255,.14);
+  --card-shadow:0 22px 40px -26px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.16),inset 0 -12px 24px -18px rgba(255,110,190,.22);
+  --crimp:repeating-linear-gradient(180deg,rgba(255,255,255,.3) 0 2px,rgba(255,140,200,.12) 2px 5px);
+  --gloss:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.08));--gloss-border:rgba(255,255,255,.18);
+  --gloss-shadow:0 4px 12px -6px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22);
+  --art-shadow:0 30px 60px -34px rgba(0,0,0,.9);
+  --sep:rgba(255,255,255,.1);--chev:rgba(220,200,235,.5);--focus:rgba(255,134,179,.75)}}
+*{box-sizing:border-box}
+html{background:var(--page);-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;min-height:100vh;position:relative;isolation:isolate;background:var(--sky);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,p{margin:0}
+h1,h2{text-wrap:balance}
+p{text-wrap:pretty}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1.5px}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sky{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.sky i{position:absolute;aspect-ratio:1;border-radius:50%}
+.sky .b1{width:680px;left:-330px;top:150px;background:radial-gradient(closest-side,var(--blob1),transparent)}
+.sky .b2{width:620px;right:-300px;top:44%;background:radial-gradient(closest-side,var(--blob2),transparent)}
+.sky .b3{width:720px;left:-260px;bottom:-330px;background:radial-gradient(closest-side,var(--blob3),transparent)}
+.sky .b4{width:520px;right:-190px;top:-210px;background:radial-gradient(closest-side,var(--blob4),transparent)}
+.sky .tw{width:12px;border-radius:0;background:#fff;opacity:.85;clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);animation:tw 5s ease-in-out infinite}
+.sky .t1{left:7%;top:92px}.sky .t2{right:9%;top:168px;width:9px;animation-delay:-1.8s}.sky .t3{left:46%;top:34px;width:8px;animation-delay:-3.1s}.sky .t4{right:22%;top:46%;width:10px;animation-delay:-.9s}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:.95;transform:scale(1) rotate(30deg)}70%{opacity:0;transform:scale(.5) rotate(50deg)}}
+.wrap{width:min(1080px,calc(100% - 32px));margin-inline:auto}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 12px;padding:12px 0}
+.brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;color:var(--ink);text-decoration:none;font:700 22px/1 var(--display);letter-spacing:-.02em}
+.brand img{display:block;width:36px;height:36px;border-radius:9px;box-shadow:0 4px 10px -4px rgba(120,30,80,.5)}
+.top nav{display:flex;gap:2px;margin-right:-10px}
+.top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;border-radius:22px;color:var(--ink2);font:600 15px/1 var(--display);text-decoration:none}
+.top nav a:hover{color:var(--ink);background:var(--gloss)}
+.hero{display:grid;gap:30px;padding:18px 0 44px}
+.kicker{margin-bottom:8px;font:700 13px/1.3 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+h1{font:800 clamp(58px,17vw,104px)/.95 var(--display);letter-spacing:-.04em}
+.lead{margin-top:16px;max-width:24ch;font:700 clamp(22px,6vw,28px)/1.25 var(--display);letter-spacing:-.015em}
+.sub{margin-top:12px;max-width:44ch;color:var(--ink2)}
+.stores{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0;padding:0;list-style:none}
+.store{display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:164px;min-height:60px;padding:9px 20px 10px;border-radius:18px;background:var(--card);border:1.5px dashed var(--chev);box-shadow:var(--gloss-shadow);color:var(--ink);cursor:default}
+.store small{font:700 11px/1.2 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.store b{font:700 20px/1.1 var(--display);letter-spacing:-.015em}
+.art{margin:0;border-radius:28px;overflow:hidden;border:1px solid var(--card-border);box-shadow:var(--art-shadow)}
+.art img{display:block;width:100%;height:auto}
+.sec{padding:6px 0 40px}
+h2{margin:0 6px 12px;font:700 clamp(25px,6.4vw,32px)/1.15 var(--display);letter-spacing:-.02em}
+.card{position:relative;border-radius:26px;background:var(--card);border:1px solid var(--card-border);box-shadow:var(--card-shadow)}
+.card::before,.card::after{content:"";position:absolute;top:14px;bottom:14px;width:4px;border-radius:2px;background:var(--crimp);opacity:.8;pointer-events:none}
+.card::before{left:6px}.card::after{right:6px}
+.faq summary{display:flex;align-items:center;gap:14px;min-height:62px;padding:14px 22px;border-radius:24px;cursor:pointer;list-style:none;font:600 18px/1.3 var(--display);letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:focus-visible{outline-offset:-5px}
+.faq details+details>summary{background:linear-gradient(var(--sep),var(--sep)) 22px 0/calc(100% - 44px) 1px no-repeat}
+.chev{flex:none;margin-left:auto;color:var(--chev);transition:transform .45s var(--spring)}
+.faq details[open] .chev{transform:rotate(90deg)}
+.faq .a{padding:0 22px 20px}
+.faq .a p+p{margin-top:10px}
+.pad{padding:22px 22px 24px}
+.pad .big{font:700 20px/1.3 var(--display);letter-spacing:-.01em;margin-bottom:8px}
+.mail{position:relative;display:inline-flex;align-items:center;min-height:50px;max-width:100%;margin-top:18px;padding:0 24px;border-radius:25px;color:#fff;background:var(--jelly);box-shadow:inset 0 2px 3px rgba(255,255,255,.45),inset 0 -6px 10px rgba(110,0,40,.3),0 12px 22px -12px rgba(180,10,70,.75);font:700 17px/1.2 var(--display);text-decoration:none;overflow-wrap:anywhere;transition:transform .3s var(--spring)}
+.mail::after{content:"";position:absolute;left:18px;top:6px;width:min(38%,90px);height:9px;border-radius:6px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0));pointer-events:none}
+.mail:active{transform:scale(.95)}
+.fine{margin-top:18px;font-size:15px}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0 20px;padding:10px 0 28px;color:var(--ink2);font:500 14px/1.4 var(--display)}
+footer a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:none}
+footer a:hover{color:var(--ink);text-decoration:underline}
+@media(max-width:559px){footer span{order:3;flex-basis:100%;padding-bottom:6px}}
+@media(min-width:880px){
+  .top{padding:20px 0}
+  .hero{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);align-items:center;gap:56px;padding:36px 0 80px}
+  .sec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;align-items:start;padding:0 0 64px}
+  .sec h2{margin-top:14px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sky .tw{animation:none}.chev,.mail{transition:none}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><i class="tw t1"></i><i class="tw t2"></i><i class="tw t3"></i><i class="tw t4"></i></div>
+<header class="top wrap">
+<a class="brand" href="/hopjar/"><img src="assets/icon-192x192.png" alt="" width="36" height="36">Hopjar</a>
+<nav aria-label="Main navigation"><a href="#questions">FAQ</a><a href="#support">Support</a><a href="/hopjar/privacy/">Privacy</a></nav>
+</header>
+<main>
+<section class="hero wrap" aria-labelledby="hero-title">
+<div>
+<p class="kicker">Daily habit tracker for iPhone &amp; Android</p>
+<h1 id="hero-title">Hopjar</h1>
+<p class="lead">Every day starts with an empty jar. Tap what you did, and it hops in.</p>
+<p class="sub">Make a jelly for each thing you like to do, from reading to running. Add a detail, a note or a to&#8209;do when you feel like it, and look back on a calendar of tiny jars. There are no schedules or streaks.</p>
+<ul class="stores" aria-label="Get Hopjar">
+<li><a class="store"><small>Coming soon<span class="sr"> to the</span></small> <b>App Store</b></a></li>
+<li><a class="store"><small>Coming soon<span class="sr"> to</span></small> <b>Google Play</b></a></li>
+</ul>
+</div>
+<figure class="art"><picture><source srcset="assets/card-preview-dark.svg" media="(prefers-color-scheme: dark)"><img src="assets/card-preview.svg" width="1000" height="700" alt="Hopjar’s glass jar, tied with red and white twine, holding five glossy jellies with a book, a dumbbell, a bike, a running shoe and a meditating figure on them." fetchpriority="high"></picture></figure>
+</section>
+
+<section class="sec wrap" id="questions" aria-labelledby="questions-title">
+<h2 id="questions-title">Questions</h2>
+<div class="card faq">
+<details open><summary>Where does Hopjar keep what I log?<svg class="chev" width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="a"><p>On your phone. Your habits, jars, notes and to&#8209;dos live in Hopjar’s own storage there, and you don’t need an account. Unless you turn on the backup, Hopjar makes no network connections of its own, and there are no ads, analytics or tracking.</p><p>Want a copy? Settings › Export my data puts everything in one file and opens the share sheet.</p></div></details>
+<details><summary>Do I need the backup?<svg class="chev" width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="a"><p>No, it’s optional and stays off until you sign in with Apple or Google in Settings › Back up your jar. Then a copy of your jar is kept with your account, in the EU (Frankfurt, Germany), so you can get it back on a new phone.</p><p>Signing out stops the backup on that phone. Your jars stay on the phone either way.</p></div></details>
+<details><summary>How do I delete my account?<svg class="chev" width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="a"><p>In Hopjar, open Settings › Back up your jar › Delete account. It deletes your account and everything backed up with it, straight away. The jars on your phone stay until you delete the app.</p><p>No longer have Hopjar? <a href="mailto:danijel@danyzmaj.com?subject=Delete%20my%20Hopjar%20account">Email me</a> from the address you signed in with and I’ll delete the account and its backup for you. <a href="/hopjar/privacy/#deleting-your-account">See what gets deleted</a>.</p></div></details>
+<details><summary>Does Hopjar change my health data?<svg class="chev" width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="a"><p>No. Hopjar only reads Apple Health (iPhone) or Health Connect (Android), and only after you switch on “Fill from Apple Health” or “Fill from Health Connect” for a habit. Each time you open Hopjar, it looks for that one kind of activity from today and yesterday, drops the habit into that day’s jar and, if the habit tracks a distance or minutes, fills that in.</p><p>It never writes health data, reads nothing else and never shares it. You can change Hopjar’s access any time in Settings › Privacy &amp; Security › Health on iPhone, or in Health Connect › App permissions on Android.</p></div></details>
+</div>
+</section>
+
+<section class="sec wrap" id="support" aria-labelledby="support-title">
+<h2 id="support-title">Support</h2>
+<div class="card pad">
+<p class="big">Something not working, or an idea for Hopjar?</p>
+<p>I’m Danijel, the developer. Send me your phone model, its iOS or Android version and what happened. Suggestions are welcome too.</p>
+<a class="mail" href="mailto:danijel@danyzmaj.com?subject=Hopjar">danijel@danyzmaj.com</a>
+<p class="fine">Hopjar has no ads, analytics or tracking. <a href="/hopjar/privacy/">Read the privacy policy</a>.</p>
+</div>
+</section>
+</main>
+<footer class="wrap"><a href="/">An app by danyzmaj</a><span>Hopjar · iPhone &amp; Android</span><a href="/hopjar/privacy/">Privacy</a></footer>
+</body>
+</html>

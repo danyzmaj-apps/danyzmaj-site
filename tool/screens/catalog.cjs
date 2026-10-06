@@ -38,6 +38,12 @@ const click = sel => async page => {
   await page.waitForTimeout(400);
 };
 
+// The capture context prefers a dark color scheme; this flips one state to light.
+const light = async page => {
+  await page.emulateMedia({colorScheme: 'light'});
+  await page.waitForTimeout(300);
+};
+
 const groups = [
   {id: 'home', name: 'Homepage', screens: [
     {id: 'home--landing--rest', name: 'Landing', state: 'At rest (ink monogram)', path: '/', source: 'index.html'},
@@ -114,6 +120,12 @@ const groups = [
     {id: 'evido--product--owner', name: 'Product page', state: 'Owner walkthrough', path: '/evido/', source: 'evido/index.html', act: click('label[for="owner"]')},
     {id: 'evido--privacy--default', name: 'Privacy policy', state: 'Default', path: '/evido/privacy/', source: 'evido/privacy/index.html'},
   ]},
+  {id: 'hopjar', name: 'Hopjar', screens: [
+    {id: 'hopjar--support--light', name: 'Support page', state: 'Light appearance', path: '/hopjar/', source: 'hopjar/index.html', act: light},
+    {id: 'hopjar--support--dark', name: 'Support page', state: 'Dark appearance', path: '/hopjar/', source: 'hopjar/index.html'},
+    {id: 'hopjar--privacy--light', name: 'Privacy policy', state: 'Light appearance', path: '/hopjar/privacy/', source: 'hopjar/privacy/index.html', act: light},
+    {id: 'hopjar--privacy--dark', name: 'Privacy policy', state: 'Dark appearance', path: '/hopjar/privacy/', source: 'hopjar/privacy/index.html'},
+  ]},
   {id: 'tools', name: 'Developer tools', screens: [
     {id: 'tools--shipyard--default', name: 'Shipyard', state: 'Default', path: '/shipyard/', source: 'shipyard/index.html'},
     {id: 'tools--helm--default', name: 'Helm', state: 'Default', path: '/helm/', source: 'helm/index.html'},
@@ -130,6 +142,7 @@ const phone = [
   ['pixelzoo', 'PixelZoo', '/pixelzoo/', 'pixelzoo/index.html'],
   ['vedro', 'Vedro', '/vedro/', 'vedro/index.html'],
   ['evido', 'Evido', '/evido/', 'evido/index.html'],
+  ['hopjar', 'Hopjar', '/hopjar/', 'hopjar/index.html'],
   ['shipyard', 'Shipyard', '/shipyard/', 'shipyard/index.html'],
   ['helm', 'Helm', '/helm/', 'helm/index.html'],
 ];

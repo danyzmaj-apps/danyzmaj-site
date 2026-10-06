@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>danyzmaj</title>
-<meta name="description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, PixelMew, Vedro, Evido, Shipyard, and Helm.">
+<meta name="description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, PixelMew, Vedro, Evido, Hopjar, Shipyard, and Helm.">
 <meta name="theme-color" content="#171210">
 <meta property="og:title" content="danyzmaj">
 <meta property="og:url" content="https://www.danyzmaj.com/">
@@ -179,7 +179,7 @@ html.rampage body{animation:quake 1300ms linear 2150ms} /* the impact shakes the
   html{transition:none}
 }
 /* the cabinet: a second screen, cut from the same sheet */
-:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--route-bed:#cfe6fb;--receipt-bed:#d3ede7;--ship-bed:#d5d8de;--helm-bed:#e4e0f2;--zoo-bed:#f4e2b8;--zoo-ground:#d8ab60;--zoo-ink:#293e38;--mew-bed:#eee0d3;--mew-face:#f5ece0;--mew-ink:#55434d;--mew-box:#cbaea5;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+:root{--project-ink:#171210;--meadow:#dce9bd;--forest:#253e2b;--grass:#abc776;--route-bed:#cfe6fb;--receipt-bed:#d3ede7;--jar-bed:#ffc9df;--ship-bed:#d5d8de;--helm-bed:#e4e0f2;--zoo-bed:#f4e2b8;--zoo-ground:#d8ab60;--zoo-ink:#293e38;--mew-bed:#eee0d3;--mew-face:#f5ece0;--mew-ink:#55434d;--mew-box:#cbaea5;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
 a:focus-visible{outline:2px solid var(--ember);outline-offset:6px}
 .projects-link{position:fixed;top:max(5vmin,1.5rem);right:max(6vmin,1.5rem);z-index:5;display:flex;align-items:center;gap:20px;min-height:44px;color:var(--bone);font:500 12px/1.4 var(--mono);text-decoration:none}
 .projects-link span{color:var(--ember)}
@@ -230,13 +230,14 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
 .project-helm{background:var(--helm-bed)}
 .project-route{background:var(--route-bed)}
 .project-receipt{background:var(--receipt-bed)}
+.project-jar{background:var(--jar-bed)}
 .project-preview{display:block;width:80%;height:auto;object-fit:contain}
 @media(max-width:600px){.project-grid{grid-template-columns:1fr;gap:34px}.projects-head{padding-block:16px}.project-info{margin-top:16px;padding-top:14px}#plate{font-size:12px}}
 @media(prefers-reduced-motion:reduce){#projects,.mini-sign,.mini-watch,.mini-mew,.mini-zoo,.project-preview{transition:none}.mini-sign,.mini-watch,.mini-mew,.mini-zoo,.project-preview{transform:none}}
 </style>
 <link rel="canonical" href="https://www.danyzmaj.com/">
 <meta property="og:type" content="website">
-<meta property="og:description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, PixelMew, Vedro, Evido, Shipyard, and Helm.">
+<meta property="og:description" content="Independent apps and tools by danyzmaj: Hold Up, PixelPup, PixelMew, Vedro, Evido, Hopjar, Shipyard, and Helm.">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/assets/social-preview.png">
 <meta property="og:image:type" content="image/png">
@@ -246,7 +247,7 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-<a class="projects-link" href="#projects" aria-controls="projects" aria-expanded="false">Projects <span>08 ↗</span></a>
+<a class="projects-link" href="#projects" aria-controls="projects" aria-expanded="false">Projects <span>09 ↗</span></a>
 <header id="plate">
   <h1>danijel@danyzmaj<span>.</span>com</h1>
 </header>
@@ -297,7 +298,7 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
 </div>
 <section id="projects" aria-labelledby="projects-title">
   <div class="projects-head">
-    <h2 id="projects-title"><span>08 /</span> SELECTED PROJECTS</h2>
+    <h2 id="projects-title"><span>09 /</span> SELECTED PROJECTS</h2>
     <a class="projects-close" href="#" aria-label="Close projects">Back <span aria-hidden="true">×</span></a>
   </div>
   <div class="project-grid">
@@ -337,6 +338,12 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
       <p>Paperless R1 receipts for Croatian businesses.</p>
       <small>RECEIPT CAPTURE &amp; ACCOUNTING &#183; COMING SOON</small>
     </div>
+    <a class="project" href="/hopjar/">
+      <div class="project-art project-jar" aria-hidden="true"><img class="project-preview" src="/hopjar/assets/card-preview.svg" width="1000" height="700" alt="" loading="lazy"></div>
+      <div class="project-info"><h3>Hopjar</h3><span aria-hidden="true">↗</span></div>
+      <p>Tap what you did today and it hops into the jar.</p>
+      <small>DAILY HABIT TRACKER &#183; <span class="soon">COMING SOON</span></small>
+    </a>
     <a class="project" href="/shipyard/">
       <div class="project-art project-ship" aria-hidden="true"><img class="project-preview" src="/shipyard/assets/card-preview.svg" width="1000" height="700" alt="" loading="lazy"></div>
       <div class="project-info"><h3>Shipyard</h3><span aria-hidden="true">↗</span></div>

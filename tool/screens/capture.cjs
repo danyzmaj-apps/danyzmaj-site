@@ -59,6 +59,7 @@ async function capture(browser, base, s) {
   const failing = s.fail || [];
   await context.route('**/*', route => {
     const url = new URL(route.request().url());
+    if (url.href === 'https://analytics.danyzmaj.com/script.js') return route.fulfill({status: 200, contentType: 'application/javascript', body: ''});
     if (url.origin !== base) { problems.push(`unhandled external request: ${url.href}`); return route.abort(); }
     if (failing.some(f => url.pathname === f)) return route.fulfill({status: 404, body: 'fake failure'});
     return route.continue();

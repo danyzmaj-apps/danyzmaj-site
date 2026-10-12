@@ -1,0 +1,609 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vote for PixelPup’s next dog | PixelPup</title>
+<meta name="description" content="Vote for the next dog breed in PixelPup, the pixel-art Garmin watch face. Each month the breed with the most votes is drawn and added in the next update.">
+<meta name="theme-color" content="#dce9bd">
+<link rel="canonical" href="https://www.danyzmaj.com/pixelpup/vote/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vote for PixelPup’s next dog | PixelPup">
+<meta property="og:description" content="Pick from about 190 breeds. Each month the breed with the most votes is drawn and added to PixelPup in the next update.">
+<meta property="og:url" content="https://www.danyzmaj.com/pixelpup/vote/">
+<meta property="og:image" content="https://www.danyzmaj.com/pixelpup/assets/social-preview.png">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="720">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/pixelpup/assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/pixelpup/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/pixelpup/assets/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/pixelpup/assets/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/pixelpup/assets/apple-touch-icon.png" sizes="180x180">
+<style>
+:root{--ink:#253e2b;--bone:#f5f5e9;--ember:#ff6a1f;--meadow:#dce9bd;--grass:#abc776;--deep:#1c3427;--sun:#f6d775;--line:#a7b88d;--muted:#4c6146;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--bone);color:var(--ink);font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+button,a,input{-webkit-tap-highlight-color:transparent}
+button{color:inherit;cursor:pointer}
+a{color:inherit;text-underline-offset:5px}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:6px}
+input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+button:disabled{cursor:wait;opacity:.55}
+svg{display:block}
+h1,h2,h3,p{margin:0}
+h1,h2{font-family:"Arial Rounded MT Bold","Avenir Next",Avenir,sans-serif;font-weight:900;letter-spacing:-.04em;line-height:1.02;text-wrap:balance}
+p{line-height:1.65}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.wrap{width:min(1280px,calc(100% - 112px));margin-inline:auto}
+.skip{position:absolute;left:16px;top:-80px;padding:12px;background:var(--bone);z-index:10}
+.skip:focus{top:12px}
+.header{display:flex;align-items:center;justify-content:space-between;min-height:110px;position:relative;z-index:2;gap:24px}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:29px;font-weight:900;letter-spacing:-1.2px}
+.logo svg{width:29px;height:29px;fill:currentColor}
+.nav{display:flex;align-items:center;gap:32px;font-size:14px;font-weight:650}
+.nav a{text-decoration:none}
+.nav a:hover{text-decoration:underline}
+.nav .contact{border:1.5px solid var(--ink);padding:12px 19px;border-radius:100px;white-space:nowrap}
+/* Cross-links to the sibling watch faces; stay visible on phones. */
+.nav .sibling{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border-radius:100px;border:1.5px solid color-mix(in srgb,var(--ink) 22%,transparent);color:var(--muted);font-size:13px}
+.nav .sibling svg{width:17px;height:17px;fill:currentColor;flex:none}
+.nav .sibling:hover{border-color:var(--ink);color:var(--ink);text-decoration:none}
+.nav .siblings{display:flex;align-items:center;gap:8px}
+.hero{position:relative;overflow-x:clip;background:var(--meadow)}
+.hero-grid{display:grid;grid-template-columns:1fr minmax(0,470px);align-items:start;gap:64px;padding:42px 0 112px;position:relative;z-index:1}
+.kicker{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;margin-bottom:25px}
+.kicker::before{content:"";width:8px;height:8px;background:var(--ink)}
+h1{font-size:clamp(54px,6.2vw,88px);max-width:640px}
+.intro{font-size:18px;max-width:470px;margin-top:26px}
+.countdown{margin-top:36px}
+.countdown-label{font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.ticks{display:flex;gap:10px;margin-top:12px}
+.tick{display:grid;justify-items:center;gap:6px;min-width:86px;padding:13px 10px 10px;background:var(--bone);border:2px solid var(--ink);border-radius:7px;font-size:12px;font-weight:700;color:var(--muted)}
+.tick b{font-family:"Arial Rounded MT Bold","Avenir Next",Avenir,sans-serif;font-size:38px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.closes{font-size:13px;color:var(--muted);margin-top:12px}
+.primary{display:inline-flex;align-items:center;justify-content:center;gap:25px;background:var(--ink);color:var(--bone);border:2px solid var(--ink);padding:17px 25px;border-radius:7px;text-decoration:none;font-weight:750;font-size:15px;transition:background .2s,transform .2s var(--ease)}
+.primary:hover{background:var(--deep);transform:translateY(-2px)}
+.primary .arrow{font-size:22px;line-height:1}
+.card{background:var(--bone);border:2px solid var(--ink);border-radius:10px;padding:30px}
+.vote-card{box-shadow:7px 7px 0 var(--ink)}
+.card h2{font-size:32px}
+.card-lead{font-size:14px;color:var(--muted);margin-top:8px}
+.field-label{display:block;font-size:13px;font-weight:750;margin:22px 0 8px}
+.combo{position:relative}
+.combo input{width:100%;min-height:52px;border:2px solid var(--ink);border-radius:7px;background:var(--bone);color:var(--ink);padding:12px 52px 12px 14px;font-size:16px}
+.combo input::placeholder{color:var(--muted)}
+.combo-toggle{position:absolute;right:4px;top:4px;bottom:4px;width:44px;display:grid;place-items:center;border:0;border-radius:4px;background:transparent}
+.combo-toggle svg{width:16px;height:16px;fill:currentColor;transition:transform .2s var(--ease)}
+.combo-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+.listbox{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:5;max-height:min(320px,52vh);overflow-y:auto;overscroll-behavior:contain;margin:0;padding:6px;list-style:none;background:var(--bone);border:2px solid var(--ink);border-radius:7px;box-shadow:6px 6px 0 color-mix(in srgb,var(--ink) 25%,transparent)}
+.listbox li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:5px;cursor:pointer;font-size:15px;line-height:1.35}
+.listbox li:hover{background:color-mix(in srgb,var(--meadow) 55%,var(--bone))}
+.listbox li.active{background:var(--meadow);outline:2px solid var(--ink);outline-offset:-2px}
+.listbox li.chosen::after{content:"✓";font-weight:800}
+.combo-hint{font-size:12px;color:var(--muted);margin-top:8px}
+.no-match{font-size:13px;margin-top:8px}
+.link-button{border:0;background:none;padding:0;font-weight:750;text-decoration:underline;text-underline-offset:4px}
+.vote-card .primary{width:100%;margin-top:16px}
+.mine-box{margin-top:18px;padding:14px 16px;background:var(--meadow);border-radius:7px;font-size:15px}
+.mine-box small{display:block;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+.msg{font-size:14px;font-weight:650;margin-top:14px}
+.msg:empty{display:none}
+.msg[data-tone="error"]{border-left:4px solid var(--ember);padding-left:10px}
+.note{font-size:15px;margin-top:18px}
+.down{margin-top:18px;padding:16px;border:2px dashed var(--line);border-radius:7px;font-weight:650}
+.turnstile{margin-top:14px}
+.cloud{position:absolute;fill:var(--bone);opacity:.7;pointer-events:none}
+.cloud-one{top:9%;left:-3%;width:96px}
+.cloud-two{right:2%;bottom:16%;width:84px}
+.ground{position:absolute;bottom:0;left:0;width:100%;height:55px;fill:var(--grass)}
+.grass-mark{position:absolute;width:32px;height:24px;bottom:27px;left:22%;fill:var(--ink);opacity:.5}
+.grass-mark.other{left:auto;right:11%;bottom:17px;width:22px}
+.results{padding:94px 0 88px}
+.results-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:64px;align-items:start}
+h2{font-size:clamp(38px,4.5vw,62px)}
+.board-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.total{font-size:14px;color:var(--muted)}
+.board{list-style:none;padding:0;margin:30px 0 0;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px 14px;padding:14px 12px;border-bottom:1px solid var(--line)}
+.rank{font-weight:800;font-variant-numeric:tabular-nums;color:var(--muted)}
+.name{font-weight:750;overflow-wrap:anywhere}
+.count{font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{grid-column:2/4;height:10px;background:color-mix(in srgb,var(--meadow) 70%,var(--bone));border-radius:2px;overflow:hidden}
+.bar span{display:block;height:100%;width:100%;background:var(--grass);transform-origin:left;transform:scaleX(var(--w))}
+.row.mine{background:color-mix(in srgb,var(--sun) 55%,var(--bone));border-radius:7px;border-bottom-color:transparent}
+.row.mine .rank{color:var(--ink)}
+.row.mine .bar span{background:var(--ink)}
+.tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:100px;background:var(--ink);color:var(--bone);font-size:11px;font-weight:750;vertical-align:2px;white-space:nowrap}
+.empty{margin-top:30px;padding:28px;border:2px dashed var(--line);border-radius:10px;color:var(--muted)}
+.board-note{font-size:13px;color:var(--muted);margin-top:16px}
+.side{display:grid;gap:28px}
+.prev{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+.prev .eyebrow{color:var(--meadow)}
+.eyebrow{font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.prev-name{font-family:"Arial Rounded MT Bold","Avenir Next",Avenir,sans-serif;font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-top:14px}
+.prev-detail{font-size:14px;color:var(--meadow);margin-top:6px}
+.suggest h2,.prev h2{font-size:26px;letter-spacing:-.03em}
+.suggest-row{display:flex;gap:10px;margin-top:8px}
+.suggest-row input{flex:1;min-width:0;min-height:50px;border:2px solid var(--ink);border-radius:7px;background:var(--bone);color:var(--ink);padding:10px 14px;font-size:16px}
+.suggest-row .primary{padding:12px 20px;flex:none}
+.rules{background:var(--ink);color:var(--bone);padding:88px 0 82px}
+.rules-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:start}
+.rule-list{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:16px;font-size:16px}
+.rule-list li{display:flex;gap:14px;line-height:1.6}
+.rule-list li::before{content:"";flex:none;width:9px;height:9px;margin-top:.6em;background:var(--sun)}
+.rules a{font-weight:750}
+.rules-link{margin-top:30px;font-size:15px}
+.privacy-note{border-top:1px solid var(--muted);padding-top:26px;font-size:15px;color:var(--meadow)}
+.privacy-note h3{font-size:16px;color:var(--bone);margin-bottom:10px}
+.privacy-note p+p{margin-top:12px}
+footer{padding:30px 0;background:var(--bone)}
+footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px}
+footer p{font-size:12px;color:var(--muted)}
+footer a{font-weight:700}
+footer .footnote{font-size:10px;margin-top:7px}
+.footer-paw{width:24px;height:24px;fill:var(--ink)}
+@media(max-width:1100px){.wrap{width:calc(100% - 64px)}.hero-grid{gap:36px;grid-template-columns:1fr minmax(0,430px)}.results-grid,.rules-grid{gap:44px}}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;max-width:600px;margin-inline:auto}.results-grid,.rules-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.wrap{width:calc(100% - 40px)}.header{min-height:86px;gap:12px}.logo{font-size:25px}.nav{gap:10px;font-size:13px}.nav .desktop-link{display:none}.nav .contact{padding:9px 14px}.nav .siblings{gap:4px}.nav .sibling{padding:7px;gap:0}.nav .sibling span{display:none}.hero-grid{padding:22px 0 90px;gap:34px}.kicker{font-size:10px;margin-bottom:18px}h1{font-size:clamp(40px,11vw,64px)}.intro{font-size:16px;margin-top:20px}.countdown{margin-top:28px}.tick{min-width:0;flex:1}.tick b{font-size:32px}.card{padding:22px}.vote-card{box-shadow:5px 5px 0 var(--ink)}.card h2{font-size:28px}.results{padding:60px 0}.rules{padding:60px 0}.rule-list{font-size:15px}footer .wrap{align-items:flex-start}.footer-paw{flex-shrink:0}}
+@media(max-width:380px){.wrap{width:calc(100% - 32px)}.header{gap:8px}.nav{gap:8px}.nav .contact{padding:9px 10px;font-size:12px}.card{padding:18px}.row{padding:12px 8px;gap:8px 10px}.suggest-row{flex-wrap:wrap}.suggest-row .primary{width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.primary:hover{transform:none}}
+</style>
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="PixelPup dog watch face for Garmin">
+<script defer src="https://analytics.danyzmaj.com/script.js" data-website-id="0e8e1817-9331-49d3-bf49-262c6bca88d2" data-domains="www.danyzmaj.com"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div style="background:var(--meadow)">
+<header class="header wrap">
+<a class="logo" href="/pixelpup/" aria-label="PixelPup home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h5v7H7zm13 0h5v7h-5zM2 10h5v6H2zm23 0h5v6h-5zM12 11h8v4h4v12H8V15h4z"/></svg>PixelPup</a>
+<nav class="nav" aria-label="Main navigation"><a class="desktop-link" href="/pixelpup/#the-pack">The dogs</a><a class="desktop-link" href="/pixelpup/#the-details">Watch details</a><div class="siblings" role="group" aria-label="Other watch faces"><a class="sibling" href="/pixelmew/" aria-label="PixelMew, the cat watch face"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 4h6v4h4v2h8V8h4V4h6v20h-4v4H6v-4H2z"/><path fill="var(--bone)" d="M7 15h5v5H7zm13 0h5v5h-5zm-6 8h4v3h-4z"/></svg><span class="sibling-name">PixelMew</span><span aria-hidden="true">↗</span></a><a class="sibling" href="/pixelzoo/" aria-label="PixelZoo, the zoo animal watch face"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 5h22v3H5zM2 8h28v3H2zm7 3h4v2H9zm10 0h4v2h-4zm-7 2h8v2h-8zm2 2h4v9h-4zM8 24h16v3H8z"/></svg><span class="sibling-name">PixelZoo</span><span aria-hidden="true">↗</span></a></div><a class="contact" href="mailto:danijel@danyzmaj.com?subject=Hello%20PixelPup">Say hello <span aria-hidden="true">↗</span></a></nav>
+</header>
+</div>
+<main id="main">
+<div class="hero">
+<svg class="cloud cloud-one" viewBox="0 0 96 32" aria-hidden="true"><path d="M0 24h8V16h16V8h16V0h24v8h16v8h8v8h8v8H0z"/></svg>
+<svg class="cloud cloud-two" viewBox="0 0 96 32" aria-hidden="true"><path d="M0 24h8V16h16V8h16V0h24v8h16v8h8v8h8v8H0z"/></svg>
+<div class="hero-grid wrap">
+<section class="hero-copy" aria-labelledby="hero-title">
+<p class="kicker" id="kicker">Monthly breed vote</p>
+<h1 id="hero-title">Vote for next month’s dog</h1>
+<p class="intro">Every month, the breed with the most votes is drawn and added to PixelPup in the next update, free for everyone who has it.</p>
+<div class="countdown" id="countdown" hidden>
+<p class="countdown-label" id="countdown-label">Voting closes in</p>
+<p class="ticks"><span class="tick"><b id="cd-days">0</b><span id="cd-days-unit">days</span></span><span class="tick"><b id="cd-hours">0</b><span id="cd-hours-unit">hours</span></span><span class="tick"><b id="cd-minutes">0</b><span id="cd-minutes-unit">minutes</span></span></p>
+<p class="closes" id="closes"></p>
+</div>
+</section>
+<section class="card vote-card" id="pick" aria-labelledby="pick-title">
+<h2 id="pick-title">Pick a breed</h2>
+<p class="card-lead">One vote per person each month. You can change it until the vote closes.</p>
+<noscript><p class="note">Voting needs JavaScript. Turn it on to pick a breed and see this month’s top 10. The rules below apply either way.</p></noscript>
+<p class="note" id="vote-loading" role="status" hidden>Loading this month’s vote…</p>
+<p class="down" id="vote-down" hidden>Voting is unavailable right now. Try again later.</p>
+<form id="vote-form" novalidate hidden>
+<label class="field-label" id="breed-label" for="breed-input">Search the breed list</label>
+<div class="combo" id="combo">
+<input id="breed-input" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="breed-list" aria-describedby="breed-hint" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type a breed, e.g. Shiba Inu">
+<button class="combo-toggle" id="breed-toggle" type="button" tabindex="-1" aria-label="Show all breeds" aria-controls="breed-list" aria-expanded="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5h12v2h-2v2h-2v2H6V9H4V7H2z"/></svg></button>
+<ul class="listbox" id="breed-list" role="listbox" aria-labelledby="breed-label" hidden></ul>
+</div>
+<p class="combo-hint" id="breed-hint">Type to filter, then pick a name with the arrow keys and Enter, or tap it.</p>
+<p class="no-match" id="no-match" hidden>No breed on the list matches. <button class="link-button" id="no-match-suggest" type="button">Suggest it below</button></p>
+<p class="sr-only" id="breed-status" role="status"></p>
+<button class="primary" id="vote-button" type="submit">Vote</button>
+<div class="turnstile" id="turnstile"></div>
+<p class="mine-box" id="mine-box" hidden>Your vote: <strong id="mine-name"></strong><small>You can change it until the vote closes. Pick another breed and vote again.</small></p>
+<p class="msg" id="vote-msg" role="status"></p>
+</form>
+</section>
+</div>
+<svg class="ground" viewBox="0 0 1440 55" preserveAspectRatio="none" aria-hidden="true"><path d="M0 25h120V15h130v10h160V5h140v10h200v15h160V10h170v15h160V15h200v40H0z"/></svg>
+<svg class="grass-mark" viewBox="0 0 24 18" aria-hidden="true"><path d="M0 0h6v6h6V0h6v6h6v6h-6v6H6v-6H0z"/></svg><svg class="grass-mark other" viewBox="0 0 24 18" aria-hidden="true"><path d="M0 0h6v6h6V0h6v6h6v6h-6v6H6v-6H0z"/></svg>
+</div>
+<div class="results wrap" id="results" hidden>
+<div class="results-grid">
+<section aria-labelledby="top-title">
+<div class="board-head"><h2 id="top-title">Top 10</h2><p class="total" id="total"></p></div>
+<ol class="board" id="board" role="list" hidden></ol>
+<p class="empty" id="board-empty" hidden>Nobody has voted yet this month. Yours can be the first.</p>
+<p class="board-note" id="board-note" hidden>Your pick isn’t in the top 10 yet.</p>
+</section>
+<div class="side">
+<section class="card prev" id="prev" aria-labelledby="prev-title" hidden>
+<p class="eyebrow" id="prev-month"></p>
+<h2 id="prev-title">Last month’s winner</h2>
+<p class="prev-name" id="prev-name"></p>
+<p class="prev-detail" id="prev-detail"></p>
+</section>
+<section class="card suggest" id="suggest" aria-labelledby="suggest-title">
+<h2 id="suggest-title">Breed not on the list?</h2>
+<p class="card-lead">Send its name. Suggestions are reviewed and can join the list in a later month.</p>
+<form id="suggest-form" novalidate>
+<label class="field-label" for="suggest-name">Breed name</label>
+<div class="suggest-row"><input id="suggest-name" type="text" minlength="2" maxlength="60" autocomplete="off" spellcheck="false" required><button class="primary" id="suggest-button" type="submit">Send</button></div>
+<p class="msg" id="suggest-msg" role="status"></p>
+</form>
+</section>
+</div>
+</div>
+</div>
+<section class="rules" aria-labelledby="rules-title"><div class="wrap rules-grid">
+<div>
+<h2 id="rules-title">The rules in short</h2>
+<ul class="rule-list">
+<li>One vote per person per month. You can change it as often as you like until the month closes.</li>
+<li>Each month closes at midnight UTC on the 1st, when the votes are counted. If two breeds tie, the one that reached its total first wins.</li>
+<li>The winning breed is drawn in pixel art and joins PixelPup in the next update, then leaves the list.</li>
+<li>The full list leaves out the 20 breeds already in PixelPup.</li>
+</ul>
+<p class="rules-link"><a href="/pixelpup/">See the 20 dogs already in PixelPup</a></p>
+</div>
+<div class="privacy-note">
+<h3>Your privacy</h3>
+<p>Voting stores a random ID in this browser so you can change your vote later. Your network is checked with a scrambled version of your IP address that is deleted when the month is counted, and Cloudflare Turnstile checks for bots.</p>
+<p><a href="/pixelpup/privacy/#breed-vote">How the vote handles your data</a></p>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap"><div><p>PixelPup · Made by <a href="/">danyzmaj</a></p><p><a href="/pixelmew/">PixelMew</a> · <a href="/pixelzoo/">PixelZoo</a> · <a href="/pixelpup/vote/" aria-current="page">Vote</a> · <a href="/pixelpup/privacy/">Privacy</a> · <a href="/pixelpup/terms/">Terms</a> · <a href="mailto:danijel@danyzmaj.com">Support</a></p><p class="footnote">An independent watch face. Not affiliated with or endorsed by Garmin.</p></div><svg class="footer-paw" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h5v7H7zm13 0h5v7h-5zM2 10h5v6H2zm23 0h5v6h-5zM12 11h8v4h4v12H8V15h4z"/></svg></div></footer>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const api = ((local && new URLSearchParams(location.search).get('api')) || (local ? 'http://127.0.0.1:8080' : 'https://glas.danyzmaj.com')).replace(/\/+$/,'');
+  const poll = `${api}/v1/polls/pixelpup`;
+  const input = $('breed-input'), list = $('breed-list'), toggle = $('breed-toggle'), form = $('vote-form'), voteButton = $('vote-button'), voteMsg = $('vote-msg');
+  const suggestForm = $('suggest-form'), suggestName = $('suggest-name'), suggestButton = $('suggest-button'), suggestMsg = $('suggest-msg');
+  const messages = {
+    offline:'Couldn’t reach the vote. Check your connection and try again.',
+    server:'Something went wrong on the vote server. Try again in a moment.',
+    bad_voter:'Your browser’s voter ID wasn’t accepted. Reload the page and try again.',
+    unknown_candidate:'That breed isn’t on this month’s list. Pick another one.',
+    turnstile_failed:'The bot check didn’t pass. Wait a moment and try again.',
+    turnstile_pending:'The bot check didn’t finish. Try again in a moment.',
+    turnstile_unavailable:'The bot check couldn’t load, so nothing can be sent. Try again later.',
+    network_limit:'Too many votes from your network this month.',
+    unknown_poll:'This vote isn’t running right now.',
+    bad_name:'Breed names need 2 to 60 characters.',
+    too_many_suggestions:'Too many suggestions from your network today. Try again tomorrow.'
+  };
+  const fail = code => Object.assign(new Error(code),{code});
+  const say = (el, text, tone = '') => {el.textContent = text; el.dataset.tone = tone};
+  const plural = (n, word) => `${n.toLocaleString('en-GB')} ${word}${n === 1 ? '' : 's'}`;
+  const monthName = month => new Date(Date.UTC(+month.slice(0,4), +month.slice(5,7) - 1, 1)).toLocaleString('en-GB',{month:'long',timeZone:'UTC'});
+  const norm = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+
+  // The voter ID is created on the first vote or suggestion, so just looking stores nothing.
+  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+  let voter = null;
+  try {voter = localStorage.getItem('glas-voter')} catch {}
+  if (!UUID.test(voter || '')) voter = null;
+  function voterId() {
+    if (!voter) {
+      voter = crypto.randomUUID();
+      try {localStorage.setItem('glas-voter',voter)} catch {}
+    }
+    return voter;
+  }
+
+  async function call(url, body) {
+    let response, data = null;
+    try {
+      response = await fetch(url,body ? {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(20000)} : {signal:AbortSignal.timeout(10000)});
+    } catch {throw fail('offline')}
+    try {data = await response.json()} catch {}
+    if (!response.ok) throw fail((data && data.error) || 'server');
+    if (!data) throw fail('server');
+    return data;
+  }
+
+  // Turnstile loads only when the server returns a site key.
+  let ts = null;
+  function loadTurnstile(sitekey) {
+    if (ts) return;
+    ts = {id:null,waiters:[]};
+    const settle = (token, error) => ts.waiters.splice(0).forEach(w => token ? w.resolve(token) : w.reject(fail(error)));
+    ts.ready = new Promise((resolve,reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.onload = () => {
+        try {
+          ts.id = turnstile.render($('turnstile'),{sitekey,appearance:'interaction-only',callback:token => settle(token),'error-callback':() => {settle(null,'turnstile_failed'); return true}});
+          resolve();
+        } catch (error) {reject(error)}
+      };
+      script.onerror = reject;
+      document.head.append(script);
+    });
+    ts.ready.catch(() => {});
+  }
+  async function turnstileToken() {
+    if (!state.turnstile_site_key) return '';
+    if (!ts) loadTurnstile(state.turnstile_site_key);
+    try {await ts.ready} catch {throw fail('turnstile_unavailable')}
+    const token = turnstile.getResponse(ts.id);
+    if (token) return token;
+    return new Promise((resolve,reject) => {
+      const timer = setTimeout(() => {ts.waiters = ts.waiters.filter(w => w.resolve !== done); reject(fail('turnstile_pending'))},30000);
+      const done = value => {clearTimeout(timer); resolve(value)};
+      ts.waiters.push({resolve:done,reject:error => {clearTimeout(timer); reject(error)}});
+    });
+  }
+  function resetTurnstile() {
+    if (ts && ts.id != null && window.turnstile) turnstile.reset(ts.id);
+  }
+
+  // State and rendering
+  let state = null, offset = 0, closesAt = 0, candidates = [], byId = new Map(), selected = null;
+  function render(next) {
+    state = next;
+    offset = Date.parse(next.now) - Date.now();
+    closesAt = Date.parse(next.closes_at);
+    $('kicker').textContent = `${monthName(next.month)} vote`;
+    $('closes').textContent = `Closes ${new Date(closesAt).toLocaleString('en-GB',{day:'numeric',month:'long',timeZone:'UTC'})} at 00:00 UTC.`;
+    candidates = next.candidates.map(c => ({...c,key:norm(c.name)}));
+    byId = new Map(candidates.map(c => [c.id,c]));
+    if (selected && !byId.has(selected)) selected = null;
+    $('breed-label').textContent = `Search ${candidates.length} breeds`;
+    if (next.mine && !input.value && byId.has(next.mine)) choose(byId.get(next.mine));
+    const mine = next.mine && (byId.get(next.mine) || next.top.find(t => t.id === next.mine));
+    $('mine-box').hidden = !mine;
+    $('mine-name').textContent = mine ? mine.name : '';
+    voteButton.textContent = mine ? 'Change vote' : 'Vote';
+    renderBoard();
+    renderPrevious();
+    tick();
+    $('vote-loading').hidden = true;
+    $('vote-down').hidden = true;
+    form.hidden = false;
+    $('countdown').hidden = false;
+    $('results').hidden = false;
+    if (next.turnstile_site_key) loadTurnstile(next.turnstile_site_key);
+  }
+  function renderBoard() {
+    const top = state.top, max = top.length ? top[0].votes : 1;
+    $('board').replaceChildren(...top.map((entry,index) => {
+      const row = document.createElement('li');
+      row.className = entry.id === state.mine ? 'row mine' : 'row';
+      row.innerHTML = '<span class="rank"></span><span class="name"></span><span class="count"></span><span class="bar" aria-hidden="true"><span></span></span>';
+      row.children[0].textContent = index + 1;
+      row.children[1].textContent = entry.name;
+      if (entry.id === state.mine) row.children[1].insertAdjacentHTML('beforeend','<span class="tag">Your pick</span>');
+      row.children[2].textContent = plural(entry.votes,'vote');
+      row.children[3].firstChild.style.setProperty('--w',entry.votes / max);
+      return row;
+    }));
+    $('board').hidden = !top.length;
+    $('board-empty').hidden = top.length > 0;
+    $('board-note').hidden = !state.mine || top.some(t => t.id === state.mine);
+    $('total').textContent = state.total_votes ? `${plural(state.total_votes,'vote')} in ${monthName(state.month)}` : '';
+  }
+  function renderPrevious() {
+    const prev = state.previous;
+    $('prev').hidden = !prev;
+    if (!prev) return;
+    $('prev-month').textContent = `${monthName(prev.month)} vote`;
+    $('prev-name').textContent = prev.winner ? prev.winner.name : 'No votes last month';
+    $('prev-detail').textContent = prev.winner ? `Won with ${prev.winner.votes.toLocaleString('en-GB')} of ${plural(prev.total_votes,'vote')}.` : '';
+    $('prev-detail').hidden = !prev.winner;
+  }
+
+  // Countdown, corrected with the server clock. At zero a new month has started: fetch it.
+  let refetchAfter = 0;
+  function tick() {
+    if (!state) return;
+    const left = closesAt - (Date.now() + offset);
+    const total = Math.max(0,Math.ceil(left / 60000));
+    const parts = {days:Math.floor(total / 1440),hours:Math.floor(total % 1440 / 60),minutes:total % 60};
+    for (const [unit,value] of Object.entries(parts)) {
+      $(`cd-${unit}`).textContent = value;
+      $(`cd-${unit}-unit`).textContent = value === 1 ? unit.slice(0,-1) : unit;
+    }
+    if (left <= 0 && Date.now() > refetchAfter) {
+      refetchAfter = Date.now() + 10000;
+      load();
+    }
+  }
+  setInterval(tick,1000);
+
+  async function load() {
+    try {
+      render(await call(voter ? `${poll}?voter=${voter}` : poll));
+    } catch (error) {
+      if (state) return;
+      $('vote-loading').hidden = true;
+      $('vote-down').hidden = false;
+    }
+  }
+
+  // Combobox (WAI-ARIA editable combobox with list autocomplete)
+  let matches = [], active = -1;
+  const chosenText = () => selected && byId.get(selected).name === input.value;
+  const exact = text => candidates.find(c => c.key === norm(text));
+  function filter(text) {
+    const query = norm(text);
+    if (!query) return candidates;
+    const starts = [], words = [], rest = [];
+    for (const c of candidates) {
+      if (c.key.startsWith(query)) starts.push(c);
+      else if (` ${c.key}`.includes(` ${query}`)) words.push(c);
+      else if (c.key.includes(query)) rest.push(c);
+    }
+    return starts.concat(words,rest);
+  }
+  function setExpanded(open) {
+    list.hidden = !open;
+    input.setAttribute('aria-expanded',String(open));
+    toggle.setAttribute('aria-expanded',String(open));
+    if (!open) {
+      active = -1;
+      input.removeAttribute('aria-activedescendant');
+    }
+  }
+  function open(all) {
+    matches = all || chosenText() ? candidates : filter(input.value);
+    active = -1;
+    input.removeAttribute('aria-activedescendant');
+    list.replaceChildren(...matches.map((c,index) => {
+      const option = document.createElement('li');
+      option.id = `breed-${c.id}`;
+      option.setAttribute('role','option');
+      option.setAttribute('aria-selected','false');
+      option.dataset.index = index;
+      option.textContent = c.name;
+      if (c.id === selected) option.className = 'chosen';
+      return option;
+    }));
+    setExpanded(matches.length > 0);
+    $('no-match').hidden = matches.length > 0;
+    const chosen = selected && document.getElementById(`breed-${selected}`);
+    if (chosen) chosen.scrollIntoView({block:'nearest'});
+    else list.scrollTop = 0;
+  }
+  function setActive(index) {
+    const old = list.children[active];
+    if (old) {old.classList.remove('active'); old.setAttribute('aria-selected','false')}
+    active = index;
+    const option = list.children[index];
+    option.classList.add('active');
+    option.setAttribute('aria-selected','true');
+    input.setAttribute('aria-activedescendant',option.id);
+    option.scrollIntoView({block:'nearest'});
+  }
+  function choose(c) {
+    selected = c.id;
+    input.value = c.name;
+    $('no-match').hidden = true;
+    setExpanded(false);
+  }
+  let statusTimer;
+  input.addEventListener('input',() => {
+    const match = exact(input.value);
+    selected = match ? match.id : null;
+    open(false);
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => {
+      $('breed-status').textContent = input.value.trim() ? (matches.length ? `${plural(matches.length,'breed')} found` : 'No breeds found') : '';
+    },600);
+  });
+  input.addEventListener('keydown',event => {
+    const expanded = !list.hidden;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const down = event.key === 'ArrowDown';
+      if (!expanded) {
+        if (event.altKey && !down) return;
+        open(false);
+        if (!matches.length || event.altKey) return;
+        const chosen = matches.findIndex(c => c.id === selected);
+        setActive(chosen >= 0 ? chosen : down ? 0 : matches.length - 1);
+        return;
+      }
+      if (event.altKey && !down) {setExpanded(false); return}
+      setActive(active < 0 ? (down ? 0 : matches.length - 1) : (active + (down ? 1 : -1) + matches.length) % matches.length);
+    } else if (event.key === 'Enter') {
+      if (expanded && active >= 0) {event.preventDefault(); choose(matches[active])}
+      else if (expanded && matches.length === 1) {event.preventDefault(); choose(matches[0])}
+    } else if (event.key === 'Escape') {
+      if (expanded) {event.preventDefault(); setExpanded(false)}
+      else if (input.value) {event.preventDefault(); input.value = ''; selected = null; $('no-match').hidden = true}
+    }
+  });
+  input.addEventListener('click',() => {if (list.hidden) open(false)});
+  // Touch browsers can blur the input before an option's click arrives, so a press inside the
+  // list keeps it open; a press anywhere else closes it.
+  let pressInList = false;
+  input.addEventListener('blur',() => {if (!pressInList) setExpanded(false)});
+  list.addEventListener('pointerdown',() => {pressInList = true});
+  list.addEventListener('pointercancel',() => {pressInList = false});
+  list.addEventListener('mousedown',event => event.preventDefault());
+  list.addEventListener('click',event => {
+    pressInList = false;
+    const option = event.target.closest('[role="option"]');
+    if (option) choose(matches[+option.dataset.index]);
+  });
+  document.addEventListener('pointerdown',event => {
+    if (!$('combo').contains(event.target)) {pressInList = false; setExpanded(false)}
+  });
+  toggle.addEventListener('mousedown',event => event.preventDefault());
+  toggle.addEventListener('click',() => {
+    if (list.hidden) open(true); else setExpanded(false);
+    input.focus();
+  });
+  $('no-match-suggest').addEventListener('click',() => {
+    suggestName.value = input.value.trim().slice(0,60);
+    suggestName.focus();
+  });
+
+  form.addEventListener('submit',async event => {
+    event.preventDefault();
+    if (!state || voteButton.disabled) return;
+    const c = (selected && byId.get(selected)) || exact(input.value);
+    if (!c) {
+      const typed = input.value.trim();
+      say(voteMsg,typed ? `“${typed}” isn’t on the list. Pick a breed from the list, or suggest it below.` : 'Pick a breed from the list first.','error');
+      input.focus();
+      return;
+    }
+    choose(c);
+    if (state.mine === c.id) {say(voteMsg,`${c.name} is already your vote.`); return}
+    const changing = Boolean(state.mine);
+    voteButton.disabled = true;
+    say(voteMsg,'Sending your vote…');
+    try {
+      render(await call(`${poll}/vote`,{voter:voterId(),candidate:c.id,turnstile:await turnstileToken()}));
+      say(voteMsg,changing ? `Vote changed to ${c.name}.` : `Vote saved for ${c.name}.`,'ok');
+    } catch (error) {
+      say(voteMsg,messages[error.code] || messages.server,'error');
+      if (error.code === 'unknown_candidate') load();
+    } finally {
+      resetTurnstile();
+      voteButton.disabled = false;
+    }
+  });
+
+  suggestForm.addEventListener('submit',async event => {
+    event.preventDefault();
+    if (!state || suggestButton.disabled) return;
+    const name = suggestName.value.replace(/\s+/g,' ').trim();
+    if (name.length < 2 || name.length > 60) {say(suggestMsg,messages.bad_name,'error'); suggestName.focus(); return}
+    suggestButton.disabled = true;
+    say(suggestMsg,'Sending…');
+    try {
+      const result = await call(`${poll}/suggest`,{voter:voterId(),name,turnstile:await turnstileToken()});
+      if (result.status === 'already_listed') {
+        const c = byId.get(result.candidate.id);
+        if (result.open && c) {
+          choose(c);
+          say(suggestMsg,`${c.name} is already on the list. It’s now selected in the picker above, so you can vote for it.`,'ok');
+        } else {
+          say(suggestMsg,`${result.candidate.name} already won an earlier vote, so it’s no longer on the list.`,'ok');
+        }
+      } else if (result.status === 'already_in_app') {
+        say(suggestMsg,`PixelPup already has the ${result.candidate.name}. Pick it in the Connect IQ app settings.`,'ok');
+      } else {
+        suggestName.value = '';
+        say(suggestMsg,'Thanks. Suggestions are reviewed and added to the list for later months.','ok');
+      }
+    } catch (error) {
+      say(suggestMsg,messages[error.code] || messages.server,'error');
+    } finally {
+      resetTurnstile();
+      suggestButton.disabled = false;
+    }
+  });
+
+  $('vote-loading').hidden = false;
+  load();
+})();
+</script>
+</body>
+</html>

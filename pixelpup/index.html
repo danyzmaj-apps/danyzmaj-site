@@ -113,6 +113,8 @@ h2{font-size:clamp(38px,4.5vw,62px)}
 .pup[aria-pressed=true] .pup-art{border-bottom-color:var(--grass);background:linear-gradient(0deg,#dce9bd99,transparent 70%);border-radius:8px 8px 0 0}
 .pup-check{position:absolute;right:8px;top:5px;color:var(--muted);font-size:14px;opacity:0}
 .pup[aria-pressed=true] .pup-check{opacity:1}
+.pup-tag{position:absolute;left:6px;top:4px;padding:3px 7px;background:var(--bone);border:2px solid var(--ink);border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;line-height:1.3;color:var(--ink)}
+.pup-tag.new{background:var(--sun)}
 .pack-note{font-size:13px;color:var(--muted);margin-top:32px;text-align:center}
 .pack-note a{font-weight:700}
 .worlds{background:var(--ink);color:var(--bone);padding:88px 0 82px}
@@ -233,7 +235,7 @@ footer .footnote{font-size:10px;margin-top:7px}
 <button class="pup" type="button" data-dog="pomeranian" aria-pressed="false" aria-label="Try Pomeranian" disabled><span class="pup-art"><img src="assets/dog_pomeranian.png" width="128" height="158" alt="Pomeranian pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Pomeranian</strong></button>
 <button class="pup" type="button" data-dog="yorkshire_terrier" aria-pressed="false" aria-label="Try Yorkshire Terrier" disabled><span class="pup-art"><img src="assets/dog_yorkshire_terrier.png" width="97" height="158" alt="Yorkshire Terrier pixel art" loading="lazy"><span class="pup-check" aria-hidden="true">✓</span></span><strong>Yorkshire Terrier</strong></button>
 </div>
-<p class="pack-note">Missing your breed? <a href="mailto:danijel@danyzmaj.com?subject=PixelPup%20breed%20request">Send me a request.</a></p>
+<p class="pack-note">Missing your breed? <a href="/pixelpup/vote/">Vote for the next dog.</a> Every month the winner joins PixelPup.</p>
 </section>
 <section class="worlds" aria-labelledby="worlds-title"><div class="wrap">
 <div class="section-heading"><h2 id="worlds-title">Choose a theme.</h2><p>Home, Lakeside, and Beach each have a day and a night version. Your dog stays the same when you switch.</p></div>
@@ -258,8 +260,25 @@ footer .footnote{font-size:10px;margin-top:7px}
 <section class="closing" id="say-hello" aria-labelledby="closing-title"><div class="wrap"><div><h2 id="closing-title">Want your breed added?</h2><p>I’m Danijel, the developer behind PixelPup. Every month, a public vote picks the next breed to add. Email me for help with the watch face or to send a photo of your dog.</p></div><div class="closing-actions"><a class="primary" href="/pixelpup/vote/">Vote for the next dog <span class="arrow" aria-hidden="true">→</span></a><a class="primary secondary" href="mailto:danijel@danyzmaj.com?subject=Hello%20PixelPup">Say hello <span class="arrow" aria-hidden="true">↗</span></a></div></div></section>
 </main>
 <footer><div class="wrap"><div><p>PixelPup · Made by <a href="/">danyzmaj</a></p><p><a href="/pixelmew/">PixelMew</a> · <a href="/pixelzoo/">PixelZoo</a> · <a href="/pixelpup/vote/">Vote</a> · <a href="/pixelpup/privacy/">Privacy</a> · <a href="/pixelpup/terms/">Terms</a> · <a href="mailto:danijel@danyzmaj.com">Support</a></p><p class="footnote">An independent watch face. Not affiliated with or endorsed by Garmin. Watch previews show illustrative readings.</p></div><svg class="footer-paw" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h5v7H7zm13 0h5v7h-5zM2 10h5v6H2zm23 0h5v6h-5zM12 11h8v4h4v12H8V15h4z"/></svg></div></footer>
+<!-- Vote winners, oldest first; synced from the PixelPup repo's dogs/winners.json by tools/sync-art.py. -->
+<script id="winners" type="application/json">[]</script>
 <script>
 (() => {
+  // Tag breeds that won the monthly vote: "New" on the newest winner, "Vote winner" on earlier ones.
+  const winners = JSON.parse(document.getElementById('winners').textContent);
+  const monthName = round => new Date(Date.UTC(+round.slice(0,4), +round.slice(5,7) - 1, 1)).toLocaleString('en-GB',{month:'long',year:'numeric',timeZone:'UTC'});
+  winners.forEach((w,index) => {
+    const card = document.querySelector(`.pup[data-dog="${w.dog.replace(/-/g,'_')}"]`);
+    if (!card) return;
+    const newest = index === winners.length - 1;
+    const tag = document.createElement('span');
+    tag.className = newest ? 'pup-tag new' : 'pup-tag';
+    tag.textContent = newest ? 'New' : 'Vote winner';
+    tag.title = `Won the ${monthName(w.round)} vote`;
+    tag.setAttribute('aria-hidden','true');
+    card.querySelector('.pup-art').append(tag);
+    card.setAttribute('aria-label',`${card.getAttribute('aria-label')}, winner of the ${monthName(w.round)} vote`);
+  });
   const palettes = {paper:['paper','ink'],meadow:['meadow','meadow-dusk'],shoreline:['shoreline','night-shore']};
   const names = {paper:'Home',ink:'Home Night',meadow:'Lakeside','meadow-dusk':'Lakeside Night',shoreline:'Beach','night-shore':'Beach Night'};
   const breed = document.getElementById('breed');

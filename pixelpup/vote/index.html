@@ -253,6 +253,8 @@ footer .footnote{font-size:10px;margin-top:7px}
 </div></section>
 </main>
 <footer><div class="wrap"><div><p>PixelPup · Made by <a href="/">danyzmaj</a></p><p><a href="/pixelmew/">PixelMew</a> · <a href="/pixelzoo/">PixelZoo</a> · <a href="/pixelpup/vote/" aria-current="page">Vote</a> · <a href="/pixelpup/privacy/">Privacy</a> · <a href="/pixelpup/terms/">Terms</a> · <a href="mailto:danijel@danyzmaj.com">Support</a></p><p class="footnote">An independent watch face. Not affiliated with or endorsed by Garmin.</p></div><svg class="footer-paw" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 2h5v7H7zm13 0h5v7h-5zM2 10h5v6H2zm23 0h5v6h-5zM12 11h8v4h4v12H8V15h4z"/></svg></div></footer>
+<!-- Vote winners already in PixelPup; synced from the PixelPup repo's dogs/winners.json by tools/sync-art.py. -->
+<script id="winners" type="application/json">[]</script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -277,6 +279,7 @@ footer .footnote{font-size:10px;margin-top:7px}
   const fail = code => Object.assign(new Error(code),{code});
   const say = (el, text, tone = '') => {el.textContent = text; el.dataset.tone = tone};
   const plural = (n, word) => `${n.toLocaleString('en-GB')} ${word}${n === 1 ? '' : 's'}`;
+  const shippedWinners = JSON.parse(document.getElementById('winners').textContent);
   const monthName = month => new Date(Date.UTC(+month.slice(0,4), +month.slice(5,7) - 1, 1)).toLocaleString('en-GB',{month:'long',timeZone:'UTC'});
   const norm = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 
@@ -392,7 +395,8 @@ footer .footnote{font-size:10px;margin-top:7px}
     if (!prev) return;
     $('prev-month').textContent = `${monthName(prev.month)} vote`;
     $('prev-name').textContent = prev.winner ? prev.winner.name : 'No votes last month';
-    $('prev-detail').textContent = prev.winner ? `Won with ${prev.winner.votes.toLocaleString('en-GB')} of ${plural(prev.total_votes,'vote')}.` : '';
+    const shipped = prev.winner && shippedWinners.some(w => w.dog === prev.winner.id);
+    $('prev-detail').textContent = prev.winner ? `Won with ${prev.winner.votes.toLocaleString('en-GB')} of ${plural(prev.total_votes,'vote')}. ${shipped ? 'Now in PixelPup.' : 'Coming in the next update.'}` : '';
     $('prev-detail').hidden = !prev.winner;
   }
 

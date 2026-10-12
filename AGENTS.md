@@ -24,6 +24,7 @@ Personal brand landing page for **danyzmaj** (deployed at `https://www.danyzmaj.
   starting point, but match the app's own identity rather than forcing the dragon brand.
 - `tools/sync-art.py` — pulls product art and catalogues from the sibling app repos (`../pixelmew`, `../pixelpup`, `../pixelzoo`) into this one. Dev-time only; needs Python 3 and Pillow. The deployed site stays dependency-free.
 - `pixelpup/vote/` — PixelPup's monthly breed vote: a breed combobox, this month's top 10, last month's winner, a suggestion form and the rules, all driven by the glas API (endpoints in `../glas/app.py`; run it locally with `DB_PATH=/tmp/glas-dev.db uvicorn app:app --port 8080` there). Static copy and the rules render without JS; voting needs it.
+- Vote winners: `pixelpup/index.html` and `pixelpup/vote/index.html` each carry a `<script id="winners" type="application/json">` block synced from the PixelPup repo's `dogs/winners.json` (oldest first). The gallery script badges those breeds' cards (*New* on the newest, *Vote winner* on earlier ones, month in the title and aria-label); the vote page's last-winner card says *Now in PixelPup* once the winner is listed there. Never hand-edit the blocks; add the winner in the app repo and run `tools/sync-art.py`.
 - `.gitignore` — ignores Python bytecode, `.DS_Store`, `.worktrees/`.
 
 ## Development Commands

@@ -112,6 +112,18 @@ MANIFEST = [
                 "page": "index.html",
                 "container": "mini-watch",
             },
+            {
+                "op": "json",
+                "src": "dogs/winners.json",
+                "page": "pixelpup/index.html",
+                "block": "winners",
+            },
+            {
+                "op": "json",
+                "src": "dogs/winners.json",
+                "page": "pixelpup/vote/index.html",
+                "block": "winners",
+            },
         ],
     },
     {

@@ -184,7 +184,7 @@ footer .footnote{font-size:10px;margin-top:7px}
 <section class="card vote-card" id="pick" aria-labelledby="pick-title">
 <h2 id="pick-title">Pick a breed</h2>
 <p class="card-lead">One vote per person each month. You can change it until the vote closes.</p>
-<noscript><p class="note">Voting needs JavaScript. Turn it on to pick a breed and see this month’s top 10. The rules below apply either way.</p></noscript>
+<noscript><p class="note">Voting needs JavaScript turned on in your browser.</p></noscript>
 <p class="note" id="vote-loading" role="status" hidden>Loading this month’s vote…</p>
 <p class="down" id="vote-down" hidden>Voting is unavailable right now. Try again later.</p>
 <form id="vote-form" novalidate hidden>
@@ -194,7 +194,7 @@ footer .footnote{font-size:10px;margin-top:7px}
 <button class="combo-toggle" id="breed-toggle" type="button" tabindex="-1" aria-label="Show all breeds" aria-controls="breed-list" aria-expanded="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5h12v2h-2v2h-2v2H6V9H4V7H2z"/></svg></button>
 <ul class="listbox" id="breed-list" role="listbox" aria-labelledby="breed-label" hidden></ul>
 </div>
-<p class="combo-hint" id="breed-hint">Type to filter, then pick a name with the arrow keys and Enter, or tap it.</p>
+<p class="combo-hint" id="breed-hint">Start typing a breed name.</p>
 <p class="no-match" id="no-match" hidden>No breed on the list matches. <button class="link-button" id="no-match-suggest" type="button">Suggest it below</button></p>
 <p class="sr-only" id="breed-status" role="status"></p>
 <button class="primary" id="vote-button" type="submit">Vote</button>
@@ -238,8 +238,8 @@ footer .footnote{font-size:10px;margin-top:7px}
 <div>
 <h2 id="rules-title">The rules in short</h2>
 <ul class="rule-list">
-<li>One vote per person per month. You can change it as often as you like until the month closes.</li>
-<li>Each month closes at midnight UTC on the 1st, when the votes are counted. If two breeds tie, the one that reached its total first wins.</li>
+<li>One vote per person each month. You can change it until the vote closes.</li>
+<li>The vote closes at the end of each month.</li>
 <li>The winning breed is drawn in pixel art and joins PixelPup in the next update, then leaves the list.</li>
 <li>The full list leaves out the 20 breeds already in PixelPup.</li>
 </ul>
@@ -247,8 +247,8 @@ footer .footnote{font-size:10px;margin-top:7px}
 </div>
 <div class="privacy-note">
 <h3>Your privacy</h3>
-<p>Voting stores a random ID in this browser so you can change your vote later. Your network is checked with a scrambled version of your IP address that is deleted when the month is counted, and Cloudflare Turnstile checks for bots.</p>
-<p><a href="/pixelpup/privacy/#breed-vote">How the vote handles your data</a></p>
+<p>Your vote is anonymous. Only the totals are shown.</p>
+<p><a href="/pixelpup/privacy/#breed-vote">Privacy policy</a></p>
 </div>
 </div></section>
 </main>
@@ -263,16 +263,16 @@ footer .footnote{font-size:10px;margin-top:7px}
   const suggestForm = $('suggest-form'), suggestName = $('suggest-name'), suggestButton = $('suggest-button'), suggestMsg = $('suggest-msg');
   const messages = {
     offline:'Couldn’t reach the vote. Check your connection and try again.',
-    server:'Something went wrong on the vote server. Try again in a moment.',
-    bad_voter:'Your browser’s voter ID wasn’t accepted. Reload the page and try again.',
+    server:'Something went wrong. Try again in a moment.',
+    bad_voter:'Something went wrong. Reload the page and try again.',
     unknown_candidate:'That breed isn’t on this month’s list. Pick another one.',
-    turnstile_failed:'The bot check didn’t pass. Wait a moment and try again.',
-    turnstile_pending:'The bot check didn’t finish. Try again in a moment.',
-    turnstile_unavailable:'The bot check couldn’t load, so nothing can be sent. Try again later.',
-    network_limit:'Too many votes from your network this month.',
+    turnstile_failed:'Your vote didn’t go through. Try again in a moment.',
+    turnstile_pending:'Your vote didn’t go through. Try again in a moment.',
+    turnstile_unavailable:'Voting isn’t working right now. Try again later.',
+    network_limit:'Too many people have voted from this connection this month.',
     unknown_poll:'This vote isn’t running right now.',
     bad_name:'Breed names need 2 to 60 characters.',
-    too_many_suggestions:'Too many suggestions from your network today. Try again tomorrow.'
+    too_many_suggestions:'You’ve sent a lot of suggestions today. Try again tomorrow.'
   };
   const fail = code => Object.assign(new Error(code),{code});
   const say = (el, text, tone = '') => {el.textContent = text; el.dataset.tone = tone};
@@ -348,7 +348,7 @@ footer .footnote{font-size:10px;margin-top:7px}
     offset = Date.parse(next.now) - Date.now();
     closesAt = Date.parse(next.closes_at);
     $('kicker').textContent = `${monthName(next.month)} vote`;
-    $('closes').textContent = `Closes ${new Date(closesAt).toLocaleString('en-GB',{day:'numeric',month:'long',timeZone:'UTC'})} at 00:00 UTC.`;
+    $('closes').textContent = `Closes at the end of ${monthName(next.month)}.`;
     candidates = next.candidates.map(c => ({...c,key:norm(c.name)}));
     byId = new Map(candidates.map(c => [c.id,c]));
     if (selected && !byId.has(selected)) selected = null;
@@ -583,7 +583,7 @@ footer .footnote{font-size:10px;margin-top:7px}
         const c = byId.get(result.candidate.id);
         if (result.open && c) {
           choose(c);
-          say(suggestMsg,`${c.name} is already on the list. It’s now selected in the picker above, so you can vote for it.`,'ok');
+          say(suggestMsg,`${c.name} is already on the list. It’s now picked above, so you can vote for it.`,'ok');
         } else {
           say(suggestMsg,`${result.candidate.name} already won an earlier vote, so it’s no longer on the list.`,'ok');
         }
@@ -591,7 +591,7 @@ footer .footnote{font-size:10px;margin-top:7px}
         say(suggestMsg,`PixelPup already has the ${result.candidate.name}. Pick it in the Connect IQ app settings.`,'ok');
       } else {
         suggestName.value = '';
-        say(suggestMsg,'Thanks. Suggestions are reviewed and added to the list for later months.','ok');
+        say(suggestMsg,'Thanks! I’ll take a look and may add it in a later month.','ok');
       }
     } catch (error) {
       say(suggestMsg,messages[error.code] || messages.server,'error');

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="dopCardTitle dopCardDesc">
+<title id="dopCardTitle">Dopunsko: provjera salda</title>
+<desc id="dopCardDesc">Ilustrirani popis triju osoba s primjerima salda dopunskog osiguranja: jedna nema dug, jedna ima preplatu, jedna duguje.</desc>
+<rect width="1000" height="700" fill="#EAF1FA"/>
+<circle cx="880" cy="90" r="210" fill="#DCE8F7"/>
+<circle cx="90" cy="660" r="170" fill="#DCE8F7"/>
+<g font-family="-apple-system,'SF Pro Text','Segoe UI',Roboto,Arial,sans-serif">
+<rect x="200" y="70" width="600" height="560" rx="40" fill="#fff" stroke="#C9D8EC" stroke-width="2"/>
+<clipPath id="dopIconClip"><rect x="240" y="110" width="64" height="64" rx="15"/></clipPath>
+<image x="240" y="110" width="64" height="64" clip-path="url(#dopIconClip)" href="data:image/png;base64,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
+gg=="/>
+<text x="326" y="138" font-size="30" font-weight="700" fill="#0F1F33">Dopunsko</text>
+<text x="326" y="168" font-size="21" fill="#4A5B70">Saldo dopunskog osiguranja</text>
+<g transform="translate(240,215)">
+<rect width="520" height="110" rx="22" fill="#F3F7FC"/>
+<circle cx="52" cy="55" r="28" fill="#1E5AA8"/><text x="52" y="65" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">A</text>
+<text x="100" y="50" font-size="26" font-weight="600" fill="#0F1F33">Ana</text>
+<text x="100" y="80" font-size="19" fill="#4A5B70">Sve plaćeno</text>
+<text x="490" y="66" font-size="30" font-weight="700" fill="#0F1F33" text-anchor="end">0,00 €</text>
+</g>
+<g transform="translate(240,345)">
+<rect width="520" height="110" rx="22" fill="#F3F7FC"/>
+<circle cx="52" cy="55" r="28" fill="#1E5AA8"/><text x="52" y="65" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">M</text>
+<text x="100" y="50" font-size="26" font-weight="600" fill="#0F1F33">Marko</text>
+<text x="100" y="80" font-size="19" fill="#1F7A4D">Preplata</text>
+<text x="490" y="66" font-size="30" font-weight="700" fill="#1F7A4D" text-anchor="end">−12,30 €</text>
+</g>
+<g transform="translate(240,475)">
+<rect width="520" height="110" rx="22" fill="#FCEFEE"/>
+<circle cx="52" cy="55" r="28" fill="#1E5AA8"/><text x="52" y="65" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">I</text>
+<text x="100" y="50" font-size="26" font-weight="600" fill="#0F1F33">Iva</text>
+<text x="100" y="80" font-size="19" fill="#B3261E">Dug</text>
+<text x="490" y="66" font-size="30" font-weight="700" fill="#B3261E" text-anchor="end">18,40 €</text>
+</g>
+</g>
+</svg>

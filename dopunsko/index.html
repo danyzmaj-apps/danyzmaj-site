@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dopunsko: provjera salda | Podrška</title>
+<meta name="description" content="Dopunsko provjerava saldo dopunskog zdravstvenog osiguranja za vas i obitelj, bez prijave. Neslužbena aplikacija, nije povezana s HZZO-om. Česta pitanja i kontakt.">
+<meta name="theme-color" content="#1E5AA8">
+<link rel="canonical" href="https://www.danyzmaj.com/dopunsko/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="hr_HR">
+<meta property="og:title" content="Dopunsko: provjera salda">
+<meta property="og:description" content="Saldo dopunskog zdravstvenog osiguranja za vas i obitelj, bez prijave. Podaci ostaju na mobitelu. Neslužbena aplikacija, nije povezana s HZZO-om.">
+<meta property="og:url" content="https://www.danyzmaj.com/dopunsko/">
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image" content="https://www.danyzmaj.com/dopunsko/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dopunsko: ikona aplikacije i primjer salda za tri osobe">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/dopunsko/assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/dopunsko/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/dopunsko/assets/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/dopunsko/assets/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/dopunsko/assets/apple-touch-icon.png" sizes="180x180">
+<style>
+/* Tokens from the app icon: a white shield on a deep blue gradient. */
+:root{--blue:#1E5AA8;/* primary, the icon's mid blue */--blue-top:#2B6CC4;--blue-deep:#16428C;/* the icon's gradient ends */
+  --ink:#0F1F33;/* text */--muted:#4A5B70;/* secondary text */--bed:#F3F7FC;/* page tint */--line:#DCE6F2;
+  --pale:#D6E4F7;/* text on blue */--ok:#1F7A4D;/* overpayment */--debt:#B3261E;/* debt */--debt-bed:#FCEFEE;
+  --warn-bed:#FFF6DB;--warn-line:#E9C76A;/* the unofficial notice */
+  --sans:-apple-system,"SF Pro Text",system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-underline-offset:3px}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--blue-top);outline-offset:3px;border-radius:6px}
+.wrap{width:min(960px,calc(100% - 40px));margin-inline:auto}
+.hero{background:linear-gradient(180deg,var(--blue-top),var(--blue-deep));color:#fff}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 12px;padding:14px 0}
+.brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;color:#fff;text-decoration:none;font-weight:700;font-size:20px}
+.brand img{display:block;width:34px;height:34px;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.35)}
+.top nav{display:flex;flex-wrap:wrap;margin-right:-10px}
+.top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:var(--pale);font-weight:600;font-size:15px;text-decoration:none}
+.top nav a:hover{color:#fff;text-decoration:underline}
+.top a:focus-visible{outline-color:#fff}
+.intro{display:grid;gap:36px;align-items:center;padding:36px 0 56px}
+.app-icon{display:block;width:112px;height:112px;border-radius:26px;box-shadow:0 0 0 1px rgba(255,255,255,.35),0 18px 34px -16px rgba(5,20,50,.7)}
+h1,h2,h3{line-height:1.15;letter-spacing:-.02em;text-wrap:balance}
+h1{margin:22px 0 6px;font-size:clamp(34px,6vw,52px);font-weight:800}
+.sub{margin:0;font-size:clamp(20px,3vw,24px);font-weight:500;color:var(--pale)}
+.lead{margin:20px 0 0;max-width:34em;font-size:19px;color:#fff}
+.sample{display:block;width:100%;max-width:520px;height:auto;border-radius:24px;box-shadow:0 24px 44px -24px rgba(5,20,50,.8)}
+.notice{margin:-28px auto 0;position:relative;padding:18px 22px;border-radius:16px;background:var(--warn-bed);border:1px solid var(--warn-line);color:var(--ink)}
+.notice strong{display:block;font-size:18px}
+.notice p{margin:4px 0 0}
+main section{padding:44px 0 8px}
+h2{margin:0 0 14px;font-size:clamp(26px,4vw,32px);color:var(--blue-deep)}
+.steps{display:grid;gap:14px;margin:0;padding:0;list-style:none;counter-reset:step}
+.steps li{position:relative;padding:18px 20px 18px 66px;border-radius:16px;background:var(--bed);border:1px solid var(--line);counter-increment:step}
+.steps li::before{content:counter(step);position:absolute;left:18px;top:18px;width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;display:grid;place-items:center}
+.steps strong{display:block}
+.saldo{display:grid;gap:12px;margin:18px 0 0;padding:0;list-style:none}
+.saldo li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:14px 18px;border-radius:14px;background:var(--bed);border:1px solid var(--line)}
+.saldo b{font-variant-numeric:tabular-nums}
+.saldo .ok b{color:var(--ok)}
+.saldo .debt{background:var(--debt-bed)}
+.saldo .debt b{color:var(--debt)}
+.facts{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.facts li{padding:14px 18px;border-left:4px solid var(--blue);background:var(--bed);border-radius:0 12px 12px 0}
+details{border-bottom:1px solid var(--line)}
+details:first-of-type{border-top:1px solid var(--line)}
+summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;padding:12px 2px;cursor:pointer;font-weight:700;font-size:18px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;width:28px;height:28px;border-radius:50%;background:var(--bed);border:1px solid var(--line);color:var(--blue);display:grid;place-items:center;font-weight:600}
+details[open] summary::after{content:"−"}
+details>div{padding:0 2px 16px}
+details p{margin:0 0 10px}
+.contact{margin:8px 0 0;padding:26px 24px;border-radius:20px;background:linear-gradient(180deg,var(--blue-top),var(--blue-deep));color:#fff}
+.contact p{margin:8px 0 0;color:var(--pale)}
+.contact a{color:#fff;font-weight:700;font-size:20px;word-break:break-all}
+.contact a:focus-visible{outline-color:#fff}
+section[id]{scroll-margin-top:16px}
+footer{margin-top:56px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:0 20px;padding:12px 0 32px;color:var(--muted);font-size:14px}
+footer a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:none}
+footer a:hover{color:var(--ink);text-decoration:underline}
+footer nav{display:flex;flex-wrap:wrap;gap:0 18px}
+@media(min-width:800px){.intro{grid-template-columns:1.1fr 1fr;padding:44px 0 72px}.steps{grid-template-columns:repeat(3,1fr)}.notice{padding:20px 28px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+<script defer src="https://analytics.danyzmaj.com/script.js" data-website-id="0e8e1817-9331-49d3-bf49-262c6bca88d2" data-domains="www.danyzmaj.com"></script>
+</head>
+<body>
+<div class="hero">
+<header class="top wrap">
+<a class="brand" href="/dopunsko/"><img src="/dopunsko/assets/icon-192x192.png" alt="" width="34" height="34">Dopunsko</a>
+<nav aria-label="Glavna navigacija"><a href="#pitanja">Pitanja</a><a href="#podrska">Podrška</a><a href="/dopunsko/privacy/">Privatnost</a></nav>
+</header>
+<div class="intro wrap">
+<div>
+<img class="app-icon" src="/dopunsko/assets/icon-192x192.png" alt="Ikona aplikacije Dopunsko" width="112" height="112">
+<h1>Dopunsko: provjera salda</h1>
+<p class="sub">Saldo dopunskog osiguranja za vas i obitelj</p>
+<p class="lead">Upišite podatke svake osobe jednom i saldo dopunskog zdravstvenog osiguranja provjerite u nekoliko dodira, bez prijave i bez korisničkog računa. Podaci ostaju na vašem mobitelu.</p>
+</div>
+<img class="sample" src="/dopunsko/assets/card-preview.svg" alt="Primjer: Ana 0,00 € (sve plaćeno), Marko −12,30 € (preplata), Iva 18,40 € (dug)" width="1000" height="700">
+</div>
+</div>
+
+<main class="wrap">
+<aside class="notice" aria-label="Napomena">
+<strong>Neslužbena aplikacija</strong>
+<p>Dopunsko nije aplikacija HZZO-a (Hrvatskog zavoda za zdravstveno osiguranje) i nije s njim povezana. Saldo dohvaća s HZZO-ove javne stranice za provjeru salda, kao da ste je sami otvorili u pregledniku.</p>
+</aside>
+
+<section id="kako-radi" aria-labelledby="kako-radi-naslov">
+<h2 id="kako-radi-naslov">Kako radi</h2>
+<ol class="steps">
+<li><strong>Dodajte osobu</strong>Ime, OIB, MBO i datum rođenja upisujete jednom, za sebe i za članove obitelji.</li>
+<li><strong>Prepišite kod sa slike</strong>Aplikacija otvori HZZO-ovu javnu stranicu i pokaže sliku s kodom koju ta stranica traži.</li>
+<li><strong>Pročitajte saldo</strong>HZZO vrati saldo, a aplikacija ga prikaže uz osobu i zapamti zadnju provjeru.</li>
+</ol>
+<ul class="saldo" aria-label="Primjeri salda">
+<li><span>Saldo 0,00 €: sve je plaćeno</span><b>0,00 €</b></li>
+<li class="ok"><span>Negativan saldo: preplata</span><b>−12,30 €</b></li>
+<li class="debt"><span>Pozitivan saldo: dug</span><b>18,40 €</b></li>
+</ul>
+</section>
+
+<section id="privatnost" aria-labelledby="privatnost-naslov">
+<h2 id="privatnost-naslov">Vaši podaci</h2>
+<ul class="facts">
+<li>Podaci osoba i zadnji saldo spremaju se samo na mobitelu, u šifriranoj pohrani sustava.</li>
+<li>Šalju se samo HZZO-u, i to samo kad dodirnete provjeru. Nema mog poslužitelja i ja ne primam ništa.</li>
+<li>Nema analitike, oglasa, praćenja ni korisničkog računa.</li>
+</ul>
+<p>Sve pojedinosti su u <a href="/dopunsko/privacy/">pravilima privatnosti</a>.</p>
+</section>
+
+<section id="pitanja" aria-labelledby="pitanja-naslov">
+<h2 id="pitanja-naslov">Česta pitanja</h2>
+<details open>
+<summary>Gdje pronaći MBO?</summary>
+<div><p>MBO (matični broj osigurane osobe) je devetoznamenkasti broj otisnut na iskaznici zdravstvenog osiguranja (zdravstvenoj iskaznici HZZO-a). Svaka osoba ima svoj MBO, pa za dijete upišite broj s njegove iskaznice.</p></div>
+</details>
+<details>
+<summary>Zašto moram prepisati kod sa slike?</summary>
+<div><p>HZZO-ova javna stranica za provjeru salda pri svakoj provjeri traži kod sa slike. Aplikacija vam pokaže upravo tu sliku i pošalje HZZO-u kod koji upišete. Ne zaobilazi tu zaštitu i ne može provjeravati saldo sama, u pozadini.</p></div>
+</details>
+<details>
+<summary>Što znači pozitivan, a što negativan saldo?</summary>
+<div><p><strong>Pozitivan saldo</strong> (npr. 18,40 €) je dug: toliko još treba uplatiti.</p><p><strong>Negativan saldo</strong> (npr. −12,30 €) je preplata: uplatili ste više nego što je dospjelo.</p><p><strong>0,00 €</strong> znači da je sve plaćeno.</p></div>
+</details>
+<details>
+<summary>Gdje se spremaju moji podaci?</summary>
+<div><p>Samo na vašem mobitelu, u šifriranoj pohrani sustava (privjesak ključeva na iPhoneu, pohrana zaštićena Android Keystoreom na Androidu). OIB, MBO i datum rođenja šalju se samo HZZO-u kad pokrenete provjeru. Ja ih ne primam i aplikacija nema svoj poslužitelj.</p></div>
+</details>
+<details>
+<summary>Kako rade podsjetnici?</summary>
+<div><p>Za svaku osobu možete uključiti mjesečni podsjetnik na provjeru i podsjetnik sedam dana nakon provjere koja je pokazala dug. Zakazuju se na samom mobitelu i ne idu ni preko kakvog poslužitelja. Možete ih isključiti u aplikaciji ili u postavkama obavijesti na mobitelu.</p></div>
+</details>
+<details>
+<summary>Provjera ne uspijeva ili saldo izgleda pogrešno</summary>
+<div><p>Provjerite jesu li OIB, MBO i datum rođenja upisani točno te jeste li kod prepisali bez greške; ako je kod teško pročitati, dodirnite gumb za novi kod pokraj slike. Ako je HZZO-ova stranica nedostupna, pokušajte kasnije. Aplikacija prikazuje saldo onakav kakav HZZO vrati, pa se za pitanja o samom iznosu ili uplatama obratite HZZO-u.</p></div>
+</details>
+<details>
+<summary>Kako obrisati podatke?</summary>
+<div><p>Obrišite osobu u aplikaciji i njezini podaci i zadnji saldo nestaju s mobitela. Brisanjem aplikacije brišu se svi podaci. Nemate korisnički račun, pa nema ničega drugog za brisanje.</p></div>
+</details>
+</section>
+
+<section id="podrska" aria-labelledby="podrska-naslov">
+<h2 id="podrska-naslov">Podrška</h2>
+<div class="contact">
+<a href="mailto:danijel@danyzmaj.com?subject=Dopunsko">danijel@danyzmaj.com</a>
+<p>Pišite za pitanja, greške ili prijedloge. Uz opis greške navedite model mobitela i verziju sustava, ali nemojte slati OIB ni MBO.</p>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap"><a href="/">Aplikacija: danyzmaj (Danijel Lovric)</a><nav aria-label="Podnožje"><a href="/dopunsko/privacy/">Pravila privatnosti</a><a href="mailto:danijel@danyzmaj.com">Kontakt</a></nav></div>
+</footer>
+</body>
+</html>

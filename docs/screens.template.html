@@ -11,9 +11,9 @@
 <!--
   Screens canvas: a Figma-like viewer for captured app screens.
 
-  PLATNO COPY — vendored from evido-mobile/docs/screens.template.html and patched:
+  SLIKAR COPY — vendored from evido-mobile/docs/screens.template.html and patched:
   per-screen `badge` ("new" | "updated" | "removed"), manifest `emptyTitle`/`emptySub`,
-  and two header placeholders (PLATNO_BACK, PLATNO_ACTIONS) filled by the server.
+  and two header placeholders (SLIKAR_BACK, SLIKAR_ACTIONS) filled by the server.
 
   - Self-contained: open it straight from disk (file://). No network, no build
     step, no external assets.
@@ -381,7 +381,7 @@ button { font: inherit; color: inherit; }
 .ab.is-dim { opacity: .14; }
 .ab.is-removed { opacity: .38; }
 
-/* ---- Platno additions ---------------------------------------------------- */
+/* ---- Slikar additions ---------------------------------------------------- */
 .ab-badge, .row-badge {
   display: inline-block;
   margin-left: 6px;
@@ -536,13 +536,13 @@ button { font: inherit; color: inherit; }
     <button class="icon-btn" id="toggle-sidebar" type="button" aria-label="Hide layers panel" aria-controls="sidebar" aria-expanded="true" title="Toggle layers panel">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><rect x="1.75" y="2.75" width="12.5" height="10.5" rx="2"/><path d="M6.25 2.75v10.5"/></svg>
     </button>
-    <!--PLATNO_BACK-->
+    <!--SLIKAR_BACK-->
     <h1 class="title" id="title">Screens</h1>
     <span class="badge" id="platform">Mobile</span>
     <span class="meta" id="count">0 screens</span>
     <time class="meta meta-generated" id="generated" hidden></time>
     <span class="spacer"></span>
-    <!--PLATNO_ACTIONS-->
+    <!--SLIKAR_ACTIONS-->
     <a class="sibling" id="sibling" hidden></a>
     <div class="zoombar" role="toolbar" aria-label="Zoom">
       <button class="icon-btn" id="zoom-fit" type="button" aria-label="Fit all screens" title="Fit all (0)">
@@ -615,7 +615,7 @@ button { font: inherit; color: inherit; }
   if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)) manifest = {};
 
   const text = (v) => (v == null ? '' : String(v));
-  /** Platno: labels for per-screen change badges. */
+  /** Slikar: labels for per-screen change badges. */
   const BADGE = { new: 'New', updated: 'Updated', removed: 'Removed', changed: 'Code changed', pending: 'Not captured' };
   const BADGE_TIP = {
     new: 'New since the previous capture',

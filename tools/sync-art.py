@@ -16,11 +16,11 @@ Requires Python 3 and Pillow (raster work only). Nothing here runs at request
 time: the deployed site stays a set of self-contained HTML files with local
 assets and no dependencies.
 
-Sibling layout assumed (same parent directory as this checkout):
-    danyzmaj/danyzmaj-site   <- this repo
-    danyzmaj/pixelmew
-    danyzmaj/pixelpup
-    danyzmaj/pixelzoo
+Sibling layout assumed (the app repos sit in garmin/ next to this checkout):
+    danyzmaj-apps/danyzmaj-site       <- this repo
+    danyzmaj-apps/garmin/pixelmew
+    danyzmaj-apps/garmin/pixelpup
+    danyzmaj-apps/garmin/pixelzoo
 """
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 SITE = Path(__file__).resolve().parent.parent
-SIBLINGS = SITE.parent
+SIBLINGS = SITE.parent / "garmin"
 
 # --- what is synced, per product -------------------------------------------
 #

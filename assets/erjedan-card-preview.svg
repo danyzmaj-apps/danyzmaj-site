@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700">
+<title>Erjedan: a thermal R1 receipt with a QR code</title>
+<rect width="1000" height="700" fill="#F2F4F4"/>
+<rect x="270" y="58" width="460" height="28" rx="14" fill="#111314"/>
+<path d="M300 72H700V600 L680 622 L660 600 L640 622 L620 600 L600 622 L580 600 L560 622 L540 600 L520 622 L500 600 L480 622 L460 600 L440 622 L420 600 L400 622 L380 600 L360 622 L340 600 L320 622 L300 600z" fill="#FFFFFF" stroke="#111314" stroke-opacity=".12" stroke-width="2"/>
+<g fill="#111314">
+<path d="M340 120h120v120H340zm20 20v80h80v-80z"/><rect x="380" y="160" width="40" height="40"/>
+<path d="M540 120h120v120H540zm20 20v80h80v-80z"/><rect x="580" y="160" width="40" height="40"/>
+<path d="M340 340h120v120H340zm20 20v80h80v-80z"/><rect x="380" y="380" width="40" height="40"/>
+<rect x="480" y="120" width="40" height="20"/><rect x="480" y="160" width="20" height="40"/><rect x="500" y="200" width="20" height="40"/><rect x="480" y="240" width="20" height="20"/>
+<rect x="340" y="260" width="40" height="20"/><rect x="400" y="260" width="40" height="20"/><rect x="360" y="290" width="40" height="20"/><rect x="420" y="300" width="40" height="20"/>
+<path d="M490 300h70q30 0 30 30v20q0 22-18 28l24 82h-34l-22-76h-18v76h-32zm32 26v34h30q8 0 8-8v-18q0-8-8-8z"/>
+<path d="M620 320l30-20h28v160h-32V340l-26 16z"/>
+</g>
+<rect x="340" y="494" width="220" height="22" fill="#FAEE3C"/>
+<g fill="#111314" opacity=".8"><rect x="340" y="500" width="200" height="10"/><rect x="340" y="534" width="140" height="10"/><rect x="600" y="534" width="60" height="10"/><rect x="340" y="560" width="170" height="10"/><rect x="600" y="560" width="60" height="10"/></g>
+<g><circle cx="790" cy="300" r="16" fill="#1E6B45"/><circle cx="790" cy="350" r="16" fill="#7A5C00"/><circle cx="790" cy="400" r="16" fill="#B3261E"/></g>
+</svg>

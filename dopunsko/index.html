@@ -28,7 +28,7 @@
 /* Tokens from the app icon: a white shield on a deep blue gradient. */
 :root{--blue:#1E5AA8;/* primary, the icon's mid blue */--blue-top:#2B6CC4;--blue-deep:#16428C;/* the icon's gradient ends */
   --ink:#0F1F33;/* text */--muted:#4A5B70;/* secondary text */--bed:#F3F7FC;/* page tint */--line:#DCE6F2;
-  --pale:#D6E4F7;/* text on blue */--ok:#1F7A4D;/* overpayment */--debt:#B3261E;/* debt */--debt-bed:#FCEFEE;
+  --pale:#D6E4F7;/* text on blue */--debt:#B3261E;/* debt, the app's error red */--debt-bed:#FCEFEE;
   --warn-bed:#FFF6DB;--warn-line:#E9C76A;/* the unofficial notice */
   --sans:-apple-system,"SF Pro Text",system-ui,"Segoe UI",Roboto,Arial,sans-serif}
 *{box-sizing:border-box}
@@ -62,8 +62,7 @@ h2{margin:0 0 14px;font-size:clamp(26px,4vw,32px);color:var(--blue-deep)}
 .steps strong{display:block}
 .saldo{display:grid;gap:12px;margin:18px 0 0;padding:0;list-style:none}
 .saldo li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:14px 18px;border-radius:14px;background:var(--bed);border:1px solid var(--line)}
-.saldo b{font-variant-numeric:tabular-nums}
-.saldo .ok b{color:var(--ok)}
+.saldo b{font-variant-numeric:tabular-nums;color:var(--blue)}
 .saldo .debt{background:var(--debt-bed)}
 .saldo .debt b{color:var(--debt)}
 .facts{display:grid;gap:12px;margin:0;padding:0;list-style:none}
@@ -104,7 +103,7 @@ footer nav{display:flex;flex-wrap:wrap;gap:0 18px}
 <p class="sub">Saldo dopunskog osiguranja za vas i obitelj</p>
 <p class="lead">Upišite podatke svake osobe jednom i saldo dopunskog zdravstvenog osiguranja provjerite u nekoliko dodira, bez prijave i bez korisničkog računa. Podaci ostaju na vašem mobitelu.</p>
 </div>
-<img class="sample" src="/dopunsko/assets/card-preview.svg" alt="Primjer: Ana 0,00 € (sve plaćeno), Marko −12,30 € (preplata), Iva 18,40 € (dug)" width="1000" height="700">
+<img class="sample" src="/dopunsko/assets/card-preview.svg" alt="Primjer: Ana Podmireno, Marko Preplata 12,30 €, Iva Dug 18,40 €" width="1000" height="700">
 </div>
 </div>
 
@@ -122,9 +121,9 @@ footer nav{display:flex;flex-wrap:wrap;gap:0 18px}
 <li><strong>Pročitajte saldo</strong>HZZO vrati saldo, a aplikacija ga prikaže uz osobu i zapamti zadnju provjeru.</li>
 </ol>
 <ul class="saldo" aria-label="Primjeri salda">
-<li><span>Saldo 0,00 €: sve je plaćeno</span><b>0,00 €</b></li>
-<li class="ok"><span>Negativan saldo: preplata</span><b>−12,30 €</b></li>
-<li class="debt"><span>Pozitivan saldo: dug</span><b>18,40 €</b></li>
+<li><span>Saldo 0,00 €: sve je plaćeno</span><b>Podmireno</b></li>
+<li><span>Negativan saldo: uplaćeno više</span><b>Preplata 12,30 €</b></li>
+<li class="debt"><span>Pozitivan saldo: treba uplatiti</span><b>Dug 18,40 €</b></li>
 </ul>
 </section>
 
@@ -150,7 +149,7 @@ footer nav{display:flex;flex-wrap:wrap;gap:0 18px}
 </details>
 <details>
 <summary>Što znači pozitivan, a što negativan saldo?</summary>
-<div><p><strong>Pozitivan saldo</strong> (npr. 18,40 €) je dug: toliko još treba uplatiti.</p><p><strong>Negativan saldo</strong> (npr. −12,30 €) je preplata: uplatili ste više nego što je dospjelo.</p><p><strong>0,00 €</strong> znači da je sve plaćeno.</p></div>
+<div><p><strong>Pozitivan saldo</strong> je dug: toliko još treba uplatiti. Aplikacija ga prikaže crveno, npr. „Dug 18,40 €”.</p><p><strong>Negativan saldo</strong> je preplata: uplatili ste više nego što je dospjelo. Aplikacija prikaže „Preplata 12,30 €”, iznos bez predznaka.</p><p><strong>Saldo 0,00 €</strong> znači da je sve plaćeno; aplikacija prikaže „Podmireno”.</p></div>
 </details>
 <details>
 <summary>Gdje se spremaju moji podaci?</summary>
@@ -166,7 +165,7 @@ footer nav{display:flex;flex-wrap:wrap;gap:0 18px}
 </details>
 <details>
 <summary>Kako obrisati podatke?</summary>
-<div><p>Obrišite osobu u aplikaciji i njezini podaci i zadnji saldo nestaju s mobitela. Brisanjem aplikacije brišu se svi podaci. Nemate korisnički račun, pa nema ničega drugog za brisanje.</p></div>
+<div><p>Obrišite osobu u aplikaciji i njezini podaci i zadnji saldo nestaju s mobitela. Na Androidu brisanje aplikacije briše sve njezine podatke. Na iPhoneu podaci spremljeni u privjesku ključeva (Keychain) mogu ostati na uređaju i nakon brisanja aplikacije, pa ako ih želite ukloniti, prije brisanja aplikacije obrišite osobe u njoj. Nemate korisnički račun, pa nema ničega drugog za brisanje.</p></div>
 </details>
 </section>
 

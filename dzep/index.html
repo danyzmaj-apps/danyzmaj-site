@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Džep | A pocket for ideas, todos and notes</title>
+<meta name="description" content="Džep is a Mac menu-bar app with an ⇧⌘Space popup for ideas, todos, notes and quick AI questions, plus iPhone and Android apps, synced through a Supabase project you own.">
+<meta name="theme-color" content="#12141C">
+<link rel="canonical" href="https://www.danyzmaj.com/dzep/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Džep | A pocket for ideas, todos and notes">
+<meta property="og:description" content="A Mac popup for ideas, todos, notes and quick AI questions, phone apps that drive your Mac's coding sessions, and your own Supabase server in between.">
+<meta property="og:url" content="https://www.danyzmaj.com/dzep/">
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image" content="https://www.danyzmaj.com/dzep/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Džep: a yellow note tucked into a periwinkle denim pocket on a navy background">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/dzep/assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/dzep/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/dzep/assets/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/dzep/assets/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/dzep/assets/apple-touch-icon.png" sizes="180x180">
+<style>
+/* Design contract: the app's own night desk. The bed is the icon's navy
+   gradient (--navy into --bed), panels are the app window (--win/--bar,
+   hairlines --line/--line2), lettering is the app's --text/--dim, and the
+   icon colors carry meaning: --accent (the app's periwinkle: links, keys),
+   --note (the yellow note: the one download button, stitched rules),
+   --pocket/--pocket2 (the denim). System sans for words, monospace only
+   for keys, commands and versions, as in the app. Tokens come from
+   dzep_core's lib/ui.dart and lib/logo.dart. */
+:root{--bed:#12141C;--navy:#333D66;--win:#17181D;--bar:#1E2027;--line:#262933;--line2:#30343F;--text:#E8E9EE;--dim:#8A8F9C;--accent:#7C9CFF;--pocket:#8C9EFF;--pocket2:#5C6BDB;--note:#FFD15C;--sans:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bed)}
+body{margin:0;background:var(--bed) linear-gradient(180deg,var(--navy),var(--bed)) no-repeat top/100% 900px;color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:4px}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.08;text-wrap:balance}
+p{margin:0;line-height:1.6}
+code,kbd{font-family:var(--mono);font-size:.88em}
+code{color:var(--text);background:var(--bar);border:1px solid var(--line2);border-radius:5px;padding:1px 5px;white-space:nowrap}
+kbd{display:inline-block;min-width:1.9em;padding:2px 6px;border:1px solid var(--line2);border-bottom-width:2px;border-radius:6px;background:var(--bar);color:var(--text);text-align:center;line-height:1.3}
+.wrap{width:min(1180px,calc(100% - 80px));margin-inline:auto}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 0;border-bottom:1px solid var(--line2)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:26px;color:var(--text)}
+.brand img{width:32px;height:32px;border-radius:8px;display:block}
+nav.top-nav{display:flex;gap:24px;font-size:14px;font-weight:700}
+nav.top-nav a{display:inline-flex;align-items:center;min-height:24px;text-decoration:none;color:var(--dim)}
+nav.top-nav a:hover,nav.top-nav a:focus-visible{color:var(--text)}
+a:focus-visible{outline:3px solid var(--note);outline-offset:3px}
+
+main{display:block}
+.brief{padding:60px 0 64px;border-top:0}
+.brief-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:52px;align-items:center}
+.brief h1{font-size:clamp(38px,4.3vw,60px);line-height:1.02;letter-spacing:-.035em}
+.brief .lead{margin-top:24px;font-size:18px;max-width:44ch}
+.brief .sub{margin-top:12px;font-size:15px;color:var(--dim);max-width:46ch}
+.actions{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.cta{display:inline-flex;align-items:center;gap:14px;background:var(--note);color:var(--bed);padding:14px 22px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;min-height:48px}
+.cta:hover{background:#FFDD85}
+.ghost{color:var(--text);font-weight:700;font-size:15px;text-decoration:none;border-bottom:2px solid var(--pocket2);padding-bottom:2px}
+.ghost:hover{border-bottom-color:var(--pocket)}
+.platforms{margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--dim)}
+.visual{margin:0}
+.visual img{display:block;width:100%;height:auto;border-radius:14px}
+.visual figcaption{padding:12px 0 0;font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+section{border-top:1px solid var(--line)}
+section>.wrap{padding:56px 0}
+.brief>.wrap{padding:0}
+h2{font-size:clamp(24px,2.8vw,32px)}
+.lede{margin-top:14px;max-width:66ch;color:var(--dim);font-size:16px}
+.lede strong{color:var(--text)}
+.stitched{border-top:3px dashed var(--note);opacity:.75;width:72px;margin:0 0 22px}
+
+.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:30px 0 0;padding:0;list-style:none}
+.modes li{background:var(--win);border:1px solid var(--line2);border-radius:14px;padding:20px}
+.modes h3{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:19px}
+.modes p{margin-top:10px;color:var(--dim);font-size:15px}
+.reminders{margin-top:36px;max-width:760px}
+.reminders h3{font-size:18px}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px}
+th,td{text-align:left;padding:11px 14px 11px 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);font-weight:700}
+td{color:var(--dim)}
+td:first-child{color:var(--text);white-space:nowrap}
+
+.screens{background:#fff;color:var(--bed);border-top:0}
+.screens .lede,.screens figcaption,.screens .stamp{color:#4A4F5C}
+.screens-grid{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,1fr);gap:clamp(32px,4vw,60px);align-items:end;margin-top:36px}
+.screens figure{margin:0}
+.screens img{display:block;width:100%;height:auto}
+.phone{width:min(268px,100%);padding:10px;background:var(--bed);border-radius:42px}
+.phone img{border-radius:32px}
+.screens h3{font-size:19px;margin:22px 0 8px}
+.screens figcaption{font-size:15px;line-height:1.6;max-width:52ch}
+.stamp{display:block;margin-top:26px;font-family:var(--mono);font-size:11px}
+
+.specs{display:grid;grid-template-columns:190px 1fr;gap:16px 28px;margin:30px 0 0;max-width:980px}
+.specs dt{margin:0;font-weight:800;font-size:15px}
+.specs dd{margin:0;color:var(--dim);font-size:15px;line-height:1.65}
+.specs dd strong{color:var(--text)}
+.terminals{max-width:860px;margin-top:30px}
+.callout{margin-top:30px;max-width:760px;padding:18px 20px;border-left:4px solid var(--note);background:var(--win);border-radius:0 12px 12px 0;color:var(--dim);font-size:15px}
+.callout strong{color:var(--text)}
+
+.support .email{display:inline-block;margin-top:18px;font-weight:800;font-size:19px;text-decoration:none;color:var(--text);border-bottom:2px solid var(--note)}
+.support .email:hover{border-bottom-color:var(--text)}
+.support .fine{margin-top:18px;color:var(--dim);font-size:15px;max-width:66ch}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--dim)}
+footer a{color:inherit;text-decoration:none}
+footer a:hover{text-decoration:underline}
+footer nav{display:flex;gap:18px}
+
+@media(max-width:980px){.modes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:860px){.wrap{width:calc(100% - 40px)}.brief{padding:34px 0 44px}.brief-grid{grid-template-columns:1fr;gap:32px}header.top{gap:12px}nav.top-nav{gap:16px;font-size:12px}nav.top-nav a.wide{display:none}.specs{grid-template-columns:1fr;gap:6px}.specs dt:not(:first-child){margin-top:16px}.screens-grid{grid-template-columns:1fr;gap:44px}.phone{width:min(268px,78%)}td:first-child{white-space:normal}}
+@media(max-width:560px){.modes{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+<script defer src="https://analytics.danyzmaj.com/script.js" data-website-id="0e8e1817-9331-49d3-bf49-262c6bca88d2" data-domains="www.danyzmaj.com"></script>
+</head>
+<body>
+<header class="top wrap">
+<a class="brand" href="/dzep/"><img src="assets/icon-192x192.png" alt="" width="32" height="32">Džep</a>
+<nav class="top-nav" aria-label="Main navigation"><a class="wide" href="#capture">Capture</a><a class="wide" href="#terminal">Terminal</a><a href="#status">Status</a><a href="#support">Support</a></nav>
+</header>
+<main>
+<section class="brief">
+<div class="wrap brief-grid">
+<div>
+<h1>A pocket for ideas, todos and notes, on your own server.</h1>
+<p class="lead">Džep is a Mac menu-bar app with an <kbd>⇧⌘Space</kbd> popup, plus iPhone and Android apps. They sync through a free Supabase project that you own. There is no Džep cloud.</p>
+<p class="sub">From the phone you can also drive the omp and Claude Code sessions running on your Mac. <i>Džep</i> is Croatian for “pocket”, said roughly “jep”.</p>
+<div class="actions">
+<a class="cta" href="https://github.com/danyzmaj-apps/dzep/releases/latest">Download for Mac <span aria-hidden="true">&#8595;</span></a>
+<a class="ghost" href="https://github.com/danyzmaj-apps/dzep">Source on GitHub</a>
+</div>
+<p class="platforms">v0.4.0 &#183; macOS 13 or later &#183; notarized DMG &#183; MIT</p>
+</div>
+<figure class="visual">
+<img src="assets/card-preview.svg" width="1000" height="700" alt="Illustration of the Džep popup in Todo mode: the field reads call bank !15:00 with a reminder chip for today at 15:00, above three open todos, next to the app's mark, a yellow note tucked into a denim pocket.">
+<figcaption>Illustration of the popup in Todo mode &#183; sample todos</figcaption>
+</figure>
+</div>
+</section>
+
+<section id="capture">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Press ⇧⌘Space anywhere on the Mac</h2>
+<p class="lede">The popup opens in the mode you used last, with its field ready. <kbd>⌘1</kbd> to <kbd>⌘4</kbd> switch modes, <kbd>↵</kbd> saves (or sends, in Ask), <kbd>Esc</kbd> hides it. The menu-bar icon shows how many todos are open.</p>
+<ul class="modes">
+<li><h3>Idea <kbd>⌘1</kbd></h3><p>A title and an optional description. <code>@project</code> in the title files it under that project.</p></li>
+<li><h3>Todo <kbd>⌘2</kbd></h3><p>End it with <code>!</code> and a time to get a reminder on every device. Tick it off on one and it's done on all.</p></li>
+<li><h3>Note <kbd>⌘3</kbd></h3><p>Free text, first line as the title, saved as you type. <kbd>⌘P</kbd> floats it in a small window over everything.</p></li>
+<li><h3>Ask <kbd>⌘4</kbd></h3><p>A short streamed chat with the AI you connected, with up to four images per question. Chats continue on any device.</p></li>
+</ul>
+<div class="reminders">
+<h3>Reminders, written into the todo</h3>
+<table>
+<thead><tr><th scope="col">Write</th><th scope="col">Reminds you</th></tr></thead>
+<tbody>
+<tr><td><code>!15:00</code> <code>!9.30</code> <code>!3pm</code></td><td>At that time today, or tomorrow if it's already past</td></tr>
+<tr><td><code>!tomorrow</code> <code>!fri</code></td><td>That day at 9:00</td></tr>
+<tr><td><code>!mon 14:30</code></td><td>The next Monday at that time</td></tr>
+<tr><td><code>!30m</code> <code>!2h</code> <code>!1d</code></td><td>That long from now</td></tr>
+</tbody>
+</table>
+</div>
+<dl class="specs">
+<dt>Main window</dt><dd>Todos, Ideas (grouped by project), Notes and Ask, searchable from the keyboard, with Undo on delete.</dd>
+<dt>Todos widget</dt><dd>On the desktop or in Notification Center, ticking todos off without opening the app (macOS 14 or later).</dd>
+<dt>In your coding agent</dt><dd><code>/idea</code>, <code>/do</code> and <code>/note</code> in omp and Claude Code save straight to Džep, filed under the current repo's name, even while the agent is working.</dd>
+</dl>
+</div>
+</section>
+
+<section class="screens" id="screens">
+<div class="wrap">
+<h2>In the app</h2>
+<p class="lede">The same todos on the Mac and the phone, and a coding session followed from the phone.</p>
+<div class="screens-grid">
+<figure>
+<img src="assets/screen-mac-phone.webp" width="1400" height="1107" alt="The Mac popup in Todo mode next to an iPhone on its Pocket tab, both listing the same six open todos, three with reminder chips" loading="lazy">
+<h3>One list, everywhere</h3>
+<figcaption>The Mac popup in Todo mode and the iPhone's Pocket tab show the same open todos with their reminder chips. Both say Synced.</figcaption>
+</figure>
+<figure>
+<div class="phone"><img src="assets/screen-session.webp" width="480" height="1040" alt="Phone showing a coding session titled Add a soil moisture endpoint as a conversation: the prompt, read, edit and bash tool-call cards with passing test output, the agent's summary, and a composer reading Prompt omp" loading="lazy"></div>
+<h3>A session as a conversation</h3>
+<figcaption>Tool calls arrive as cards with their output, answers as Markdown, and the composer prompts the session on the Mac.</figcaption>
+</figure>
+</div>
+<p class="stamp">Rendered by the apps' own screenshot tests: the real screens, on made-up data</p>
+</div>
+</section>
+
+<section id="phone">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>On the phone</h2>
+<p class="lede">The iPhone and Android apps do the same things, each in its platform's look: iOS on the iPhone, Material 3 on Android.</p>
+<dl class="specs">
+<dt>Pocket</dt><dd>Todos, ideas and notes in one list, open todos first. Filter to one kind, search all three, swipe to tick off or delete.</dd>
+<dt>Terminal</dt><dd>The tab the app opens on, with your Mac's coding sessions and terminal windows. <a href="#terminal">More below</a>.</dd>
+<dt>Ask</dt><dd>The same chats as on the Mac. Paste an image or pick one from your photos.</dd>
+<dt>Widgets</dt><dd><strong>Todos</strong> ticks todos off from the Home Screen, <strong>New idea</strong> opens the add field. Reminders come with a <strong>Done</strong> action.</dd>
+<dt>Adding a phone</dt><dd>No password and no GitHub on the phone. On the Mac, <strong>Settings › Set up phone…</strong> shows a QR code; the phone scans it and signs in. A code works once, for 10 minutes.</dd>
+<dt>Without the Mac</dt><dd>Ideas, todos, notes, reminders and Ask live on your server, so the phone works with the Mac off. The Mac is only needed to add a phone and for Terminal.</dd>
+</dl>
+</div>
+</section>
+
+<section id="terminal">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Your Mac's coding sessions, from the phone</h2>
+<p class="lede">The Terminal tab shows each omp or Claude Code session on your Mac as a conversation. Prompt it (with images), stop a run, and answer its questions, tool approvals and plan reviews. You get a push when the agent finishes or needs you. Other terminal windows show as live screens you can type into, and <strong>+</strong> opens a new session in one of your projects.</p>
+<table class="terminals">
+<thead><tr><th scope="col">Terminal</th><th scope="col">What works from the phone</th></tr></thead>
+<tbody>
+<tr><td>kitty, WezTerm, tmux</td><td>Everything: sessions, live screens in color, keys and answers, closing windows</td></tr>
+<tr><td>iTerm2</td><td>Everything except colors</td></tr>
+<tr><td>Ghostty</td><td>Sessions and keys, no screen; answer questions on the Mac</td></tr>
+<tr><td>Terminal (macOS)</td><td>Sessions and screens in whole lines; answer questions on the Mac</td></tr>
+</tbody>
+</table>
+<p class="callout"><strong>Your Mac has to be awake, with Džep running and Terminal from phone turned on.</strong> It is off by default. While it is on, Džep keeps an idle Mac from sleeping, but a closed lid without an external display ends it. Sessions travel over a Realtime channel only your account can join, and nothing on it is stored. Claude Code needs version 2.1.287 or later.</p>
+</div>
+</section>
+
+<section id="server">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Your server, not mine</h2>
+<p class="lede">Open Džep on the Mac and click <strong>Set up my server</strong>. The wizard takes about five minutes and needs a free Supabase account, which hosts the server, and a GitHub account to sign in with. An AI key for Ask is optional and can be added later.</p>
+<dl class="specs">
+<dt>Your data</dt><dd>Everything you write lives in your Supabase project, behind row-level security. The apps hold only its publishable key.</dd>
+<dt>Only you sign up</dt><dd>GitHub is the only way in, and after the first account nobody else can sign up unless you allow their email.</dd>
+<dt>Your AI key</dt><dd>A secret on your server. Questions go from your server to the OpenAI-compatible provider you chose (OpenAI, OpenRouter, Groq, DeepSeek and others); the apps never see the key.</dd>
+<dt>Encrypted pushes</dt><dd>Your server encrypts every notification with a key only your phone has. My relay passes the ciphertext to Apple or Google and stores nothing.</dd>
+<dt>No tracking</dt><dd>No analytics, advertising or tracking SDKs in the apps. <strong>Settings › Delete account</strong> removes everything. <a href="/dzep/privacy/">Read the privacy policy</a>.</dd>
+</dl>
+</div>
+</section>
+
+<section id="status">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Status</h2>
+<dl class="specs">
+<dt>Mac</dt><dd><strong>Available.</strong> Version 0.4.0 is a notarized <code>Dzep-0.4.0.dmg</code> on <a href="https://github.com/danyzmaj-apps/dzep/releases/latest">GitHub Releases</a>, and it updates itself. macOS 13 or later.</dd>
+<dt>iPhone</dt><dd><strong>Not in the App Store yet.</strong> TestFlight is coming. Until then you can <a href="https://github.com/danyzmaj-apps/dzep/blob/main/docs/BUILDING.md">build the phone app from source</a>. iOS 17 or later, iPhone only.</dd>
+<dt>Android</dt><dd><strong>Not on Google Play yet.</strong> The same app, built from the same source. Android 8.0 or later.</dd>
+<dt>License</dt><dd>Open source under the MIT license. Issues and pull requests are welcome on <a href="https://github.com/danyzmaj-apps/dzep">GitHub</a>.</dd>
+</dl>
+</div>
+</section>
+
+<section class="support" id="support">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Support</h2>
+<p class="lede">I'm Danijel, the developer. For questions, setup trouble or ideas, email me and I'll get back to you, or open an issue on <a href="https://github.com/danyzmaj-apps/dzep/issues">GitHub</a>.</p>
+<a class="email" href="mailto:danijel@danyzmaj.com?subject=D%C5%BEep">danijel@danyzmaj.com</a>
+<p class="fine">Found a security problem? Please report it privately through <a href="https://github.com/danyzmaj-apps/dzep/security/advisories/new">GitHub's vulnerability reporting</a>, not in a public issue.</p>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap">
+<nav aria-label="Footer"><a href="/">danyzmaj.com</a><a href="/dzep/privacy/">Privacy</a><a href="mailto:danijel@danyzmaj.com">Contact</a></nav>
+<span>Džep &#183; Mac, iPhone &amp; Android</span>
+</div>
+</footer>
+</body>
+</html>

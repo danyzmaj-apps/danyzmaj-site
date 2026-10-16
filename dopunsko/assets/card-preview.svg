@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="dopCardTitle dopCardDesc">
 <title id="dopCardTitle">Dopunsko: provjera salda</title>
-<desc id="dopCardDesc">Ilustrirani popis triju osoba s primjerima salda dopunskog osiguranja: jedna nema dug, jedna ima preplatu, jedna duguje.</desc>
+<desc id="dopCardDesc">Ilustrirani popis triju osoba s primjerima salda dopunskog osiguranja: Podmireno, Preplata 12,30 € i Dug 18,40 €.</desc>
 <rect width="1000" height="700" fill="#EAF1FA"/>
 <circle cx="880" cy="90" r="210" fill="#DCE8F7"/>
 <circle cx="90" cy="660" r="170" fill="#DCE8F7"/>
@@ -81,21 +81,21 @@ gg=="/>
 <circle cx="52" cy="55" r="28" fill="#1E5AA8"/><text x="52" y="65" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">A</text>
 <text x="100" y="50" font-size="26" font-weight="600" fill="#0F1F33">Ana</text>
 <text x="100" y="80" font-size="19" fill="#4A5B70">Sve plaćeno</text>
-<text x="490" y="66" font-size="30" font-weight="700" fill="#0F1F33" text-anchor="end">0,00 €</text>
+<text x="490" y="66" font-size="30" font-weight="700" fill="#1E5AA8" text-anchor="end">Podmireno</text>
 </g>
 <g transform="translate(240,345)">
 <rect width="520" height="110" rx="22" fill="#F3F7FC"/>
 <circle cx="52" cy="55" r="28" fill="#1E5AA8"/><text x="52" y="65" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">M</text>
 <text x="100" y="50" font-size="26" font-weight="600" fill="#0F1F33">Marko</text>
-<text x="100" y="80" font-size="19" fill="#1F7A4D">Preplata</text>
-<text x="490" y="66" font-size="30" font-weight="700" fill="#1F7A4D" text-anchor="end">−12,30 €</text>
+<text x="100" y="80" font-size="19" fill="#4A5B70">Uplaćeno više</text>
+<text x="490" y="66" font-size="30" font-weight="700" fill="#1E5AA8" text-anchor="end">Preplata 12,30 €</text>
 </g>
 <g transform="translate(240,475)">
 <rect width="520" height="110" rx="22" fill="#FCEFEE"/>
 <circle cx="52" cy="55" r="28" fill="#1E5AA8"/><text x="52" y="65" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">I</text>
 <text x="100" y="50" font-size="26" font-weight="600" fill="#0F1F33">Iva</text>
-<text x="100" y="80" font-size="19" fill="#B3261E">Dug</text>
-<text x="490" y="66" font-size="30" font-weight="700" fill="#B3261E" text-anchor="end">18,40 €</text>
+<text x="100" y="80" font-size="19" fill="#4A5B70">Treba uplatiti</text>
+<text x="490" y="66" font-size="30" font-weight="700" fill="#B3261E" text-anchor="end">Dug 18,40 €</text>
 </g>
 </g>
 </svg>

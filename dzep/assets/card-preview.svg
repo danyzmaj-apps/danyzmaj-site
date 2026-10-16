@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="dzepCardTitle dzepCardDesc">
+<title id="dzepCardTitle">Džep quick capture</title>
+<desc id="dzepCardDesc">The Džep popup in Todo mode, saving "call bank !15:00" with a reminder chip for today at 15:00 above three open todos, next to the app's mark: a yellow note tucked into a periwinkle denim pocket.</desc>
+<defs>
+<linearGradient id="dzepBed" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#333D66"/>
+<stop offset="1" stop-color="#12141C"/>
+</linearGradient>
+<linearGradient id="dzepPocket" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#8C9EFF"/>
+<stop offset="1" stop-color="#5C6BDB"/>
+</linearGradient>
+<pattern id="dzepTwill" width="12" height="12" patternUnits="userSpaceOnUse">
+<path d="M0 12L12 0" stroke="#8C9EFF" stroke-width="1" opacity=".06"/>
+</pattern>
+</defs>
+<rect width="1000" height="700" fill="url(#dzepBed)"/>
+<rect width="1000" height="700" fill="url(#dzepTwill)"/>
+<rect x="16" y="16" width="968" height="668" rx="10" fill="none" stroke="#8C9EFF" stroke-width="2" opacity=".22"/>
+<text x="48" y="88" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="40" font-weight="800" letter-spacing="-1" fill="#E8E9EE">Džep</text>
+<text x="50" y="116" font-family="ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace" font-size="13" letter-spacing="2" fill="#8A8F9C">⇧⌘SPACE · IDEA · TODO · NOTE · ASK</text>
+<g transform="translate(0,22)">
+<g font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif">
+<rect x="48" y="176" width="564" height="356" rx="16" fill="#17181D" stroke="#30343F" stroke-width="2"/>
+<rect x="158" y="192" width="92" height="32" rx="8" fill="#262B3D"/>
+<g font-size="16" fill="#8A8F9C">
+<text x="76" y="214">Idea<tspan dx="7" font-size="13" fill="#5C616E">⌘1</tspan></text>
+<text x="170" y="214" fill="#E8E9EE">Todo<tspan dx="7" font-size="13" fill="#8A8F9C">⌘2</tspan></text>
+<text x="270" y="214">Note<tspan dx="7" font-size="13" fill="#5C616E">⌘3</tspan></text>
+<text x="370" y="214">Ask<tspan dx="7" font-size="13" fill="#5C616E">⌘4</tspan></text>
+</g>
+<line x1="50" y1="240" x2="610" y2="240" stroke="#262933" stroke-width="2"/>
+<circle cx="84" cy="276" r="10" fill="none" stroke="#5C616E" stroke-width="2"/>
+<rect x="105" y="262" width="2" height="28" fill="#7C9CFF"/>
+<text x="112" y="284" font-size="21" fill="#E8E9EE">call bank <tspan fill="#7C9CFF">!15:00</tspan></text>
+<rect x="110" y="300" width="128" height="26" rx="13" fill="#262B3D" stroke="#7C9CFF" stroke-width="1.5"/>
+<text x="174" y="318" font-size="13" text-anchor="middle" fill="#7C9CFF">Today 15:00</text>
+<line x1="50" y1="344" x2="610" y2="344" stroke="#262933" stroke-width="2"/>
+<text x="74" y="372" font-size="12" letter-spacing="1.5" fill="#8A8F9C">OPEN TODOS</text>
+<g fill="none" stroke="#5C616E" stroke-width="2">
+<circle cx="84" cy="402" r="9"/>
+<circle cx="84" cy="440" r="9"/>
+<circle cx="84" cy="478" r="9"/>
+</g>
+<g font-size="17" fill="#E8E9EE">
+<text x="106" y="408">Renew the domain</text>
+<text x="106" y="446">Book the dentist</text>
+<text x="106" y="484">Write release notes</text>
+</g>
+<rect x="414" y="390" width="112" height="24" rx="12" fill="none" stroke="#FFD15C" stroke-width="1.5" opacity=".9"/>
+<text x="470" y="407" font-size="12" text-anchor="middle" fill="#FFD15C">Yesterday 17:00</text>
+<g font-size="13" fill="#8A8F9C" text-anchor="end">
+<text x="588" y="407">08:41</text>
+<text x="588" y="445">08:12</text>
+<text x="588" y="483">13 Oct</text>
+</g>
+<circle cx="76" cy="514" r="4" fill="#4ADE80"/>
+<text x="88" y="519" font-size="13" fill="#8A8F9C">Synced</text>
+</g>
+<g transform="translate(793.2,289.6) rotate(9)">
+<rect x="-83.6" y="-88" width="167.2" height="158.4" rx="13.2" fill="#FFD15C"/>
+<rect x="-52.8" y="-51" width="105.6" height="11.4" rx="5.7" fill="#CC9933"/>
+<rect x="-52.8" y="-20.2" width="74.8" height="11.4" rx="5.7" fill="#CC9933"/>
+</g>
+<path d="M656.8 316H903.2V434.8L780 505.2L656.8 434.8Z" fill="url(#dzepPocket)"/>
+<path d="M672.2 331.4H887.8V426L780 487.6L672.2 426ZM672.2 344.6H887.8" fill="none" stroke="#FFD15C" stroke-opacity=".9" stroke-width="4.8" stroke-linecap="round" stroke-dasharray="9.7 8.8"/>
+</g>
+<g font-family="ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace" font-size="13" letter-spacing="2" fill="#8A8F9C">
+<text x="50" y="640">YOUR OWN SUPABASE · NO DŽEP CLOUD</text>
+<text x="950" y="640" text-anchor="end">MAC · IPHONE · ANDROID</text>
+</g>
+</svg>

@@ -115,20 +115,11 @@ const groups = [
     {id: 'vedro--product--no-js', name: 'Product page', state: 'No JavaScript (buttons hidden)', path: '/vedro/', source: 'vedro/index.html', noJs: true},
     {id: 'vedro--privacy--default', name: 'Privacy policy', state: 'Default', path: '/vedro/privacy/', source: 'vedro/privacy/index.html'},
   ]},
-  {id: 'evido', name: 'Evido (unlinked)', screens: [
-    {id: 'evido--product--worker', name: 'Product page', state: 'Worker walkthrough', path: '/evido/', source: 'evido/index.html'},
-    {id: 'evido--product--owner', name: 'Product page', state: 'Owner walkthrough', path: '/evido/', source: 'evido/index.html', act: click('label[for="owner"]')},
-    {id: 'evido--privacy--default', name: 'Privacy policy', state: 'Default', path: '/evido/privacy/', source: 'evido/privacy/index.html'},
-  ]},
   {id: 'hopjar', name: 'Hopjar', screens: [
     {id: 'hopjar--support--light', name: 'Support page', state: 'Light appearance', path: '/hopjar/', source: 'hopjar/index.html', act: light},
     {id: 'hopjar--support--dark', name: 'Support page', state: 'Dark appearance', path: '/hopjar/', source: 'hopjar/index.html'},
     {id: 'hopjar--privacy--light', name: 'Privacy policy', state: 'Light appearance', path: '/hopjar/privacy/', source: 'hopjar/privacy/index.html', act: light},
     {id: 'hopjar--privacy--dark', name: 'Privacy policy', state: 'Dark appearance', path: '/hopjar/privacy/', source: 'hopjar/privacy/index.html'},
-  ]},
-  {id: 'tools', name: 'Developer tools', screens: [
-    {id: 'tools--shipyard--default', name: 'Shipyard', state: 'Default', path: '/shipyard/', source: 'shipyard/index.html'},
-    {id: 'tools--helm--default', name: 'Helm', state: 'Default', path: '/helm/', source: 'helm/index.html'},
   ]},
 ];
 
@@ -141,10 +132,7 @@ const phone = [
   ['pixelmew', 'PixelMew', '/pixelmew/', 'pixelmew/index.html'],
   ['pixelzoo', 'PixelZoo', '/pixelzoo/', 'pixelzoo/index.html'],
   ['vedro', 'Vedro', '/vedro/', 'vedro/index.html'],
-  ['evido', 'Evido', '/evido/', 'evido/index.html'],
   ['hopjar', 'Hopjar', '/hopjar/', 'hopjar/index.html'],
-  ['shipyard', 'Shipyard', '/shipyard/', 'shipyard/index.html'],
-  ['helm', 'Helm', '/helm/', 'helm/index.html'],
 ];
 groups.push({id: 'phone', name: 'Phone 390×844', screens: phone.map(([key, name, path, source, act, route]) => ({
   id: `phone--${key}--default`, name, state: 'Phone', path, source, act, route, device: 'phone',

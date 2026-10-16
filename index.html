@@ -224,7 +224,11 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
 .project-info span{font:400 24px/1 var(--mono);color:var(--ember)}
 .project p{font:400 12px/1.7 var(--mono);margin:10px 0 4px;max-width:34em}
 .project small{font:400 10px/1.5 var(--mono);color:color-mix(in srgb,var(--bone) 60%,var(--ink))}
-.project small .soon{color:var(--ember)}
+.project small .soon{color:var(--ember);border-radius:2px}
+.project-soon{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.project-soon:focus-visible{outline:1px solid var(--ember);outline-offset:6px}
+.project small .soon.nudge{animation:nudge 900ms steps(1,end)}
+@keyframes nudge{0%,50%{background:var(--ember);color:var(--ink)}25%,75%{background:none;color:var(--ember)}}
 .project-route{background:var(--route-bed)}
 .project-receipt{background:var(--receipt-bed)}
 .project-jar{background:var(--jar-bed)}
@@ -332,12 +336,12 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
       <p>Weather-aware navigation for open-air travel.</p>
       <small>WEATHER-AWARE NAVIGATION</small>
     </a>
-    <a class="project" href="https://erjedan.hr" rel="noopener">
+    <div class="project project-soon" role="button" tabindex="0" aria-label="Erjedan, coming soon">
       <div class="project-art project-receipt" aria-hidden="true"><img class="project-preview" src="/assets/erjedan-card-preview.svg" width="1000" height="700" alt="" loading="lazy"></div>
-      <div class="project-info"><h3>Erjedan</h3><span aria-hidden="true">↗</span></div>
+      <div class="project-info"><h3>Erjedan</h3></div>
       <p>Paperless R1 receipts for Croatian businesses.</p>
       <small>RECEIPT CAPTURE &#183; <span class="soon">COMING SOON</span></small>
-    </a>
+    </div>
     <a class="project" href="/hopjar/">
       <div class="project-art project-jar" aria-hidden="true"><img class="project-preview" src="/hopjar/assets/card-preview.svg" width="1000" height="700" alt="" loading="lazy"></div>
       <div class="project-info"><h3>Hopjar</h3><span aria-hidden="true">↗</span></div>
@@ -388,7 +392,7 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
     if(!raf){
       if(d<=0)return; // scrolling up at rest summons nothing
       r.classList.add('rampage');
-      requestAnimationFrame(()=>{if(r.classList.contains('rampage'))anims=document.getAnimations().filter(a=>a instanceof CSSAnimation&&!/^(pulse|blink|lure)$/.test(a.animationName))}); // idle life keeps its own clock
+      requestAnimationFrame(()=>{if(r.classList.contains('rampage'))anims=document.getAnimations().filter(a=>a instanceof CSSAnimation&&!/^(pulse|blink|lure|nudge)$/.test(a.animationName))}); // idle life keeps its own clock
       raf=requestAnimationFrame(tick);
     }
     last=performance.now();
@@ -405,6 +409,11 @@ a.project:hover .mini-sign,a.project:hover .mini-watch,a.project:hover .mini-mew
   };
   addEventListener('hashchange',()=>syncProjects(true));
   syncProjects();
+  document.querySelectorAll('.project-soon').forEach(c=>{
+    const s=c.querySelector('.soon'),nudge=()=>{s.classList.remove('nudge');void s.offsetWidth;s.classList.add('nudge')};
+    c.addEventListener('click',nudge);
+    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();nudge()}});
+  });
   addEventListener('wheel' ,e=>{if(!e.ctrlKey&&e.deltaY&&Math.abs(e.deltaY)>=Math.abs(e.deltaX))push(e.deltaY*1.4)},{passive:true});
   let ty=null;
   addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});

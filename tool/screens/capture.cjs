@@ -55,6 +55,15 @@ async function capture(browser, base, s) {
     isMobile: !!device.isMobile, hasTouch: !!device.hasTouch, locale: 'en-US', timezoneId: 'Europe/Zagreb',
     colorScheme: 'dark', reducedMotion: 'no-preference', javaScriptEnabled: !s.noJs, serviceWorkers: 'block',
   });
+  // A failing state must not leave its context (and its pages) open for the rest of the run.
+  try {
+    return await drive(context, base, s, device);
+  } finally {
+    await context.close();
+  }
+}
+
+async function drive(context, base, s, device) {
   const problems = [];
   const failing = s.fail || [];
   await context.route('**/*', route => {
@@ -95,16 +104,17 @@ async function capture(browser, base, s) {
   const buf = await page.screenshot({path: file, fullPage: s.path !== '/', animations: s.freeze ? 'allow' : 'disabled', caret: 'hide', scale: 'device'});
   const width = buf.readUInt32BE(16) / device.deviceScaleFactor;
   const height = buf.readUInt32BE(20) / device.deviceScaleFactor;
-  await context.close();
-  if (problems.length) throw new Error(`${s.id}:\n  ${problems.join('\n  ')}`);
+  if (problems.length) throw new Error(problems.join('\n'));
   return {width, height};
 }
 
-function writeHtml(entries) {
+// `failed` lists the states that couldn't be captured ({id, name, state, error}); Painter keeps the rest.
+function writeHtml(entries, failed) {
   const manifest = {
     title: 'danyzmaj.com web — screens', platform: 'web', sibling: '', generatedAt: new Date().toISOString(),
     groups: groups.map(g => ({id: g.id, name: g.name, screens: entries.filter(e => e.group === g.id).map(e => e.screen)}))
       .filter(g => g.screens.length),
+    failed,
   };
   const json = JSON.stringify(manifest).replace(/</g, '\\u003c');
   const template = fs.readFileSync(TEMPLATE, 'utf8');
@@ -123,28 +133,34 @@ function writeHtml(entries) {
   const base = `http://127.0.0.1:${server.address().port}`;
   const browser = await chromium.launch({args: ['--force-color-profile=srgb', '--disable-partial-raster', '--disable-checker-imaging', '--disable-gpu', '--font-render-hinting=none']});
   const entries = [];
-  const failures = [];
+  const failed = [];
+  const fail = (s, message) => {
+    // A state that failed after its screenshot must not leave the PNG behind.
+    fs.rmSync(path.join(OUT, `${s.id}.png`), {force: true});
+    // Playwright colours its call logs for terminals; the manifest gets plain text.
+    const error = message.replace(/\x1b\[[0-9;]*m/g, '').trim().split('\n').slice(0, 6).join('\n');
+    failed.push({id: s.id, name: s.name, state: s.state, error});
+    console.error(`✗ ${s.id}: ${error}`);
+  };
   try {
     for (const s of picked) {
       try {
         const {width, height} = await capture(browser, base, s);
         const screen = {id: s.id, name: s.name, state: s.state, file: `screens/${s.id}.png`, width, height, source: s.source, route: s.route || s.path};
         if (s.note) screen.note = s.note;
+        if (!fs.existsSync(path.join(ROOT, 'docs', screen.file))) { fail(s, `missing PNG: ${screen.file}`); continue; }
         entries.push({group: s.group.id, screen});
         console.log(`✓ ${s.id} ${width}×${height}`);
       } catch (e) {
-        failures.push(e.message);
-        console.error(`✗ ${e.message}`);
+        fail(s, e.message);
       }
     }
   } finally {
     await browser.close();
     server.close();
   }
-  for (const e of entries) {
-    if (!fs.existsSync(path.join(ROOT, 'docs', e.screen.file))) failures.push(`missing PNG: ${e.screen.file}`);
-  }
-  if (failures.length) { console.error(`\n${failures.length} capture(s) failed`); process.exit(1); }
-  writeHtml(entries);
+  // One failing state never costs the others: the manifest always lists what was captured and what failed.
+  writeHtml(entries, failed);
   console.log(`\n${entries.length} screens -> docs/screens.html`);
+  if (failed.length) { console.error(`${failed.length} capture(s) failed: ${failed.map(f => f.id).join(', ')}`); process.exit(1); }
 })().catch(e => { console.error(e); process.exit(1); });

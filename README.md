@@ -17,6 +17,8 @@ SCREENS_ONLY=home--landing--rest,vedro--product--default tool/capture_screens.sh
 The script serves the repo on a local port and drives Chromium through Playwright fetched
 with `npx` (nothing is added to the site). The clock, locale (`en-US`) and timezone
 (`Europe/Zagreb`) are fixed, and any request to another origin (except the stubbed analytics
-script), any 404, console error or uncaught page error fails the run. The states are listed in
+script), any 404, console error or uncaught page error fails that state. A failing state doesn't
+stop the run: the others are still captured, the manifest lists the failed ones under `failed`
+(id, name, state, error), and the script exits non-zero. The states are listed in
 `tool/screens/catalog.cjs`. Output goes to `docs/screens/<id>.png` and `docs/screens.html`.
 Never edit `docs/screens.template.html`.

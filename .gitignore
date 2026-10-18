@@ -7,3 +7,7 @@ __pycache__/
 
 # agent worktrees
 .worktrees/
+
+# screens canvas output (tool/capture_screens.sh)
+docs/screens.html
+docs/screens/

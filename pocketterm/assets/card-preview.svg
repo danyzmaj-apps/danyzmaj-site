@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="ptCardTitle ptCardDesc">
+<title id="ptCardTitle">PocketTerm on the phone</title>
+<desc id="ptCardDesc">A phone on its Terminal tab listing a MacBook Pro's coding sessions by project: one done, one that needs you, one working, then the other terminal windows, next to the app's mark: a yellow note tucked into a periwinkle denim pocket.</desc>
+<defs>
+<linearGradient id="ptBed" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#333D66"/>
+<stop offset="1" stop-color="#12141C"/>
+</linearGradient>
+<linearGradient id="ptPocket" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#8C9EFF"/>
+<stop offset="1" stop-color="#5C6BDB"/>
+</linearGradient>
+<linearGradient id="ptAvatar" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#7C9CFF"/>
+<stop offset="1" stop-color="#C084FC"/>
+</linearGradient>
+<pattern id="ptTwill" width="12" height="12" patternUnits="userSpaceOnUse">
+<path d="M0 12L12 0" stroke="#8C9EFF" stroke-width="1" opacity=".06"/>
+</pattern>
+<clipPath id="ptFrame"><rect x="17" y="17" width="966" height="666" rx="9"/></clipPath>
+<path id="ptSpark" d="M0-9C1-2 2-1 9 0C2 1 1 2 0 9C-1 2-2 1-9 0C-2-1-1-2 0-9Z"/>
+</defs>
+<rect width="1000" height="700" fill="url(#ptBed)"/>
+<rect width="1000" height="700" fill="url(#ptTwill)"/>
+<g clip-path="url(#ptFrame)" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif">
+<rect x="70" y="70" width="350" height="700" rx="48" fill="#0B0C10" stroke="#30343F" stroke-width="2"/>
+<rect x="82" y="82" width="326" height="680" rx="38" fill="#17181D"/>
+<text x="100" y="156" font-size="28" font-weight="700" letter-spacing="-.5" fill="#E8E9EE">MacBook Pro</text>
+<path d="M294 140l6 6 6-6" fill="none" stroke="#8A8F9C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="378" cy="146" r="15" fill="url(#ptAvatar)"/>
+<text x="378" y="151" font-size="13" font-weight="700" text-anchor="middle" fill="#12141C">A</text>
+<g font-size="11" letter-spacing="1.2" fill="#8A8F9C">
+<text x="102" y="200">GARDEN-API</text>
+<text x="102" y="314">POCKETTERM-SITE</text>
+<text x="102" y="428">SEED-CATALOG</text>
+<text x="102" y="542">OTHER WINDOWS</text>
+</g>
+<g fill="#1E2027">
+<rect x="94" y="210" width="302" height="84" rx="14"/>
+<rect x="94" y="324" width="302" height="84" rx="14"/>
+<rect x="94" y="438" width="302" height="84" rx="14"/>
+<rect x="94" y="552" width="302" height="160" rx="14"/>
+</g>
+<use href="#ptSpark" x="116" y="252" fill="#8A8F9C"/>
+<use href="#ptSpark" x="116" y="366" fill="#FBBF24"/>
+<use href="#ptSpark" x="116" y="480" fill="#7C9CFF"/>
+<g font-size="14.5" fill="#E8E9EE">
+<text x="138" y="236">Add a soil moisture endpoint</text>
+<text x="138" y="350">Fix the pricing table</text>
+<text x="138" y="464">Rate-limit the plant search</text>
+<text x="138" y="580">zsh</text>
+<text x="138" y="636">htop</text>
+</g>
+<g fill="none" stroke="#30343F" stroke-width="1.2">
+<rect x="138" y="245" width="38" height="19" rx="5"/>
+<rect x="138" y="359" width="48" height="19" rx="5"/>
+<rect x="138" y="473" width="88" height="19" rx="5"/>
+<rect x="138" y="589" width="38" height="19" rx="5"/>
+<rect x="138" y="645" width="48" height="19" rx="5"/>
+</g>
+<g font-size="11" fill="#8A8F9C" text-anchor="middle">
+<text x="157" y="258">kitty</text>
+<text x="162" y="372">iTerm2</text>
+<text x="182" y="486">tmux · Ghostty</text>
+<text x="157" y="602">kitty</text>
+<text x="162" y="658">iTerm2</text>
+</g>
+<g font-size="12.5">
+<text x="184" y="259" fill="#8A8F9C">4 min ago</text>
+<text x="194" y="373" fill="#FBBF24">Needs you</text>
+<text x="234" y="487" fill="#7C9CFF">Working…</text>
+<text x="184" y="603" fill="#8A8F9C">~/Dev/garden-api</text>
+<text x="194" y="659" fill="#8A8F9C">htop · ~</text>
+</g>
+<g font-size="12" fill="#5C616E">
+<text x="138" y="282">Done: GET /plants/:id/moisture</text>
+<text x="138" y="396">Wants to run npm run build</text>
+<text x="138" y="510">Running the integration tests…</text>
+</g>
+<g fill="none" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+<rect x="107" y="568" width="18" height="15" rx="3" stroke="#7C9CFF"/>
+<path d="M111 573l3 2.5-3 2.5M116 579h5" stroke="#7C9CFF"/>
+<rect x="107" y="624" width="18" height="15" rx="3" stroke="#5C616E"/>
+<path d="M111 629l3 2.5-3 2.5M116 635h5" stroke="#5C616E"/>
+</g>
+<line x1="138" y1="618" x2="396" y2="618" stroke="#262933"/>
+<circle cx="366" cy="642" r="26" fill="#7C9CFF"/>
+<path d="M366 632v20M356 642h20" stroke="#12141C" stroke-width="3" stroke-linecap="round"/>
+</g>
+<rect x="16" y="16" width="968" height="668" rx="10" fill="none" stroke="#8C9EFF" stroke-width="2" opacity=".22"/>
+<text x="480" y="120" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="40" font-weight="800" letter-spacing="-1" fill="#E8E9EE">PocketTerm</text>
+<text x="482" y="148" font-family="ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace" font-size="13" letter-spacing="2" fill="#8A8F9C">OMP · CLAUDE CODE · LIVE SCREENS</text>
+<g transform="translate(-30,46)">
+<g transform="translate(793.2,289.6) rotate(9)">
+<rect x="-83.6" y="-88" width="167.2" height="158.4" rx="13.2" fill="#FFD15C"/>
+<rect x="-52.8" y="-51" width="105.6" height="11.4" rx="5.7" fill="#CC9933"/>
+<rect x="-52.8" y="-20.2" width="74.8" height="11.4" rx="5.7" fill="#CC9933"/>
+</g>
+<path d="M656.8 316H903.2V434.8L780 505.2L656.8 434.8Z" fill="url(#ptPocket)"/>
+<path d="M672.2 331.4H887.8V426L780 487.6L672.2 426ZM672.2 344.6H887.8" fill="none" stroke="#FFD15C" stroke-opacity=".9" stroke-width="4.8" stroke-linecap="round" stroke-dasharray="9.7 8.8"/>
+</g>
+<g font-family="ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace" font-size="13" letter-spacing="2" fill="#8A8F9C" text-anchor="end">
+<text x="950" y="616">YOUR OWN SUPABASE SERVER</text>
+<text x="950" y="640">MAC · WINDOWS · IPHONE · ANDROID</text>
+</g>
+</svg>

@@ -121,6 +121,10 @@ const groups = [
     {id: 'hopjar--privacy--light', name: 'Privacy policy', state: 'Light appearance', path: '/hopjar/privacy/', source: 'hopjar/privacy/index.html', act: light},
     {id: 'hopjar--privacy--dark', name: 'Privacy policy', state: 'Dark appearance', path: '/hopjar/privacy/', source: 'hopjar/privacy/index.html'},
   ]},
+  {id: 'pocketterm', name: 'PocketTerm', screens: [
+    {id: 'pocketterm--product--default', name: 'Product page', state: 'Default', path: '/pocketterm/', source: 'pocketterm/index.html'},
+    {id: 'pocketterm--privacy--default', name: 'Privacy policy', state: 'Default', path: '/pocketterm/privacy/', source: 'pocketterm/privacy/index.html'},
+  ]},
 ];
 
 // Phone layouts: each route's main state at 390x844 @2x.
@@ -133,6 +137,7 @@ const phone = [
   ['pixelzoo', 'PixelZoo', '/pixelzoo/', 'pixelzoo/index.html'],
   ['vedro', 'Vedro', '/vedro/', 'vedro/index.html'],
   ['hopjar', 'Hopjar', '/hopjar/', 'hopjar/index.html'],
+  ['pocketterm', 'PocketTerm', '/pocketterm/', 'pocketterm/index.html'],
 ];
 groups.push({id: 'phone', name: 'Phone 390×844', screens: phone.map(([key, name, path, source, act, route]) => ({
   id: `phone--${key}--default`, name, state: 'Phone', path, source, act, route, device: 'phone',

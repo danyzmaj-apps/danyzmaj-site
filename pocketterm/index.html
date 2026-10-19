@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PocketTerm | Your computer's coding sessions, in your pocket</title>
+<meta name="description" content="PocketTerm lets you prompt, steer and answer omp and Claude Code from your iPhone or Android phone and watch your other terminal windows live, through a Supabase project you own. Desktop app for Mac and Windows.">
+<meta name="theme-color" content="#12141C">
+<link rel="canonical" href="https://www.danyzmaj.com/pocketterm/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PocketTerm | Your computer's coding sessions, in your pocket">
+<meta property="og:description" content="Drive omp and Claude Code sessions and live terminal windows on your Mac or Windows PC from your phone, with pushes when the agent finishes or needs you, through your own Supabase server.">
+<meta property="og:url" content="https://www.danyzmaj.com/pocketterm/">
+<meta property="og:site_name" content="danyzmaj">
+<meta property="og:image" content="https://www.danyzmaj.com/pocketterm/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PocketTerm: a yellow note tucked into a periwinkle denim pocket on a navy background, next to the tagline Your computer's coding sessions, in your pocket">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/pocketterm/assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/pocketterm/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/pocketterm/assets/icon-192x192.png" sizes="192x192">
+<link rel="icon" type="image/svg+xml" href="/pocketterm/assets/favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="/pocketterm/assets/apple-touch-icon.png" sizes="180x180">
+<style>
+/* Design contract: the app's own night desk. The bed is the icon's navy
+   gradient (--navy into --bed), panels are the app window (--win/--bar,
+   hairlines --line/--line2), lettering is the app's --text/--dim, and the
+   icon colors carry meaning: --accent (the app's periwinkle: links, keys),
+   --note (the yellow note: the one download button, stitched rules),
+   --pocket/--pocket2 (the denim), --warn (a session that needs you).
+   System sans for words, monospace only for keys, commands and versions,
+   as in the app. Tokens come from pocketterm_core's lib/ui.dart and
+   lib/logo.dart. */
+:root{--bed:#12141C;--navy:#333D66;--win:#17181D;--bar:#1E2027;--line:#262933;--line2:#30343F;--text:#E8E9EE;--dim:#8A8F9C;--accent:#7C9CFF;--warn:#FBBF24;--pocket:#8C9EFF;--pocket2:#5C6BDB;--note:#FFD15C;--sans:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bed)}
+body{margin:0;background:var(--bed) linear-gradient(180deg,var(--navy),var(--bed)) no-repeat top/100% 900px;color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:4px}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.08;text-wrap:balance}
+p{margin:0;line-height:1.6}
+code{font-family:var(--mono);font-size:.88em;color:var(--text);background:var(--bar);border:1px solid var(--line2);border-radius:5px;padding:1px 5px;white-space:nowrap}
+.wrap{width:min(1180px,calc(100% - 80px));margin-inline:auto}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 0;border-bottom:1px solid var(--line2)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:26px;color:var(--text)}
+.brand img{width:32px;height:32px;border-radius:8px;display:block}
+nav.top-nav{display:flex;gap:24px;font-size:14px;font-weight:700}
+nav.top-nav a{display:inline-flex;align-items:center;min-height:24px;text-decoration:none;color:var(--dim)}
+nav.top-nav a:hover,nav.top-nav a:focus-visible{color:var(--text)}
+a:focus-visible{outline:3px solid var(--note);outline-offset:3px}
+
+main{display:block}
+.brief{padding:60px 0 64px;border-top:0}
+.brief-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:52px;align-items:center}
+.brief h1{font-size:clamp(38px,4.3vw,60px);line-height:1.02;letter-spacing:-.035em}
+.brief .lead{margin-top:24px;font-size:18px;max-width:46ch}
+.brief .sub{margin-top:12px;font-size:15px;color:var(--dim);max-width:46ch}
+.actions{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.cta{display:inline-flex;align-items:center;gap:14px;background:var(--note);color:var(--bed);padding:14px 22px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;min-height:48px}
+.cta:hover{background:#FFDD85}
+.ghost{color:var(--text);font-weight:700;font-size:15px;text-decoration:none;border-bottom:2px solid var(--pocket2);padding-bottom:2px}
+.ghost:hover{border-bottom-color:var(--pocket)}
+.platforms{margin-top:16px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--dim)}
+.visual{margin:0}
+.visual img{display:block;width:100%;height:auto;border-radius:14px}
+.visual figcaption{padding:12px 0 0;font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+section{border-top:1px solid var(--line)}
+section>.wrap{padding:56px 0}
+.brief>.wrap{padding:0}
+h2{font-size:clamp(24px,2.8vw,32px)}
+.lede{margin-top:14px;max-width:66ch;color:var(--dim);font-size:16px}
+.lede strong{color:var(--text)}
+.stitched{border-top:3px dashed var(--note);opacity:.75;width:72px;margin:0 0 22px}
+
+.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:30px 0 0;padding:0;list-style:none}
+.features li{background:var(--win);border:1px solid var(--line2);border-radius:14px;padding:20px}
+.features h3{font-size:19px}
+.features p{margin-top:10px;color:var(--dim);font-size:15px}
+.needs{color:var(--warn)}
+
+.screens{background:#fff;color:var(--bed);border-top:0}
+.screens .lede,.screens figcaption,.screens .stamp{color:#4A4F5C}
+.screens-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,.8fr) minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,3vw,44px);align-items:start;margin-top:36px}
+.screens figure{margin:0}
+.screens img{display:block;width:100%;height:auto}
+.phone{padding:8px;background:var(--bed);border-radius:36px}
+.phone img{border-radius:28px}
+.desk img{border-radius:12px;background:var(--win)}
+.screens h3{font-size:18px;margin:20px 0 8px}
+.screens figcaption{font-size:15px;line-height:1.6}
+.stamp{display:block;margin-top:30px;font-family:var(--mono);font-size:11px}
+
+.specs{display:grid;grid-template-columns:190px 1fr;gap:16px 28px;margin:30px 0 0;max-width:980px}
+.specs dt{margin:0;font-weight:800;font-size:15px}
+.specs dd{margin:0;color:var(--dim);font-size:15px;line-height:1.65}
+.specs dd strong{color:var(--text)}
+table{width:100%;border-collapse:collapse;margin-top:30px;font-size:15px;max-width:980px}
+th,td{text-align:left;padding:11px 14px 11px 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);font-weight:700}
+td{color:var(--dim)}
+td:first-child{color:var(--text);white-space:nowrap}
+.notes{margin:24px 0 0;padding-left:20px;max-width:860px;color:var(--dim);font-size:15px}
+.notes li{margin:8px 0;line-height:1.6}
+.notes strong{color:var(--text)}
+.callout{margin-top:30px;max-width:760px;padding:18px 20px;border-left:4px solid var(--note);background:var(--win);border-radius:0 12px 12px 0;color:var(--dim);font-size:15px}
+.callout strong{color:var(--text)}
+.steps{margin:30px 0 0;padding:0;list-style:none;counter-reset:step;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.steps li{counter-increment:step;background:var(--win);border:1px solid var(--line2);border-radius:14px;padding:20px;color:var(--dim);font-size:15px;line-height:1.6}
+.steps li::before{content:counter(step);display:block;margin-bottom:10px;font-family:var(--mono);font-size:13px;color:var(--note)}
+.steps strong{color:var(--text)}
+.steps li>strong:first-child{display:block;margin-bottom:6px;font-size:17px}
+
+.support .email{display:inline-block;margin-top:18px;font-weight:800;font-size:19px;text-decoration:none;color:var(--text);border-bottom:2px solid var(--note)}
+.support .email:hover{border-bottom-color:var(--text)}
+.support .fine{margin-top:18px;color:var(--dim);font-size:15px;max-width:66ch}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--dim)}
+footer a{color:inherit;text-decoration:none}
+footer a:hover{text-decoration:underline}
+footer nav{display:flex;gap:18px}
+
+@media(max-width:980px){.features{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.screens-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:860px){.wrap{width:calc(100% - 40px)}.brief{padding:34px 0 44px}.brief-grid{grid-template-columns:1fr;gap:32px}header.top{gap:12px}nav.top-nav{gap:16px;font-size:12px}nav.top-nav a.wide{display:none}.specs{grid-template-columns:1fr;gap:6px}.specs dt:not(:first-child){margin-top:16px}td:first-child{white-space:normal}}
+@media(max-width:560px){.features,.steps{grid-template-columns:1fr}.screens-grid{gap:36px 16px}.screens h3{font-size:16px}.screens figcaption{font-size:14px}.phone{padding:5px;border-radius:26px}.phone img{border-radius:21px}th,td{padding-right:10px;font-size:14px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+<script defer src="https://analytics.danyzmaj.com/script.js" data-website-id="0e8e1817-9331-49d3-bf49-262c6bca88d2" data-domains="www.danyzmaj.com"></script>
+</head>
+<body>
+<header class="top wrap">
+<a class="brand" href="/pocketterm/"><img src="assets/icon-192x192.png" alt="" width="32" height="32">PocketTerm</a>
+<nav class="top-nav" aria-label="Main navigation"><a class="wide" href="#features">Features</a><a class="wide" href="#terminals">Terminals</a><a href="#status">Status</a><a href="#support">Support</a></nav>
+</header>
+<main>
+<section class="brief">
+<div class="wrap brief-grid">
+<div>
+<h1>Your computer's coding sessions, in your pocket.</h1>
+<p class="lead">Prompt, steer and answer omp and Claude Code from your iPhone or Android phone, and watch your other terminal windows live. A desktop app on your Mac or Windows PC connects them through a free Supabase project that you own. There is no PocketTerm cloud.</p>
+<p class="sub">Leave an agent working, walk away, and get a push when it finishes or needs you. Its questions and approvals take a tap.</p>
+<div class="actions">
+<a class="cta" href="https://github.com/danyzmaj-apps/pocketterm/releases/latest">Download for Mac or Windows <span aria-hidden="true">&#8595;</span></a>
+<a class="ghost" href="https://github.com/danyzmaj-apps/pocketterm">Source on GitHub</a>
+</div>
+<p class="platforms">v0.1.0 &#183; macOS 13 or later, notarized DMG &#183; Windows 10 (1809) or 11, x64 &#183; MIT</p>
+</div>
+<figure class="visual">
+<img src="assets/card-preview.svg" width="1000" height="700" alt="Illustration of the phone's Terminal tab for a MacBook Pro: three coding sessions grouped by project, one done, one that needs you and one working, then two other terminal windows, next to the app's mark, a yellow note tucked into a denim pocket.">
+<figcaption>Illustration of the phone's Terminal tab &#183; sample sessions</figcaption>
+</figure>
+</div>
+</section>
+
+<section id="features">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>What it does</h2>
+<p class="lede">The phone app's Terminal tab lists the computer's omp and Claude Code sessions by project, and its other terminal windows below them. The sessions keep running on the computer; the phone shows and drives them.</p>
+<ul class="features">
+<li><h3>Sessions as conversations</h3><p>Answers stream in as Markdown and tool calls show as cards with their output. Prompt with images, steer or queue, stop a run, and type <code>/</code> for slash commands.</p></li>
+<li><h3>Questions and approvals</h3><p>When the agent <span class="needs">needs you</span>, answer its question, its tool approval or its plan review from the phone, with a tap.</p></li>
+<li><h3>Live screens</h3><p>Any other terminal window, in color where the terminal provides it. Type into it and press keys like the arrows and Esc.</p></li>
+<li><h3>New sessions</h3><p>Start your agent, or a shell, in any of your projects without taking the computer's focus. <strong>New project…</strong> makes the folder first.</p></li>
+<li><h3>Pushes</h3><p>A push when a run finishes or the agent needs you, plus a Live Activity on iPhone and an ongoing notification on Android for the session you follow.</p></li>
+<li><h3>Several computers</h3><p>One account, several Macs and Windows PCs. Pick one on the phone; a push opens its session on the computer it came from.</p></li>
+</ul>
+</div>
+</section>
+
+<section class="screens" id="screens">
+<div class="wrap">
+<h2>In the app</h2>
+<p class="lede">The phone's Terminal tab and a session, and the desktop app's setup wizard and Settings.</p>
+<div class="screens-grid">
+<figure>
+<div class="phone"><img src="assets/screen-terminal.webp" width="480" height="1040" alt="Phone on its Terminal tab for a MacBook Pro: sessions grouped under garden-api, pocketterm-site and seed-catalog, one done, one that needs you and one working, then other windows: zsh, nvim and htop, with a plus button for a new session" loading="lazy"></div>
+<h3>Sessions by project</h3>
+<figcaption>Each session shows its terminal and its state. Other windows follow, and <strong>+</strong> starts a new session.</figcaption>
+</figure>
+<figure>
+<div class="phone"><img src="assets/screen-session.webp" width="480" height="1040" alt="Phone showing the session Add a soil moisture endpoint as a conversation: the prompt, read, edit and bash tool-call cards with passing test output, the agent's Markdown summary, and a composer reading Prompt omp" loading="lazy"></div>
+<h3>A session as a conversation</h3>
+<figcaption>Tool calls as cards, the answer as Markdown, and a composer that prompts the session on the computer.</figcaption>
+</figure>
+<figure class="desk">
+<img src="assets/screen-wizard.webp" width="627" height="720" alt="Setup wizard step Your server is ready, with Database, GitHub sign-in, Server functions and Connection key checked, and a Connect and sign in button" loading="lazy">
+<h3>Your server, set up for you</h3>
+<figcaption>The desktop app's wizard creates the server in your Supabase account in about five minutes.</figcaption>
+</figure>
+<figure class="desk">
+<img src="assets/screen-settings.webp" width="503" height="820" alt="Desktop Settings: Launch at login, Terminal from phone turned on, the coding agent set to omp with its integration installed, the terminals kitty, tmux and Terminal with their status, where new sessions open, and project folders" loading="lazy">
+<h3>Settings</h3>
+<figcaption>Terminal from phone, the coding agent and its integration, and which terminals are ready.</figcaption>
+</figure>
+</div>
+<p class="stamp">Rendered by the apps' own screenshot tests: the real screens, on made-up data</p>
+</div>
+</section>
+
+<section id="start">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Getting started</h2>
+<ol class="steps">
+<li><strong>Set up your server</strong>Open PocketTerm on your computer and click <strong>Set up my server</strong>. It needs a free Supabase account and a GitHub account.</li>
+<li><strong>Sign in with GitHub</strong>The window then becomes Settings. PocketTerm turns on <strong>Terminal from phone</strong> and <strong>Launch at login</strong> for you.</li>
+<li><strong>Add your phone</strong>In Settings, <strong>Set up phone…</strong> shows a code; scan it in the phone app. A code works once, for 10 minutes.</li>
+<li><strong>Install the integration</strong>In <strong>Settings › Coding agent</strong>, pick omp or Claude Code and click <strong>Install</strong>, then restart running sessions.</li>
+</ol>
+<p class="lede">Closing the window keeps PocketTerm running in the menu bar on the Mac or the tray on Windows. <strong>Quit PocketTerm</strong> at the bottom of Settings stops it.</p>
+</div>
+</section>
+
+<section id="terminals">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Terminals</h2>
+<p class="lede">What the phone can do with a window depends on the terminal it runs in.</p>
+<table>
+<thead><tr><th scope="col">Terminal</th><th scope="col">Platform</th><th scope="col">What works from the phone</th></tr></thead>
+<tbody>
+<tr><td>kitty</td><td>macOS</td><td>Everything: sessions, live screens in color, keys and answers, closing windows</td></tr>
+<tr><td>WezTerm</td><td>macOS, Windows</td><td>Everything</td></tr>
+<tr><td>tmux, in any terminal</td><td>macOS</td><td>Everything</td></tr>
+<tr><td>iTerm2</td><td>macOS</td><td>Everything except colors</td></tr>
+<tr><td>Ghostty</td><td>macOS</td><td>Sessions and keys, no screen; answer questions on the computer</td></tr>
+<tr><td>Terminal (macOS)</td><td>macOS</td><td>Sessions and screens in whole lines; answer questions on the computer</td></tr>
+</tbody>
+</table>
+<ul class="notes">
+<li><strong>macOS:</strong> with tmux installed (<code>brew install tmux</code>), sessions the phone starts in Terminal or Ghostty run inside tmux and get full control. kitty needs one click in <strong>Settings › Terminals › Set up</strong>; iTerm2, Terminal and Ghostty need macOS's Automation permission.</li>
+<li><strong>Windows:</strong> only WezTerm windows are listed, because it is the only Windows terminal another program can read and type into. The setup wizard and <strong>Settings › Terminals</strong> have an <strong>Install</strong> button that opens WezTerm's own installer.</li>
+<li>Claude Code needs version 2.1.287 or later.</li>
+</ul>
+<p class="callout"><strong>Your computer has to be awake, with PocketTerm running and Terminal from phone on.</strong> While it is on, PocketTerm keeps the computer from idle sleep, but a closed lid without an external display, sleep you start yourself or shutting down ends it, and the phone then says the computer isn't answering. A push goes out only when nobody has touched the computer for 60 seconds.</p>
+</div>
+</section>
+
+<section id="server">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Your server, not mine</h2>
+<p class="lede">The setup wizard creates your server in about five minutes in a free Supabase account, which hosts it, and you sign in with GitHub. Rather use a script, or already have a server? See <a href="https://github.com/danyzmaj-apps/pocketterm/blob/main/docs/SELF_HOSTING.md">SELF_HOSTING.md</a>.</p>
+<dl class="specs">
+<dt>Your data</dt><dd>Sign-in, pairing, the terminal channel and push registrations live in your Supabase project, behind row-level security. The apps hold only its publishable key.</dd>
+<dt>Only you sign up</dt><dd>GitHub is the only way in, and after the first account nobody else can sign up unless you allow their email. Phones never use GitHub: they sign in with a code from your computer.</dd>
+<dt>Nothing stored</dt><dd>Each computer talks to your phones over its own Realtime channel that only your account can join, and nothing on it is stored. Images you send pass through a private storage bucket in your project and are deleted once the computer has them.</dd>
+<dt>Encrypted pushes</dt><dd>Your server encrypts every notification with a key only your phone has. My relay passes the ciphertext to Apple or Google and stores nothing. iPhone Live Activity updates can't be encrypted, so they carry only a session's state.</dd>
+<dt>No tracking</dt><dd>No analytics, advertising or tracking SDKs in the apps. <strong>Delete account</strong> in Settings, on the computer or the phone, removes everything. <a href="/pocketterm/privacy/">Read the privacy policy</a>.</dd>
+</dl>
+</div>
+</section>
+
+<section id="status">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Status</h2>
+<dl class="specs">
+<dt>Mac</dt><dd><strong>Available.</strong> Version 0.1.0 is a notarized <code>PocketTerm-0.1.0.dmg</code> on <a href="https://github.com/danyzmaj-apps/pocketterm/releases/latest">GitHub Releases</a>, and it updates itself. macOS 13 or later.</dd>
+<dt>Windows</dt><dd><strong>Available.</strong> Version 0.1.0 is <code>PocketTerm-0.1.0-setup.exe</code> on <a href="https://github.com/danyzmaj-apps/pocketterm/releases/latest">GitHub Releases</a>. It isn't code-signed yet, so SmartScreen warns: <strong>More info</strong>, then <strong>Run anyway</strong>. It installs for your user only, and Settings shows a link when a new version is out. Windows 10 (1809) or later, or Windows 11, x64.</dd>
+<dt>iPhone</dt><dd><strong>TestFlight, for invited testers only.</strong> Not in the App Store yet. iOS 17 or later.</dd>
+<dt>Android</dt><dd><strong>Google Play internal testing, for invited testers only.</strong> Not public on Google Play yet. Android 8.0 or later.</dd>
+<dt>Not a tester?</dt><dd>You can <a href="https://github.com/danyzmaj-apps/pocketterm/blob/main/docs/BUILDING.md">build the phone app from source</a> with your own signing identity.</dd>
+<dt>License</dt><dd>Open source under the MIT license. Issues and pull requests are welcome on <a href="https://github.com/danyzmaj-apps/pocketterm">GitHub</a>.</dd>
+</dl>
+</div>
+</section>
+
+<section class="support" id="support">
+<div class="wrap">
+<div class="stitched" aria-hidden="true"></div>
+<h2>Support</h2>
+<p class="lede">I'm Danijel, the developer. For questions, setup trouble or ideas, email me and I'll get back to you, or open an issue on <a href="https://github.com/danyzmaj-apps/pocketterm/issues">GitHub</a>. Setup problems are often covered by the <a href="https://github.com/danyzmaj-apps/pocketterm/blob/main/docs/SELF_HOSTING.md#troubleshooting">troubleshooting table</a>.</p>
+<a class="email" href="mailto:danijel@danyzmaj.com?subject=PocketTerm">danijel@danyzmaj.com</a>
+<p class="fine">Found a security problem? Please report it privately through <a href="https://github.com/danyzmaj-apps/pocketterm/security/advisories/new">GitHub's vulnerability reporting</a>, not in a public issue.</p>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap">
+<nav aria-label="Footer"><a href="/">danyzmaj.com</a><a href="/pocketterm/privacy/">Privacy</a><a href="mailto:danijel@danyzmaj.com">Contact</a></nav>
+<span>PocketTerm &#183; Mac, Windows, iPhone &amp; Android</span>
+</div>
+</footer>
+</body>
+</html>

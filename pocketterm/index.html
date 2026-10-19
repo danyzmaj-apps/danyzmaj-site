@@ -16,7 +16,7 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="PocketTerm: a yellow note tucked into a periwinkle denim pocket on a navy background, next to the tagline Your computer's coding sessions, in your pocket">
+<meta property="og:image:alt" content="PocketTerm: a terminal window tucked into a periwinkle denim pocket on a navy background, next to the tagline Your computer's coding sessions, in your pocket">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/pocketterm/assets/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" href="/pocketterm/assets/favicon-96x96.png" sizes="96x96">
@@ -28,12 +28,13 @@
    gradient (--navy into --bed), panels are the app window (--win/--bar,
    hairlines --line/--line2), lettering is the app's --text/--dim, and the
    icon colors carry meaning: --accent (the app's periwinkle: links, keys),
-   --note (the yellow note: the one download button, stitched rules),
+   --stitch (the pocket's stitching and the prompt's yellow: the one download
+   button, stitched rules),
    --pocket/--pocket2 (the denim), --warn (a session that needs you).
    System sans for words, monospace only for keys, commands and versions,
    as in the app. Tokens come from pocketterm_core's lib/ui.dart and
    lib/logo.dart. */
-:root{--bed:#12141C;--navy:#333D66;--win:#17181D;--bar:#1E2027;--line:#262933;--line2:#30343F;--text:#E8E9EE;--dim:#8A8F9C;--accent:#7C9CFF;--warn:#FBBF24;--pocket:#8C9EFF;--pocket2:#5C6BDB;--note:#FFD15C;--sans:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
+:root{--bed:#12141C;--navy:#333D66;--win:#17181D;--bar:#1E2027;--line:#262933;--line2:#30343F;--text:#E8E9EE;--dim:#8A8F9C;--accent:#7C9CFF;--warn:#FBBF24;--pocket:#8C9EFF;--pocket2:#5C6BDB;--stitch:#FFD15C;--sans:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;background:var(--bed)}
 body{margin:0;background:var(--bed) linear-gradient(180deg,var(--navy),var(--bed)) no-repeat top/100% 900px;color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
@@ -48,7 +49,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:24p
 nav.top-nav{display:flex;gap:24px;font-size:14px;font-weight:700}
 nav.top-nav a{display:inline-flex;align-items:center;min-height:24px;text-decoration:none;color:var(--dim)}
 nav.top-nav a:hover,nav.top-nav a:focus-visible{color:var(--text)}
-a:focus-visible{outline:3px solid var(--note);outline-offset:3px}
+a:focus-visible{outline:3px solid var(--stitch);outline-offset:3px}
 
 main{display:block}
 .brief{padding:60px 0 64px;border-top:0}
@@ -57,7 +58,7 @@ main{display:block}
 .brief .lead{margin-top:24px;font-size:18px;max-width:46ch}
 .brief .sub{margin-top:12px;font-size:15px;color:var(--dim);max-width:46ch}
 .actions{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
-.cta{display:inline-flex;align-items:center;gap:14px;background:var(--note);color:var(--bed);padding:14px 22px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;min-height:48px}
+.cta{display:inline-flex;align-items:center;gap:14px;background:var(--stitch);color:var(--bed);padding:14px 22px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;min-height:48px}
 .cta:hover{background:#FFDD85}
 .ghost{color:var(--text);font-weight:700;font-size:15px;text-decoration:none;border-bottom:2px solid var(--pocket2);padding-bottom:2px}
 .ghost:hover{border-bottom-color:var(--pocket)}
@@ -72,7 +73,7 @@ section>.wrap{padding:56px 0}
 h2{font-size:clamp(24px,2.8vw,32px)}
 .lede{margin-top:14px;max-width:66ch;color:var(--dim);font-size:16px}
 .lede strong{color:var(--text)}
-.stitched{border-top:3px dashed var(--note);opacity:.75;width:72px;margin:0 0 22px}
+.stitched{border-top:3px dashed var(--stitch);opacity:.75;width:72px;margin:0 0 22px}
 
 .features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:30px 0 0;padding:0;list-style:none}
 .features li{background:var(--win);border:1px solid var(--line2);border-radius:14px;padding:20px}
@@ -104,15 +105,15 @@ td:first-child{color:var(--text);white-space:nowrap}
 .notes{margin:24px 0 0;padding-left:20px;max-width:860px;color:var(--dim);font-size:15px}
 .notes li{margin:8px 0;line-height:1.6}
 .notes strong{color:var(--text)}
-.callout{margin-top:30px;max-width:760px;padding:18px 20px;border-left:4px solid var(--note);background:var(--win);border-radius:0 12px 12px 0;color:var(--dim);font-size:15px}
+.callout{margin-top:30px;max-width:760px;padding:18px 20px;border-left:4px solid var(--stitch);background:var(--win);border-radius:0 12px 12px 0;color:var(--dim);font-size:15px}
 .callout strong{color:var(--text)}
 .steps{margin:30px 0 0;padding:0;list-style:none;counter-reset:step;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .steps li{counter-increment:step;background:var(--win);border:1px solid var(--line2);border-radius:14px;padding:20px;color:var(--dim);font-size:15px;line-height:1.6}
-.steps li::before{content:counter(step);display:block;margin-bottom:10px;font-family:var(--mono);font-size:13px;color:var(--note)}
+.steps li::before{content:counter(step);display:block;margin-bottom:10px;font-family:var(--mono);font-size:13px;color:var(--stitch)}
 .steps strong{color:var(--text)}
 .steps li>strong:first-child{display:block;margin-bottom:6px;font-size:17px}
 
-.support .email{display:inline-block;margin-top:18px;font-weight:800;font-size:19px;text-decoration:none;color:var(--text);border-bottom:2px solid var(--note)}
+.support .email{display:inline-block;margin-top:18px;font-weight:800;font-size:19px;text-decoration:none;color:var(--text);border-bottom:2px solid var(--stitch)}
 .support .email:hover{border-bottom-color:var(--text)}
 .support .fine{margin-top:18px;color:var(--dim);font-size:15px;max-width:66ch}
 
@@ -148,7 +149,7 @@ footer nav{display:flex;gap:18px}
 <p class="platforms">v0.1.0 &#183; macOS 13 or later, notarized DMG &#183; Windows 10 (1809) or 11, x64 &#183; MIT</p>
 </div>
 <figure class="visual">
-<img src="assets/card-preview.svg" width="1000" height="700" alt="Illustration of the phone's Terminal tab for a MacBook Pro: three coding sessions grouped by project, one done, one that needs you and one working, then two other terminal windows, next to the app's mark, a yellow note tucked into a denim pocket.">
+<img src="assets/card-preview.svg" width="1000" height="700" alt="Illustration of the phone's Terminal tab for a MacBook Pro: three coding sessions grouped by project, one done, one that needs you and one working, then two other terminal windows, next to the app's mark, a terminal window tucked into a denim pocket.">
 <figcaption>Illustration of the phone's Terminal tab &#183; sample sessions</figcaption>
 </figure>
 </div>

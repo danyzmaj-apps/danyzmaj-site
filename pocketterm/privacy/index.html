@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PocketTerm | Privacy policy</title>
-<meta name="description" content="PocketTerm privacy policy: your account and devices live in a Supabase project you own, what the desktop and phone apps send and to whom, and what the publisher's push relay can and can't see.">
+<meta name="description" content="PocketTerm privacy policy: your devices meet in a PocketTerm server you run, contents are end-to-end encrypted, what the apps send and to whom, and what the publisher's push relay can and can't see.">
 <meta name="theme-color" content="#12141C">
 <link rel="canonical" href="https://www.danyzmaj.com/pocketterm/privacy/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="PocketTerm | Privacy policy">
-<meta property="og:description" content="Your account and devices live in a Supabase project you own, and nothing your terminals carry is stored. What the PocketTerm apps send, to whom, and what the push relay can see.">
+<meta property="og:description" content="Your devices meet in a PocketTerm server you run, and what your terminals carry is end-to-end encrypted. What the PocketTerm apps send, to whom, and what the push relay can see.">
 <meta property="og:url" content="https://www.danyzmaj.com/pocketterm/privacy/">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/pocketterm/assets/social-preview.png">
@@ -58,54 +58,84 @@ footer a:hover{text-decoration:underline}
 <header><a href="/pocketterm/"><img src="/pocketterm/assets/icon-192x192.png" alt="" width="30" height="30">PocketTerm</a></header>
 <main>
 <h1>Privacy policy</h1>
-<p class="date">Applies to the PocketTerm apps for Mac, Windows, iPhone and Android published by Danijel Lovric (“the publisher”). Last updated 19 October 2026.</p>
+<p class="date">Applies to the PocketTerm apps for Mac, Windows, iPhone and Android published by Danijel Lovric (“the publisher”). Last updated 24 October 2026.</p>
 
-<p class="lead"><strong>The publisher runs no PocketTerm cloud and never receives what your terminals and coding sessions carry.</strong> The apps connect to a server you own. The only thing the publisher operates is a relay that forwards encrypted push notifications to Apple and Google.</p>
+<p class="lead"><strong>The publisher runs no PocketTerm cloud and never receives what your terminals and coding sessions carry.</strong> The apps connect to a PocketTerm server that you run. The only thing the publisher operates is an optional relay that forwards encrypted push notifications to Apple and Google.</p>
 
 <h2>Where your data lives</h2>
-<p>PocketTerm keeps what it needs to connect your devices in a <a href="https://supabase.com">Supabase</a> project that you create and own. The desktop app's setup wizard creates it in your Supabase account, or you set it up with a script. Each app connects only to the server it was set up or paired with. The publisher has no access to it. On that server PocketTerm keeps:</p>
+<p>Your computers and phones meet in your own PocketTerm server. When you set up the desktop app, you choose where it runs:</p>
 <ul>
-<li>your account, from signing in with GitHub: the profile GitHub shares at sign-in, which includes your GitHub user name, display name, avatar URL and email address;</li>
-<li>your computers: each one's name, whether it is a Mac or a Windows PC, and when it was last online;</li>
-<li>the codes that sign a phone in, kept only as a hash;</li>
-<li>your phones' push registrations: the phone's push token, a key the phone generated (below), the phone's name and whether it is an iPhone or an Android phone;</li>
-<li>which coding sessions each phone follows on its Lock Screen or in its notifications, by the session's terminal window (for example a process and window number), never its title or contents.</li>
+<li><strong>On this computer:</strong> built into the desktop app. Your phones reach it through <a href="https://tailscale.com">Tailscale</a>, only from devices on your own tailnet.</li>
+<li><strong>On my own server:</strong> the PocketTerm server in Docker on a VPS you rent, reached over HTTPS at your domain.</li>
+<li><strong>Supabase:</strong> a project in your own <a href="https://supabase.com">Supabase</a> account, in the region you pick, which the desktop app sets up for you.</li>
 </ul>
-<p><strong>What your terminals carry isn't stored.</strong> Prompts, the agent's answers and tool calls, questions, terminal screens and keystrokes travel between your computer and your phones over a Realtime channel on your server that only your account can join. Nothing on it is saved. Images you send from the phone to a session are uploaded to a private storage bucket in your project, in a folder only your account can reach, and the computer deletes them once it has fetched them.</p>
-<p>If you make reviewer codes (<strong>Settings › Reviewer access</strong>, so that App Store or Google Play reviewers can try the phone app), they sign a phone into a separate demo account on your server, which sees none of your computers or sessions.</p>
-<p>What happens to the data on your server is up to you and Supabase's terms.</p>
+<p>Each server serves only its owner's devices. The publisher has no access to any of them. Whichever you choose, the server keeps:</p>
+<ul>
+<li>the device list: each computer's and phone's name and platform, when it signed in and when it was last seen;</li>
+<li>your computers' names;</li>
+<li>device tokens and pairing codes, only as SHA-256 hashes. A pairing code works once and expires after 10 minutes;</li>
+<li>your phones' push tokens, if you turn notifications on, and which sessions each phone follows, by an opaque tag;</li>
+<li>for each iPhone Live Activity, its last state and when it went out, until the activity ends (see the push relay below);</li>
+<li>sealed images and files on their way to your computer, until the computer downloads them or for at most 1 hour;</li>
+<li>after a setup link or pairing code that doesn't work, the address the attempt came from, for 10 minutes, to slow down guessing.</li>
+</ul>
+<p><strong>Your server can't read what your terminals carry.</strong> Sessions, prompts, the agent's answers, terminal screens, keystrokes, images, files (including their names) and notification text are end-to-end encrypted (AES-256-GCM) with a key that each computer makes for itself. That key never goes to any server: it reaches a phone only inside the QR code the computer shows, scanned with the phone app's scanner. The server passes these messages on without storing them, apart from the sealed images and files above.</p>
+
+<h2>No accounts</h2>
+<p>PocketTerm has no user accounts and no sign-in with GitHub or any other service. A computer signs in to your server with the server's setup link; a phone signs in by scanning a pairing code from a signed-in computer. You can list and sign out your devices in the desktop app's Settings.</p>
+
+<h2>Third parties, depending on your setup</h2>
+<ul>
+<li><strong>Tailscale</strong> (On this computer): sees your devices' names and IP addresses and when they connect, under Tailscale's own terms. What PocketTerm sends travels encrypted inside the connection.</li>
+<li><strong>Your VPS provider</strong> (On my own server): carries encrypted traffic and, with access to the machine, could read what the server keeps (above), but not what your computers seal.</li>
+<li><strong>Supabase</strong> (Supabase): holds what the server keeps (above) in the region you pick and sees the IP addresses devices connect from. During setup the desktop app asks for a Supabase access token. It uses the token only during setup, to create and configure your project through Supabase's Management API, and doesn't store it.</li>
+<li><strong>Apple and Google</strong> (any setup, with notifications on): receive your phone's push token and deliver the notifications, under their own privacy terms.</li>
+<li><strong>Cloudflare</strong> (any setup, with notifications on): sits in front of the push relay and sees that your server sent an encrypted request of some size, and the status code.</li>
+</ul>
+
+<h2>The push relay</h2>
+<p>Notifications are off until you turn them on in the phone app. When they are on, your server sends them through a relay that the publisher runs on his own server in Germany, at <code>push.danyzmaj.com</code>, which forwards them to Apple (APNs) or Google (Firebase Cloud Messaging).</p>
+<ul>
+<li>Your computer encrypts each notification with its own key before it leaves. Your server then seals every request to the relay's public key, so only the relay can open it.</li>
+<li>The relay sees a push token, the encrypted message, an opaque tag that means nothing without your computer's key, and the time. It never receives computer or session ids, names or notification text.</li>
+<li>It stores nothing. It logs one line per push with the platform, the status code and how long it took, never a token, an address or a message. Its rate limits are counters held in memory.</li>
+<li>One exception, on iPhone: iOS shows Live Activity updates without running the app's code, so those can't be encrypted. They carry only the session's state (working, needs you, finished or ended), since when, and, when it needs you, whether for a question, an approval or a plan. Never any text, names, folders or ids. While your computer keeps checking in, your server resends the last state quietly so the activity doesn't show as stale.</li>
+<li>On Android, a followed session's updates are encrypted like every other notification.</li>
+</ul>
 
 <h2>On your devices</h2>
-<p>So that the Terminal tab can show the last known state before your computer answers, the phone app keeps a copy of the sessions it showed in its own app storage. A session's copy that hasn't changed for 14 days is deleted, and uninstalling the app removes all of it. On Android the app's data is excluded from backups and device-to-device transfers, so the push key and your sign-in stay on that phone.</p>
+<ul>
+<li>So that the Terminal tab can show the last known state before your computer answers, the phone app keeps a copy of the sessions it last showed in its own app storage. A session's copy that hasn't changed for 14 days is deleted, and uninstalling the app removes all of it.</li>
+<li>Each device's sign-in and the computers' keys are kept in the Keychain on Mac and iPhone (on iPhone, only on that device and not in backups), in app storage encrypted with a key held in the Android Keystore on Android (excluded from backups and device transfers), and in a file encrypted for your Windows user with DPAPI on Windows. Signing out or leaving the server deletes them.</li>
+<li>Images and files you send from the phone are saved on the computer in PocketTerm's own folders in your temporary folder, so the coding agent can read them. Once they are older than a day, they are deleted the next time PocketTerm starts or receives new ones.</li>
+</ul>
 
-<h2 id="deleting-your-account">Deleting your account</h2>
-<p>Choose <strong>Delete account</strong> in Settings, in the desktop app or the phone app. The images in your storage folder are deleted first, then your account and with it every record of yours on your server: your computers, sign-in codes, push registrations and followed sessions. You can also delete the whole Supabase project in Supabase's dashboard.</p>
+<h2 id="deleting-your-data">Leaving and deleting your data</h2>
+<ul>
+<li><strong>Sign out</strong> in a computer's Settings, or <strong>Leave this server</strong> in the phone app, ends that device's sign-in and deletes its keys. A computer can also sign out any phone listed in its Settings.</li>
+<li>On a computer that runs the server, <strong>Erase this server's data</strong> signs every device out and deletes everything the server keeps.</li>
+<li>On a VPS, deleting the server's data (<code>docker compose down -v</code>) or the VPS removes it. With Supabase, delete the PocketTerm project in Supabase's dashboard, and the access token if you kept it.</li>
+<li>Uninstalling PocketTerm on Windows keeps its data in <code>%APPDATA%\Danijel Lovric\PocketTerm</code> and <code>%USERPROFILE%\.config\pocketterm</code>; delete both folders to remove it.</li>
+</ul>
 
 <h2>What the apps send, and to whom</h2>
 <ul>
-<li><strong>To your server:</strong> what is listed above, and, after a wrong sign-in code, the address the attempt came from as Supabase's edge reports it, kept to slow down guessing (entries older than an hour are cleared on the next wrong code).</li>
-<li><strong>To GitHub:</strong> when you sign in on a computer, GitHub's usual sign-in exchange, through the GitHub OAuth app on your server. During setup the wizard also checks that OAuth app's client ID and secret with GitHub. Phones never sign in with GitHub: they sign in with a code from your computer, which your server checks.</li>
-<li><strong>To Supabase, during setup:</strong> the wizard uses a Supabase access token that you paste to create and configure your project through Supabase's Management API. The token and the secrets you enter are kept only while the wizard runs and aren't saved.</li>
-<li><strong>To the publisher's push relay</strong> (phones, when pushes are on):
-<ul>
-<li>Every notification is encrypted on your server with an AES-256 key that only your phone and your server know. The relay receives the phone's push token, the kind of notification, a collapse id (which computer and terminal window the session runs in, so a newer push replaces an older one) and the ciphertext.</li>
-<li>It can't read session titles, the agent's messages or terminal output. It forwards the message to Apple (APNs) or Google (Firebase Cloud Messaging) and stores nothing on disk. To keep floods cheap it counts requests per sending address and per push token (hashed) in memory, which goes when the function restarts.</li>
-<li>One exception, on iPhone: iOS shows Live Activity updates without running the app's code, so those can't be encrypted. For them the relay and Apple see the session's state (working, needs you, finished, ended), since when, and, when it needs you, whether for a question, an approval or a plan, nothing else. Session titles, project names and the question itself never travel in a Live Activity push. On Android a followed session's state is encrypted like every other notification.</li>
-<li>The relay runs on Supabase, whose platform keeps short-lived request logs (time, status, errors). The relay doesn't log tokens or message contents.</li>
-</ul>
-</li>
-<li><strong>To Apple or Google:</strong> push notifications are delivered by APNs (iPhone) or Firebase Cloud Messaging (Android), under their own privacy terms. The Android app includes Firebase Cloud Messaging only to receive these messages. It includes no Firebase Analytics or Crashlytics.</li>
-<li><strong>Updates and downloads:</strong> the Mac app checks GitHub Releases for new versions (Sparkle), and the Windows app asks GitHub for the latest release. On Windows, the <strong>Install</strong> button for WezTerm downloads WezTerm's installer from WezTerm's GitHub release. These requests carry your IP address, as any download does.</li>
+<li><strong>To your server:</strong> what is listed above, and the encrypted messages between your computers and phones.</li>
+<li><strong>To the push relay</strong> (phones' notifications, if you turned them on): what is described above.</li>
+<li><strong>To Apple or Google:</strong> the phone registers for push notifications with APNs (iPhone) or Firebase Cloud Messaging (Android). The Android app includes Firebase Cloud Messaging only to receive these messages, and no Firebase Analytics or Crashlytics.</li>
+<li><strong>Updates:</strong> the Mac app checks GitHub Releases for new versions (Sparkle), and the Windows app asks GitHub for the latest release. On Windows, the WezTerm installer is downloaded from WezTerm's GitHub release, and Tailscale from Tailscale through Windows' winget, only when you click to install them. These requests carry your IP address, as any download does.</li>
+<li><strong>Tailscale on your computer:</strong> for the server built into the app, the desktop app runs the Tailscale command line on your computer to read its status and publish the server to your tailnet.</li>
 </ul>
 <p>The apps contain no analytics, advertising or tracking SDKs, and the publisher doesn't sell or share data, because it doesn't have any.</p>
 
 <h2>Permissions</h2>
 <ul>
-<li><strong>Camera</strong> (phones): only to scan the setup code your computer shows. Images from the camera aren't stored or sent.</li>
-<li><strong>Photos</strong> (phones): only the images you pick to send to a coding session, uploaded to your server and deleted once your computer has fetched them.</li>
-<li><strong>Notifications</strong> (phones): pushes when a session finishes or needs you, and the sessions you follow.</li>
-<li><strong>Automation</strong> (Mac): to read and type into iTerm2, Terminal and Ghostty windows, if you allow it.</li>
-<li><strong>Terminal from phone</strong> (desktop): while it is on, phones signed in to your account can read your computer's coding sessions (omp, Claude Code) and terminal windows, prompt them, answer their questions, type into them and open or close windows, over your server's Realtime channel. Nothing it carries is stored. It is a switch in Settings.</li>
+<li><strong>Camera</strong> (phones): only to scan the QR code your computer shows. Images from the camera aren't stored or sent.</li>
+<li><strong>Photos and files</strong> (phones): only the images and files you pick to send to a coding session.</li>
+<li><strong>Notifications</strong> (phones): only if you turn them on, for pushes when a session finishes or needs you and for the sessions you follow.</li>
+<li><strong>Automation</strong> (Mac): only for Ghostty, to list its windows, read their screens and type what you send from the phone, if you allow it.</li>
+<li><strong>Terminal from phone</strong> (desktop): while it is on, your signed-in phones can read your computer's coding sessions and terminal windows, prompt them, answer their questions, type into them and open or close windows. It is a switch in Settings.</li>
+<li><strong>Launch at login</strong> (desktop): off until you turn it on in Settings.</li>
 </ul>
 
 <h2>Children</h2>

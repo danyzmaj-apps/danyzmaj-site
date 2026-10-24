@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PocketTerm | Your computer's coding sessions, in your pocket</title>
-<meta name="description" content="PocketTerm lets you prompt, steer and answer omp and Claude Code from your iPhone or Android phone and watch your other terminal windows live, through a Supabase project you own. Desktop app for Mac and Windows.">
+<meta name="description" content="PocketTerm lets you prompt, steer and answer omp and Claude Code from your iPhone or Android phone and watch your other terminal windows live, through a PocketTerm server you run, with everything between them end-to-end encrypted. Desktop app for Mac and Windows.">
 <meta name="theme-color" content="#12141C">
 <link rel="canonical" href="https://www.danyzmaj.com/pocketterm/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="PocketTerm | Your computer's coding sessions, in your pocket">
-<meta property="og:description" content="Drive omp and Claude Code sessions and live terminal windows on your Mac or Windows PC from your phone, with pushes when the agent finishes or needs you, through your own Supabase server.">
+<meta property="og:description" content="Drive omp and Claude Code sessions and live terminal windows on your Mac or Windows PC from your phone, with pushes when the agent finishes or needs you, through your own end-to-end encrypted PocketTerm server.">
 <meta property="og:url" content="https://www.danyzmaj.com/pocketterm/">
 <meta property="og:site_name" content="danyzmaj">
 <meta property="og:image" content="https://www.danyzmaj.com/pocketterm/assets/social-preview.png">
@@ -140,7 +140,7 @@ footer nav{display:flex;gap:18px}
 <div class="wrap brief-grid">
 <div>
 <h1>Your computer's coding sessions, in your pocket.</h1>
-<p class="lead">Prompt, steer and answer omp and Claude Code from your iPhone or Android phone, and watch your other terminal windows live. A desktop app on your Mac or Windows PC connects them through a free Supabase project that you own. There is no PocketTerm cloud.</p>
+<p class="lead">Prompt, steer and answer omp and Claude Code from your iPhone or Android phone, and watch your other terminal windows live. A desktop app on your Mac or Windows PC connects them through a PocketTerm server that you run: on the computer itself, on a VPS, or in a Supabase project of your own. Everything between them is end-to-end encrypted. There is no PocketTerm cloud.</p>
 <p class="sub">Leave an agent working, walk away, and get a push when it finishes or needs you. Its questions and approvals take a tap.</p>
 <div class="actions">
 <a class="cta" href="https://github.com/danyzmaj-apps/pocketterm/releases/latest">Download for Mac or Windows <span aria-hidden="true">&#8595;</span></a>
@@ -166,7 +166,7 @@ footer nav{display:flex;gap:18px}
 <li><h3>Live screens</h3><p>Any other terminal window, in color where the terminal provides it. Type into it and press keys like the arrows and Esc.</p></li>
 <li><h3>New sessions</h3><p>Start your agent, or a shell, in any of your projects without taking the computer's focus. <strong>New project…</strong> makes the folder first.</p></li>
 <li><h3>Pushes</h3><p>A push when a run finishes or the agent needs you, plus a Live Activity on iPhone and an ongoing notification on Android for the session you follow.</p></li>
-<li><h3>Several computers</h3><p>One account, several Macs and Windows PCs. Pick one on the phone; a push opens its session on the computer it came from.</p></li>
+<li><h3>Several computers</h3><p>One server, several Macs and Windows PCs. Pick one on the phone; a push opens its session on the computer it came from.</p></li>
 </ul>
 </div>
 </section>
@@ -187,14 +187,14 @@ footer nav{display:flex;gap:18px}
 <figcaption>Tool calls as cards, the answer as Markdown, and a composer that prompts the session on the computer.</figcaption>
 </figure>
 <figure class="desk">
-<img src="assets/screen-wizard.webp" width="627" height="720" alt="Setup wizard step Your server is ready, with Database, GitHub sign-in, Server functions and Connection key checked, and a Connect and sign in button" loading="lazy">
-<h3>Your server, set up for you</h3>
-<figcaption>The desktop app's wizard creates the server in your Supabase account in about five minutes.</figcaption>
+<img src="assets/screen-wizard.webp" width="563" height="720" alt="Setup wizard asking where the PocketTerm server should run: On this computer, with Tailscale; On my own server, a VPS you rent; or Supabase, a free project PocketTerm sets up" loading="lazy">
+<h3>Your server, where you choose</h3>
+<figcaption>The desktop app's wizard sets up the server on the computer, on your VPS or in your Supabase account.</figcaption>
 </figure>
 <figure class="desk">
-<img src="assets/screen-settings.webp" width="503" height="820" alt="Desktop Settings: Launch at login, Terminal from phone turned on, the coding agent set to omp with its integration installed, the terminals kitty, tmux and Terminal with their status, where new sessions open, and project folders" loading="lazy">
+<img src="assets/screen-settings.webp" width="820" height="595" alt="Desktop Settings, Terminals tab: where new sessions open, kitty and tmux ready, WezTerm not running, and Ghostty ready with a button to start new windows in tmux" loading="lazy">
 <h3>Settings</h3>
-<figcaption>Terminal from phone, the coding agent and its integration, and which terminals are ready.</figcaption>
+<figcaption>Which terminals are ready, and where sessions the phone starts open.</figcaption>
 </figure>
 </div>
 <p class="stamp">Rendered by the apps' own screenshot tests: the real screens, on made-up data</p>
@@ -206,10 +206,10 @@ footer nav{display:flex;gap:18px}
 <div class="stitched" aria-hidden="true"></div>
 <h2>Getting started</h2>
 <ol class="steps">
-<li><strong>Set up your server</strong>Open PocketTerm on your computer and click <strong>Set up my server</strong>. It needs a free Supabase account and a GitHub account.</li>
-<li><strong>Sign in with GitHub</strong>The window then becomes Settings. PocketTerm turns on <strong>Terminal from phone</strong> and <strong>Launch at login</strong> for you.</li>
-<li><strong>Add your phone</strong>In Settings, <strong>Set up phone…</strong> shows a code; scan it in the phone app. A code works once, for 10 minutes.</li>
-<li><strong>Install the integration</strong>In <strong>Settings › Coding agent</strong>, pick omp or Claude Code and click <strong>Install</strong>, then restart running sessions.</li>
+<li><strong>Install</strong>Download the desktop app for your Mac or Windows PC. The phone app is in TestFlight and Google Play internal testing for invited testers.</li>
+<li><strong>Set up your server</strong>Open PocketTerm on your computer. The wizard asks where the server runs and walks you through it: Tailscale for the server built into the app, four commands for a VPS, or a Supabase access token for a project it sets up itself.</li>
+<li><strong>Get the computer ready</strong>The checklist installs PocketTerm into omp and Claude Code, fixes up your terminals and offers your project folders.</li>
+<li><strong>Scan the code</strong>In the phone app, scan the QR code the checklist shows (later: <strong>Settings › Phone › Add a phone…</strong>). It signs the phone in once, for 10 minutes, and carries the computer's key: show it only to your own phone.</li>
 </ol>
 <p class="lede">Closing the window keeps PocketTerm running in the menu bar on the Mac or the tray on Windows. <strong>Quit PocketTerm</strong> at the bottom of Settings stops it.</p>
 </div>
@@ -225,15 +225,13 @@ footer nav{display:flex;gap:18px}
 <tbody>
 <tr><td>kitty</td><td>macOS</td><td>Everything: sessions, live screens in color, keys and answers, closing windows</td></tr>
 <tr><td>WezTerm</td><td>macOS, Windows</td><td>Everything</td></tr>
-<tr><td>tmux, in any terminal</td><td>macOS</td><td>Everything</td></tr>
-<tr><td>iTerm2</td><td>macOS</td><td>Everything except colors</td></tr>
-<tr><td>Ghostty</td><td>macOS</td><td>Sessions and keys, no screen; answer questions on the computer</td></tr>
-<tr><td>Terminal (macOS)</td><td>macOS</td><td>Sessions and screens in whole lines; answer questions on the computer</td></tr>
+<tr><td>tmux, in any of these</td><td>macOS</td><td>Everything</td></tr>
+<tr><td>Ghostty 1.3 or later</td><td>macOS</td><td>With tmux, everything. Without it, sessions and keys but no screen; answer questions on the computer</td></tr>
 </tbody>
 </table>
 <ul class="notes">
-<li><strong>macOS:</strong> with tmux installed (<code>brew install tmux</code>), sessions the phone starts in Terminal or Ghostty run inside tmux and get full control. kitty needs one click in <strong>Settings › Terminals › Set up</strong>; iTerm2, Terminal and Ghostty need macOS's Automation permission.</li>
-<li><strong>Windows:</strong> only WezTerm windows are listed, because it is the only Windows terminal another program can read and type into. The setup wizard and <strong>Settings › Terminals</strong> have an <strong>Install</strong> button that opens WezTerm's own installer.</li>
+<li><strong>macOS:</strong> kitty needs one click in <strong>Settings › Terminals › Set up</strong>. Ghostty needs macOS's Automation permission, and with tmux installed (<code>brew install tmux</code>) the sessions the phone starts there run inside tmux and get full control.</li>
+<li><strong>Windows:</strong> only WezTerm windows are listed, because it is the only Windows terminal another program can read and type into. The setup checklist and <strong>Settings › Terminals</strong> have an <strong>Install</strong> button that opens WezTerm's own installer.</li>
 <li>Claude Code needs version 2.1.287 or later.</li>
 </ul>
 <p class="callout"><strong>Your computer has to be awake, with PocketTerm running and Terminal from phone on.</strong> While it is on, PocketTerm keeps the computer from idle sleep, but a closed lid without an external display, sleep you start yourself or shutting down ends it, and the phone then says the computer isn't answering. A push goes out only when nobody has touched the computer for 60 seconds.</p>
@@ -244,13 +242,14 @@ footer nav{display:flex;gap:18px}
 <div class="wrap">
 <div class="stitched" aria-hidden="true"></div>
 <h2>Your server, not mine</h2>
-<p class="lede">The setup wizard creates your server in about five minutes in a free Supabase account, which hosts it, and you sign in with GitHub. Rather use a script, or already have a server? See <a href="https://github.com/danyzmaj-apps/pocketterm/blob/main/docs/SELF_HOSTING.md">SELF_HOSTING.md</a>.</p>
+<p class="lede">You choose where your PocketTerm server runs. It serves only your devices, and I have no access to it. Details, the VPS commands and how to remove everything: <a href="https://github.com/danyzmaj-apps/pocketterm/blob/main/docs/SELF_HOSTING.md">SELF_HOSTING.md</a>.</p>
 <dl class="specs">
-<dt>Your data</dt><dd>Sign-in, pairing, the terminal channel and push registrations live in your Supabase project, behind row-level security. The apps hold only its publishable key.</dd>
-<dt>Only you sign up</dt><dd>GitHub is the only way in, and after the first account nobody else can sign up unless you allow their email. Phones never use GitHub: they sign in with a code from your computer.</dd>
-<dt>Nothing stored</dt><dd>Each computer talks to your phones over its own Realtime channel that only your account can join, and nothing on it is stored. Images you send pass through a private storage bucket in your project and are deleted once the computer has them.</dd>
-<dt>Encrypted pushes</dt><dd>Your server encrypts every notification with a key only your phone has. My relay passes the ciphertext to Apple or Google and stores nothing. iPhone Live Activity updates can't be encrypted, so they carry only a session's state.</dd>
-<dt>No tracking</dt><dd>No analytics, advertising or tracking SDKs in the apps. <strong>Delete account</strong> in Settings, on the computer or the phone, removes everything. <a href="/pocketterm/privacy/">Read the privacy policy</a>.</dd>
+<dt>On this computer</dt><dd>Built into the desktop app and free. Your phone reaches it through Tailscale, signed in to the same account on both; it isn't reachable from the internet.</dd>
+<dt>On my own server</dt><dd>Docker on a VPS you rent, with Caddy for HTTPS on your domain. Several computers share it.</dd>
+<dt>Supabase</dt><dd>A free project PocketTerm sets up in your own Supabase account, in the region you pick. Supabase then holds your device list.</dd>
+<dt>End-to-end encrypted</dt><dd>Each computer makes its own key, which reaches a phone only inside that computer's QR code. Sessions, prompts, screens, keystrokes, images, files and notification text are sealed with it, so your server can't read them. No accounts and no sign-in with GitHub: devices sign in with a setup link or a pairing code.</dd>
+<dt>Encrypted pushes</dt><dd>Opt-in. My relay passes the sealed notification to Apple or Google and stores nothing. iPhone Live Activity updates can't be encrypted, so they carry only a session's state.</dd>
+<dt>No tracking</dt><dd>No analytics, advertising or tracking SDKs in the apps. <a href="/pocketterm/privacy/">Read the privacy policy</a>.</dd>
 </dl>
 </div>
 </section>
